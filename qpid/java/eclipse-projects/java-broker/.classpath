@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry excluding="org/apache/qpid/tools/|org/apache/qpid/configuration/" kind="src" path="java"/>
+	<classpathentry kind="src" path="generated"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/AMQ Common"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Management Common"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/AMQ Common/lib/backport-util-concurrent-2.2.jar"/>
+	<classpathentry kind="lib" path="/AMQ Common/lib/commons-cli-1.0.jar"/>
+	<classpathentry kind="lib" path="/AMQ Common/lib/commons-codec-1.3.jar"/>
+	<classpathentry kind="lib" path="/AMQ Common/lib/commons-configuration-1.6.jar"/>
+	<classpathentry kind="lib" path="/AMQ Common/lib/commons-lang-2.2.jar"/>
+	<classpathentry kind="lib" path="/AMQ Common/lib/log4j-1.2.12.jar"/>
+	<classpathentry kind="lib" path="/AMQ Common/lib/mina-core-1.0.1.jar"/>
+	<classpathentry kind="lib" path="/AMQ Common/lib/mina-filter-ssl-1.0.1.jar"/>
+	<classpathentry kind="lib" path="/AMQ Common/lib/org.apache.felix.framework-2.0.5.jar"/>
+	<classpathentry kind="lib" path="/AMQ Common/lib/xalan-2.7.0.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

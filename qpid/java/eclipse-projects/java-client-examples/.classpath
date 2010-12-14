@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" output="classes" path="java"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/AMQ Client"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/AMQ Common"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/AMQ Common/lib/geronimo-jms_1.1_spec-1.0.jar"/>
+	<classpathentry kind="lib" path="/AMQ Common/lib/slf4j-api-1.6.1.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

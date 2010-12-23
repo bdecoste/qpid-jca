@@ -14,7 +14,8 @@ package org.apache.qpid.ra;
 
 import java.util.Map;
 
-import org.hornetq.core.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author <a href="mailto:andy.taylor@jboss.org">Andy Taylor</a>
@@ -24,7 +25,7 @@ public class ConnectionFactoryProperties
    /**
     * The logger
     */
-   private static final Logger log = Logger.getLogger(HornetQRAMCFProperties.class);
+   private static final Logger log = LoggerFactory.getLogger(HornetQRAMCFProperties.class);
 
    /**
     * Trace enabled

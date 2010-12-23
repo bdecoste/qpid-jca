@@ -16,7 +16,8 @@ package org.apache.qpid.ra;
 import javax.jms.BytesMessage;
 import javax.jms.JMSException;
 
-import org.hornetq.core.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A wrapper for a message
@@ -28,7 +29,7 @@ import org.hornetq.core.logging.Logger;
 public class HornetQRABytesMessage extends HornetQRAMessage implements BytesMessage
 {
    /** The logger */
-   private static final Logger log = Logger.getLogger(HornetQRABytesMessage.class);
+   private static final Logger log = LoggerFactory.getLogger(HornetQRABytesMessage.class);
 
    /** Whether trace is enabled */
    private static boolean trace = HornetQRABytesMessage.log.isTraceEnabled();

@@ -52,7 +52,8 @@ import javax.resource.spi.ConnectionEvent;
 import javax.resource.spi.ManagedConnection;
 import javax.transaction.xa.XAResource;
 
-import org.hornetq.core.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A joint interface for JMS sessions
@@ -64,7 +65,7 @@ import org.hornetq.core.logging.Logger;
 public class HornetQRASession implements Session, QueueSession, TopicSession, XASession, XAQueueSession, XATopicSession
 {
    /** The logger */
-   private static final Logger log = Logger.getLogger(HornetQRASession.class);
+   private static final Logger log = LoggerFactory.getLogger(HornetQRASession.class);
 
    /** Trace enabled */
    private static boolean trace = HornetQRASession.log.isTraceEnabled();

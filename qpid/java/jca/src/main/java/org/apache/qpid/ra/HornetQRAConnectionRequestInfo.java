@@ -16,7 +16,8 @@ package org.apache.qpid.ra;
 import javax.jms.Session;
 import javax.resource.spi.ConnectionRequestInfo;
 
-import org.hornetq.core.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Connection request information
@@ -29,7 +30,7 @@ import org.hornetq.core.logging.Logger;
 public class HornetQRAConnectionRequestInfo implements ConnectionRequestInfo
 {
    /** The logger */
-   private static final Logger log = Logger.getLogger(HornetQRAConnectionRequestInfo.class);
+   private static final Logger log = LoggerFactory.getLogger(HornetQRAConnectionRequestInfo.class);
 
    /** Trace enabled */
    private static boolean trace = HornetQRAConnectionRequestInfo.log.isTraceEnabled();

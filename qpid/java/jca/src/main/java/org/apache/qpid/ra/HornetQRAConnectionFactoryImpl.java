@@ -24,7 +24,8 @@ import javax.naming.NamingException;
 import javax.naming.Reference;
 import javax.resource.spi.ConnectionManager;
 
-import org.hornetq.core.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.hornetq.jms.referenceable.ConnectionFactoryObjectFactory;
 import org.hornetq.jms.referenceable.SerializableObjectRefAddr;
 
@@ -41,7 +42,7 @@ public class HornetQRAConnectionFactoryImpl implements HornetQRAConnectionFactor
    static final long serialVersionUID = 7981708919479859360L;
 
    /** The logger */
-   private static final Logger log = Logger.getLogger(HornetQRAConnectionFactoryImpl.class);
+   private static final Logger log = LoggerFactory.getLogger(HornetQRAConnectionFactoryImpl.class);
 
    /** Trace enabled */
    private static boolean trace = HornetQRAConnectionFactoryImpl.log.isTraceEnabled();

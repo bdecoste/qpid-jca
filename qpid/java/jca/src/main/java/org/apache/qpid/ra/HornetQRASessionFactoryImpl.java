@@ -38,7 +38,8 @@ import javax.naming.Reference;
 import javax.resource.Referenceable;
 import javax.resource.spi.ConnectionManager;
 
-import org.hornetq.core.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Implements the JMS Connection API and produces {@link HornetQRASession} objects.
@@ -50,7 +51,7 @@ import org.hornetq.core.logging.Logger;
 public class HornetQRASessionFactoryImpl implements HornetQRASessionFactory, Referenceable
 {
    /** The logger */
-   private static final Logger log = Logger.getLogger(HornetQRASessionFactoryImpl.class);
+   private static final Logger log = LoggerFactory.getLogger(HornetQRASessionFactoryImpl.class);
 
    /** Trace enabled */
    private static boolean trace = HornetQRASessionFactoryImpl.log.isTraceEnabled();

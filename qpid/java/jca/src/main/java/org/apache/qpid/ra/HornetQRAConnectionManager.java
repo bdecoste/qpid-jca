@@ -19,7 +19,8 @@ import javax.resource.spi.ConnectionRequestInfo;
 import javax.resource.spi.ManagedConnection;
 import javax.resource.spi.ManagedConnectionFactory;
 
-import org.hornetq.core.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The connection manager used in non-managed environments.
@@ -34,7 +35,7 @@ public class HornetQRAConnectionManager implements ConnectionManager
    static final long serialVersionUID = 4409118162975011014L;
 
    /** The logger */
-   private static final Logger log = Logger.getLogger(HornetQRAConnectionManager.class);
+   private static final Logger log = LoggerFactory.getLogger(HornetQRAConnectionManager.class);
 
    /** Trace enabled */
    private static boolean trace = HornetQRAConnectionManager.log.isTraceEnabled();

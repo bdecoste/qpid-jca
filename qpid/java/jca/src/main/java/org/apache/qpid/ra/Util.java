@@ -19,7 +19,8 @@ import java.util.Map;
 import javax.naming.Context;
 import javax.transaction.TransactionManager;
 
-import org.hornetq.core.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Various utility functions
@@ -31,7 +32,7 @@ import org.hornetq.core.logging.Logger;
 public class Util
 {
    
-   private static final Logger log = Logger.getLogger(Util.class);
+   private static final Logger log = LoggerFactory.getLogger(Util.class);
 
 
    /**

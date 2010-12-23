@@ -19,7 +19,8 @@ import javax.management.MBeanServer;
 import javax.management.ObjectInstance;
 import javax.management.ObjectName;
 
-import org.hornetq.core.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A HornetQRAService ensures that HornetQ Resource Adapter will be stopped *before* the HornetQ server.
@@ -33,7 +34,7 @@ public class HornetQRAService
 {
    // Constants -----------------------------------------------------
 
-   private static final Logger log = Logger.getLogger(HornetQRAService.class);
+   private static final Logger log = LoggerFactory.getLogger(HornetQRAService.class);
 
    // Attributes ----------------------------------------------------
 

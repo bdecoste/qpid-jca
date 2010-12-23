@@ -14,7 +14,8 @@ package org.apache.qpid.ra;
 
 import java.io.Serializable;
 
-import org.hornetq.core.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The RA default properties - these are set in the ra.xml file
@@ -30,7 +31,7 @@ public class HornetQRAProperties extends ConnectionFactoryProperties implements 
    static final long serialVersionUID = -2772367477755473248L;
 
    /** The logger */
-   private static final Logger log = Logger.getLogger(HornetQRAProperties.class);
+   private static final Logger log = LoggerFactory.getLogger(HornetQRAProperties.class);
 
    /** Trace enabled */
    private static boolean trace = HornetQRAProperties.log.isTraceEnabled();

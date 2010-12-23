@@ -16,7 +16,8 @@ package org.apache.qpid.ra;
 import javax.resource.ResourceException;
 import javax.resource.spi.ManagedConnectionMetaData;
 
-import org.hornetq.core.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Managed connection meta data
@@ -28,7 +29,7 @@ import org.hornetq.core.logging.Logger;
 public class HornetQRAMetaData implements ManagedConnectionMetaData
 {
    /** The logger */
-   private static final Logger log = Logger.getLogger(HornetQRAMetaData.class);
+   private static final Logger log = LoggerFactory.getLogger(HornetQRAMetaData.class);
 
    /** Trace enabled */
    private static boolean trace = HornetQRAMetaData.log.isTraceEnabled();

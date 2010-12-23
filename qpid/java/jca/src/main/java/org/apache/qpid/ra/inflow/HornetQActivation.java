@@ -35,7 +35,10 @@ import org.hornetq.api.core.client.ClientSession;
 import org.hornetq.jms.client.HornetQConnectionFactory;
 import org.hornetq.jms.client.HornetQDestination;
 import org.hornetq.api.jms.HornetQJMSClient;
-import org.hornetq.core.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.apache.qpid.ra.HornetQResourceAdapter;
 import org.apache.qpid.ra.Util;
 
@@ -52,7 +55,7 @@ public class HornetQActivation
    /**
     * The logger
     */
-   private static final Logger log = Logger.getLogger(HornetQActivation.class);
+   private static final Logger log = LoggerFactory.getLogger(HornetQActivation.class);
 
    /**
     * Trace enabled

@@ -19,7 +19,8 @@ import javax.jms.Destination;
 import javax.jms.JMSException;
 import javax.jms.Message;
 
-import org.hornetq.core.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A wrapper for a message
@@ -30,7 +31,7 @@ import org.hornetq.core.logging.Logger;
 public class HornetQRAMessage implements Message
 {
    /** The logger */
-   private static final Logger log = Logger.getLogger(HornetQRAMessage.class);
+   private static final Logger log = LoggerFactory.getLogger(HornetQRAMessage.class);
 
    /** Whether trace is enabled */
    private static boolean trace = HornetQRAMessage.log.isTraceEnabled();

@@ -2,5 +2,8 @@
 <classpath>
 	<classpathentry kind="src" path="java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/AMQ Common/lib/geronimo-jms_1.1_spec-1.0.jar"/>
+	<classpathentry kind="lib" path="/AMQ Common/lib/geronimo-j2ee-connector_1.5_spec-2.0.0.jar"/>
+	<classpathentry kind="lib" path="/AMQ Common/lib/geronimo-jta_1.1_spec-1.1.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

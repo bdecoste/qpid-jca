@@ -10,7 +10,7 @@
  * implied.  See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package org.hornetq.ra;
+package org.apache.qpid.ra;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -38,8 +38,8 @@ import org.hornetq.jms.client.HornetQConnectionFactory;
 import org.hornetq.jms.server.impl.JMSFactoryType;
 import org.hornetq.api.jms.HornetQJMSClient;
 import org.hornetq.core.logging.Logger;
-import org.hornetq.ra.inflow.HornetQActivation;
-import org.hornetq.ra.inflow.HornetQActivationSpec;
+import org.apache.qpid.ra.inflow.HornetQActivation;
+import org.apache.qpid.ra.inflow.HornetQActivationSpec;
 
 /**
  * The resource adapter for HornetQ

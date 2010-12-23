@@ -50,7 +50,8 @@ import javax.transaction.Transaction;
 import javax.transaction.TransactionManager;
 import javax.transaction.xa.XAResource;
 
-import org.hornetq.core.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The managed connection
@@ -62,7 +63,7 @@ import org.hornetq.core.logging.Logger;
 public class HornetQRAManagedConnection implements ManagedConnection, ExceptionListener
 {
    /** The logger */
-   private static final Logger log = Logger.getLogger(HornetQRAManagedConnection.class);
+   private static final Logger log = LoggerFactory.getLogger(HornetQRAManagedConnection.class);
 
    /** Trace enabled */
    private static boolean trace = HornetQRAManagedConnection.log.isTraceEnabled();

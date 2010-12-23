@@ -18,7 +18,8 @@ import javax.jms.Message;
 import javax.jms.Topic;
 import javax.jms.TopicPublisher;
 
-import org.hornetq.core.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * HornetQQueueSender.
@@ -30,7 +31,7 @@ import org.hornetq.core.logging.Logger;
 public class HornetQRATopicPublisher extends HornetQRAMessageProducer implements TopicPublisher
 {
    /** The logger */
-   private static final Logger log = Logger.getLogger(HornetQRATopicPublisher.class);
+   private static final Logger log = LoggerFactory.getLogger(HornetQRATopicPublisher.class);
 
    /** Whether trace is enabled */
    private static boolean trace = HornetQRATopicPublisher.log.isTraceEnabled();

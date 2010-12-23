@@ -23,7 +23,8 @@ import javax.jms.ObjectMessage;
 import javax.jms.StreamMessage;
 import javax.jms.TextMessage;
 
-import org.hornetq.core.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A wrapper for a message consumer
@@ -35,7 +36,7 @@ import org.hornetq.core.logging.Logger;
 public class HornetQRAMessageConsumer implements MessageConsumer
 {
    /** The logger */
-   private static final Logger log = Logger.getLogger(HornetQRAMessageConsumer.class);
+   private static final Logger log = LoggerFactory.getLogger(HornetQRAMessageConsumer.class);
 
    /** Whether trace is enabled */
    private static boolean trace = HornetQRAMessageConsumer.log.isTraceEnabled();

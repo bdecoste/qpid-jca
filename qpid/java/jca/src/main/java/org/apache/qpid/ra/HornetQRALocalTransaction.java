@@ -17,7 +17,8 @@ import javax.jms.JMSException;
 import javax.resource.ResourceException;
 import javax.resource.spi.LocalTransaction;
 
-import org.hornetq.core.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * JMS Local transaction
@@ -29,7 +30,7 @@ import org.hornetq.core.logging.Logger;
 public class HornetQRALocalTransaction implements LocalTransaction
 {
    /** The logger */
-   private static final Logger log = Logger.getLogger(HornetQRALocalTransaction.class);
+   private static final Logger log = LoggerFactory.getLogger(HornetQRALocalTransaction.class);
 
    /** Trace enabled */
    private static boolean trace = HornetQRALocalTransaction.log.isTraceEnabled();

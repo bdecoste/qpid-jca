@@ -21,7 +21,8 @@ import javax.resource.spi.ActivationSpec;
 import javax.resource.spi.InvalidPropertyException;
 import javax.resource.spi.ResourceAdapter;
 
-import org.hornetq.core.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.apache.qpid.ra.ConnectionFactoryProperties;
 import org.apache.qpid.ra.HornetQResourceAdapter;
 import org.apache.qpid.ra.Util;
@@ -41,7 +42,7 @@ public class HornetQActivationSpec extends ConnectionFactoryProperties implement
    private static final int DEFAULT_MAX_SESSION = 15;
 
    /** The logger */
-   private static final Logger log = Logger.getLogger(HornetQActivationSpec.class);
+   private static final Logger log = LoggerFactory.getLogger(HornetQActivationSpec.class);
 
    /** Whether trace is enabled */
    private static boolean trace = HornetQActivationSpec.log.isTraceEnabled();

@@ -16,7 +16,8 @@ package org.apache.qpid.ra;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 
-import org.hornetq.core.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A wrapper for a message listener
@@ -27,7 +28,7 @@ import org.hornetq.core.logging.Logger;
 public class HornetQRAMessageListener implements MessageListener
 {
    /** The logger */
-   private static final Logger log = Logger.getLogger(HornetQRAMessageListener.class);
+   private static final Logger log = LoggerFactory.getLogger(HornetQRAMessageListener.class);
 
    /** Whether trace is enabled */
    private static boolean trace = HornetQRAMessageListener.log.isTraceEnabled();

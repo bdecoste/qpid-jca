@@ -18,7 +18,8 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageProducer;
 
-import org.hornetq.core.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * HornetQMessageProducer.
@@ -30,7 +31,7 @@ import org.hornetq.core.logging.Logger;
 public class HornetQRAMessageProducer implements MessageProducer
 {
    /** The logger */
-   private static final Logger log = Logger.getLogger(HornetQRAMessageProducer.class);
+   private static final Logger log = LoggerFactory.getLogger(HornetQRAMessageProducer.class);
 
    /** Whether trace is enabled */
    private static boolean trace = HornetQRAMessageProducer.log.isTraceEnabled();

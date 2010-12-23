@@ -28,7 +28,8 @@ import org.hornetq.api.core.client.ClientMessage;
 import org.hornetq.api.core.client.ClientSession;
 import org.hornetq.api.core.client.MessageHandler;
 import org.hornetq.api.core.client.ClientSession.QueueQuery;
-import org.hornetq.core.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.hornetq.jms.client.HornetQDestination;
 import org.hornetq.jms.client.HornetQMessage;
 
@@ -45,7 +46,7 @@ public class HornetQMessageHandler implements MessageHandler
    /**
     * The logger
     */
-   private static final Logger log = Logger.getLogger(HornetQMessageHandler.class);
+   private static final Logger log = LoggerFactory.getLogger(HornetQMessageHandler.class);
 
    /**
     * Trace enabled

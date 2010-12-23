@@ -18,7 +18,8 @@ import java.io.Serializable;
 import javax.jms.Queue;
 import javax.jms.Topic;
 
-import org.hornetq.core.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The MCF default properties - these are set in the <tx-connection-factory> at the jms-ds.xml
@@ -39,7 +40,7 @@ public class HornetQRAMCFProperties extends ConnectionFactoryProperties implemen
    /**
     * The logger
     */
-   private static final Logger log = Logger.getLogger(HornetQRAMCFProperties.class);
+   private static final Logger log = LoggerFactory.getLogger(HornetQRAMCFProperties.class);
 
    /**
     * Trace enabled

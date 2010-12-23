@@ -18,7 +18,8 @@ import java.util.Enumeration;
 import javax.jms.JMSException;
 import javax.jms.MapMessage;
 
-import org.hornetq.core.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A wrapper for a message
@@ -30,7 +31,7 @@ import org.hornetq.core.logging.Logger;
 public class HornetQRAMapMessage extends HornetQRAMessage implements MapMessage
 {
    /** The logger */
-   private static final Logger log = Logger.getLogger(HornetQRAMapMessage.class);
+   private static final Logger log = LoggerFactory.getLogger(HornetQRAMapMessage.class);
 
    /** Whether trace is enabled */
    private static boolean trace = HornetQRAMapMessage.log.isTraceEnabled();

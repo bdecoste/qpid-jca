@@ -16,7 +16,8 @@ package org.apache.qpid.ra;
 import javax.jms.JMSException;
 import javax.jms.StreamMessage;
 
-import org.hornetq.core.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A wrapper for a message
@@ -28,7 +29,7 @@ import org.hornetq.core.logging.Logger;
 public class HornetQRAStreamMessage extends HornetQRAMessage implements StreamMessage
 {
    /** The logger */
-   private static final Logger log = Logger.getLogger(HornetQRAStreamMessage.class);
+   private static final Logger log = LoggerFactory.getLogger(HornetQRAStreamMessage.class);
 
    /** Whether trace is enabled */
    private static boolean trace = HornetQRAStreamMessage.log.isTraceEnabled();

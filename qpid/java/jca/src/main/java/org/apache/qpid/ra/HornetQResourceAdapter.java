@@ -37,7 +37,8 @@ import org.hornetq.api.core.client.HornetQClient;
 import org.hornetq.jms.client.HornetQConnectionFactory;
 import org.hornetq.jms.server.impl.JMSFactoryType;
 import org.hornetq.api.jms.HornetQJMSClient;
-import org.hornetq.core.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.apache.qpid.ra.inflow.HornetQActivation;
 import org.apache.qpid.ra.inflow.HornetQActivationSpec;
 
@@ -59,7 +60,7 @@ public class HornetQResourceAdapter implements ResourceAdapter, Serializable
    /**
     * The logger
     */
-   private static final Logger log = Logger.getLogger(HornetQResourceAdapter.class);
+   private static final Logger log = LoggerFactory.getLogger(HornetQResourceAdapter.class);
 
    /**
     * Trace enabled

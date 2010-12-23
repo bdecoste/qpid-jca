@@ -18,7 +18,8 @@ import java.util.Vector;
 
 import javax.jms.ConnectionMetaData;
 
-import org.hornetq.core.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class implements javax.jms.ConnectionMetaData
@@ -30,7 +31,7 @@ import org.hornetq.core.logging.Logger;
 public class HornetQRAConnectionMetaData implements ConnectionMetaData
 {
    /** The logger */
-   private static final Logger log = Logger.getLogger(HornetQRAConnectionMetaData.class);
+   private static final Logger log = LoggerFactory.getLogger(HornetQRAConnectionMetaData.class);
 
    /** Trace enabled */
    private static boolean trace = HornetQRAConnectionMetaData.log.isTraceEnabled();

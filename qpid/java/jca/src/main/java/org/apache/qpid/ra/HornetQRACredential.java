@@ -24,7 +24,8 @@ import javax.resource.spi.SecurityException;
 import javax.resource.spi.security.PasswordCredential;
 import javax.security.auth.Subject;
 
-import org.hornetq.core.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Credential information
@@ -39,7 +40,7 @@ public class HornetQRACredential implements Serializable
    static final long serialVersionUID = 210476602237497193L;
 
    /** The logger */
-   private static final Logger log = Logger.getLogger(HornetQRACredential.class);
+   private static final Logger log = LoggerFactory.getLogger(HornetQRACredential.class);
 
    /** Trace enabled */
    private static boolean trace = HornetQRACredential.log.isTraceEnabled();

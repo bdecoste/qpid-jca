@@ -17,7 +17,8 @@ import javax.jms.JMSException;
 import javax.jms.Queue;
 import javax.jms.QueueReceiver;
 
-import org.hornetq.core.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A wrapper for a queue receiver
@@ -29,7 +30,7 @@ import org.hornetq.core.logging.Logger;
 public class HornetQRAQueueReceiver extends HornetQRAMessageConsumer implements QueueReceiver
 {
    /** The logger */
-   private static final Logger log = Logger.getLogger(HornetQRAQueueReceiver.class);
+   private static final Logger log = LoggerFactory.getLogger(HornetQRAQueueReceiver.class);
 
    /** Whether trace is enabled */
    private static boolean trace = HornetQRAQueueReceiver.log.isTraceEnabled();

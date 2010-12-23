@@ -18,7 +18,8 @@ import javax.jms.Message;
 import javax.jms.Queue;
 import javax.jms.QueueSender;
 
-import org.hornetq.core.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * HornetQQueueSender.
@@ -30,7 +31,7 @@ import org.hornetq.core.logging.Logger;
 public class HornetQRAQueueSender extends HornetQRAMessageProducer implements QueueSender
 {
    /** The logger */
-   private static final Logger log = Logger.getLogger(HornetQRAQueueSender.class);
+   private static final Logger log = LoggerFactory.getLogger(HornetQRAQueueSender.class);
 
    /** Whether trace is enabled */
    private static boolean trace = HornetQRAQueueSender.log.isTraceEnabled();

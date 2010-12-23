@@ -10,7 +10,7 @@
  * implied.  See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package org.hornetq.ra.inflow;
+package org.apache.qpid.ra.inflow;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,9 +22,9 @@ import javax.resource.spi.InvalidPropertyException;
 import javax.resource.spi.ResourceAdapter;
 
 import org.hornetq.core.logging.Logger;
-import org.hornetq.ra.ConnectionFactoryProperties;
-import org.hornetq.ra.HornetQResourceAdapter;
-import org.hornetq.ra.Util;
+import org.apache.qpid.ra.ConnectionFactoryProperties;
+import org.apache.qpid.ra.HornetQResourceAdapter;
+import org.apache.qpid.ra.Util;
 
 /**
  * The activation spec

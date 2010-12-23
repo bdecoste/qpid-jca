@@ -10,7 +10,7 @@
  * implied.  See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package org.hornetq.ra.inflow;
+package org.apache.qpid.ra.inflow;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -36,8 +36,8 @@ import org.hornetq.jms.client.HornetQConnectionFactory;
 import org.hornetq.jms.client.HornetQDestination;
 import org.hornetq.api.jms.HornetQJMSClient;
 import org.hornetq.core.logging.Logger;
-import org.hornetq.ra.HornetQResourceAdapter;
-import org.hornetq.ra.Util;
+import org.apache.qpid.ra.HornetQResourceAdapter;
+import org.apache.qpid.ra.Util;
 
 /**
  * The activation.

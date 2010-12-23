@@ -11,7 +11,7 @@
  * permissions and limitations under the License.
  */
 
-package org.hornetq.ra;
+package org.apache.qpid.ra;
 
 import javax.resource.ResourceException;
 import javax.resource.spi.ManagedConnectionMetaData;

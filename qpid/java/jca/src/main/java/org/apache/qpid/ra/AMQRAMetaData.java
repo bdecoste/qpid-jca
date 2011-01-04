@@ -26,26 +26,26 @@ import org.slf4j.LoggerFactory;
  * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
  * @version $Revision:  $
  */
-public class HornetQRAMetaData implements ManagedConnectionMetaData
+public class AMQRAMetaData implements ManagedConnectionMetaData
 {
    /** The logger */
-   private static final Logger log = LoggerFactory.getLogger(HornetQRAMetaData.class);
+   private static final Logger log = LoggerFactory.getLogger(AMQRAMetaData.class);
 
    /** Trace enabled */
-   private static boolean trace = HornetQRAMetaData.log.isTraceEnabled();
+   private static boolean trace = AMQRAMetaData.log.isTraceEnabled();
 
    /** The managed connection */
-   private final HornetQRAManagedConnection mc;
+   private final AMQRAManagedConnection mc;
 
    /**
     * Constructor
     * @param mc The managed connection
     */
-   public HornetQRAMetaData(final HornetQRAManagedConnection mc)
+   public AMQRAMetaData(final AMQRAManagedConnection mc)
    {
-      if (HornetQRAMetaData.trace)
+      if (AMQRAMetaData.trace)
       {
-         HornetQRAMetaData.log.trace("constructor(" + mc + ")");
+         AMQRAMetaData.log.trace("constructor(" + mc + ")");
       }
 
       this.mc = mc;
@@ -58,9 +58,9 @@ public class HornetQRAMetaData implements ManagedConnectionMetaData
     */
    public String getEISProductName() throws ResourceException
    {
-      if (HornetQRAMetaData.trace)
+      if (AMQRAMetaData.trace)
       {
-         HornetQRAMetaData.log.trace("getEISProductName()");
+         AMQRAMetaData.log.trace("getEISProductName()");
       }
 
       return "HornetQ";
@@ -73,9 +73,9 @@ public class HornetQRAMetaData implements ManagedConnectionMetaData
     */
    public String getEISProductVersion() throws ResourceException
    {
-      if (HornetQRAMetaData.trace)
+      if (AMQRAMetaData.trace)
       {
-         HornetQRAMetaData.log.trace("getEISProductVersion()");
+         AMQRAMetaData.log.trace("getEISProductVersion()");
       }
 
       return "2.0";
@@ -88,9 +88,9 @@ public class HornetQRAMetaData implements ManagedConnectionMetaData
     */
    public String getUserName() throws ResourceException
    {
-      if (HornetQRAMetaData.trace)
+      if (AMQRAMetaData.trace)
       {
-         HornetQRAMetaData.log.trace("getUserName()");
+         AMQRAMetaData.log.trace("getUserName()");
       }
 
       return mc.getUserName();
@@ -103,9 +103,9 @@ public class HornetQRAMetaData implements ManagedConnectionMetaData
      */
    public int getMaxConnections() throws ResourceException
    {
-      if (HornetQRAMetaData.trace)
+      if (AMQRAMetaData.trace)
       {
-         HornetQRAMetaData.log.trace("getMaxConnections()");
+         AMQRAMetaData.log.trace("getMaxConnections()");
       }
 
       return 0;

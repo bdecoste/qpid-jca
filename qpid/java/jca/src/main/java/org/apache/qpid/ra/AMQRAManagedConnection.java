@@ -60,19 +60,19 @@ import org.slf4j.LoggerFactory;
  * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
  * @version $Revision:  $
  */
-public class HornetQRAManagedConnection implements ManagedConnection, ExceptionListener
+public class AMQRAManagedConnection implements ManagedConnection, ExceptionListener
 {
    /** The logger */
-   private static final Logger log = LoggerFactory.getLogger(HornetQRAManagedConnection.class);
+   private static final Logger log = LoggerFactory.getLogger(AMQRAManagedConnection.class);
 
    /** Trace enabled */
-   private static boolean trace = HornetQRAManagedConnection.log.isTraceEnabled();
+   private static boolean trace = AMQRAManagedConnection.log.isTraceEnabled();
 
    /** The managed connection factory */
-   private final HornetQRAManagedConnectionFactory mcf;
+   private final AMQRAManagedConnectionFactory mcf;
 
    /** The connection request information */
-   private final HornetQRAConnectionRequestInfo cri;
+   private final AMQRAConnectionRequestInfo cri;
 
    /** The user name */
    private final String userName;
@@ -87,7 +87,7 @@ public class HornetQRAManagedConnection implements ManagedConnection, ExceptionL
    private final List<ConnectionEventListener> eventListeners;
 
    /** Handles */
-   private final Set<HornetQRASession> handles;
+   private final Set<AMQRASession> handles;
 
    /** Lock */
    private ReentrantLock lock = new ReentrantLock();
@@ -112,15 +112,15 @@ public class HornetQRAManagedConnection implements ManagedConnection, ExceptionL
     * @param userName The user name
     * @param password The password
     */
-   public HornetQRAManagedConnection(final HornetQRAManagedConnectionFactory mcf,
-                                     final HornetQRAConnectionRequestInfo cri,
+   public AMQRAManagedConnection(final AMQRAManagedConnectionFactory mcf,
+                                     final AMQRAConnectionRequestInfo cri,
                                      final TransactionManager tm,
                                      final String userName,
                                      final String password) throws ResourceException
    {
-      if (HornetQRAManagedConnection.trace)
+      if (AMQRAManagedConnection.trace)
       {
-         HornetQRAManagedConnection.log.trace("constructor(" + mcf + ", " + cri + ", " + userName + ", ****)");
+         AMQRAManagedConnection.log.trace("constructor(" + mcf + ", " + cri + ", " + userName + ", ****)");
       }
 
       this.mcf = mcf;
@@ -129,7 +129,7 @@ public class HornetQRAManagedConnection implements ManagedConnection, ExceptionL
       this.userName = userName;
       this.password = password;
       eventListeners = Collections.synchronizedList(new ArrayList<ConnectionEventListener>());
-      handles = Collections.synchronizedSet(new HashSet<HornetQRASession>());
+      handles = Collections.synchronizedSet(new HashSet<AMQRASession>());
 
       connection = null;
       session = null;
@@ -162,13 +162,13 @@ public class HornetQRAManagedConnection implements ManagedConnection, ExceptionL
     */
    public synchronized Object getConnection(final Subject subject, final ConnectionRequestInfo cxRequestInfo) throws ResourceException
    {
-      if (HornetQRAManagedConnection.trace)
+      if (AMQRAManagedConnection.trace)
       {
-         HornetQRAManagedConnection.log.trace("getConnection(" + subject + ", " + cxRequestInfo + ")");
+         AMQRAManagedConnection.log.trace("getConnection(" + subject + ", " + cxRequestInfo + ")");
       }
 
       // Check user first
-      HornetQRACredential credential = HornetQRACredential.getCredential(mcf, subject, cxRequestInfo);
+      AMQRACredential credential = AMQRACredential.getCredential(mcf, subject, cxRequestInfo);
 
       // Null users are allowed!
       if (userName != null && !userName.equals(credential.getUserName()))
@@ -186,7 +186,7 @@ public class HornetQRAManagedConnection implements ManagedConnection, ExceptionL
          throw new IllegalStateException("The managed connection is already destroyed");
       }
 
-      HornetQRASession session = new HornetQRASession(this, (HornetQRAConnectionRequestInfo)cxRequestInfo);
+      AMQRASession session = new AMQRASession(this, (AMQRAConnectionRequestInfo)cxRequestInfo);
       handles.add(session);
       return session;
    }
@@ -197,9 +197,9 @@ public class HornetQRAManagedConnection implements ManagedConnection, ExceptionL
     */
    private void destroyHandles() throws ResourceException
    {
-      if (HornetQRAManagedConnection.trace)
+      if (AMQRAManagedConnection.trace)
       {
-         HornetQRAManagedConnection.log.trace("destroyHandles()");
+         AMQRAManagedConnection.log.trace("destroyHandles()");
       }
 
       try
@@ -211,10 +211,10 @@ public class HornetQRAManagedConnection implements ManagedConnection, ExceptionL
       }
       catch (Throwable t)
       {
-         HornetQRAManagedConnection.log.trace("Ignored error stopping connection", t);
+         AMQRAManagedConnection.log.trace("Ignored error stopping connection", t);
       }
 
-      for (HornetQRASession session : handles)
+      for (AMQRASession session : handles)
       {
          session.destroy();
       }
@@ -228,9 +228,9 @@ public class HornetQRAManagedConnection implements ManagedConnection, ExceptionL
     */
    public void destroy() throws ResourceException
    {
-      if (HornetQRAManagedConnection.trace)
+      if (AMQRAManagedConnection.trace)
       {
-         HornetQRAManagedConnection.log.trace("destroy()");
+         AMQRAManagedConnection.log.trace("destroy()");
       }
 
       if (isDestroyed.get() ||  connection == null)
@@ -246,7 +246,7 @@ public class HornetQRAManagedConnection implements ManagedConnection, ExceptionL
       }
       catch (JMSException e)
       {
-         HornetQRAManagedConnection.log.debug("Error unsetting the exception listener " + this, e);
+         AMQRAManagedConnection.log.debug("Error unsetting the exception listener " + this, e);
       }
 
       destroyHandles();
@@ -267,7 +267,7 @@ public class HornetQRAManagedConnection implements ManagedConnection, ExceptionL
          }
          catch (JMSException e)
          {
-            HornetQRAManagedConnection.log.debug("Error closing session " + this, e);
+            AMQRAManagedConnection.log.debug("Error closing session " + this, e);
          }
 
          if (connection != null)
@@ -287,9 +287,9 @@ public class HornetQRAManagedConnection implements ManagedConnection, ExceptionL
     */
    public void cleanup() throws ResourceException
    {
-      if (HornetQRAManagedConnection.trace)
+      if (AMQRAManagedConnection.trace)
       {
-         HornetQRAManagedConnection.log.trace("cleanup()");
+         AMQRAManagedConnection.log.trace("cleanup()");
       }
 
       if (isDestroyed.get())
@@ -312,20 +312,20 @@ public class HornetQRAManagedConnection implements ManagedConnection, ExceptionL
 
    /**
     * Move a handler from one mc to this one.
-    * @param obj An object of type HornetQSession.
+    * @param obj An object of type AMQSession.
     * @throws ResourceException Failed to associate connection.
     * @throws IllegalStateException ManagedConnection in an illegal state.
     */
    public void associateConnection(final Object obj) throws ResourceException
    {
-      if (HornetQRAManagedConnection.trace)
+      if (AMQRAManagedConnection.trace)
       {
-         HornetQRAManagedConnection.log.trace("associateConnection(" + obj + ")");
+         AMQRAManagedConnection.log.trace("associateConnection(" + obj + ")");
       }
 
-      if (!isDestroyed.get() && obj instanceof HornetQRASession)
+      if (!isDestroyed.get() && obj instanceof AMQRASession)
       {
-         HornetQRASession h = (HornetQRASession)obj;
+         AMQRASession h = (AMQRASession)obj;
          h.setManagedConnection(this);
          handles.add(h);
       }
@@ -370,9 +370,9 @@ public class HornetQRAManagedConnection implements ManagedConnection, ExceptionL
     */
    protected void lock()
    {
-      if (HornetQRAManagedConnection.trace)
+      if (AMQRAManagedConnection.trace)
       {
-         HornetQRAManagedConnection.log.trace("lock()");
+         AMQRAManagedConnection.log.trace("lock()");
       }
 
       lock.lock();
@@ -384,9 +384,9 @@ public class HornetQRAManagedConnection implements ManagedConnection, ExceptionL
     */
    protected void tryLock() throws JMSException
    {
-      if (HornetQRAManagedConnection.trace)
+      if (AMQRAManagedConnection.trace)
       {
-         HornetQRAManagedConnection.log.trace("tryLock()");
+         AMQRAManagedConnection.log.trace("tryLock()");
       }
 
       Integer tryLock = mcf.getUseTryLock();
@@ -413,9 +413,9 @@ public class HornetQRAManagedConnection implements ManagedConnection, ExceptionL
     */
    protected void unlock()
    {
-      if (HornetQRAManagedConnection.trace)
+      if (AMQRAManagedConnection.trace)
       {
-         HornetQRAManagedConnection.log.trace("unlock()");
+         AMQRAManagedConnection.log.trace("unlock()");
       }
 
       lock.unlock();
@@ -427,9 +427,9 @@ public class HornetQRAManagedConnection implements ManagedConnection, ExceptionL
     */
    public void addConnectionEventListener(final ConnectionEventListener l)
    {
-      if (HornetQRAManagedConnection.trace)
+      if (AMQRAManagedConnection.trace)
       {
-         HornetQRAManagedConnection.log.trace("addConnectionEventListener(" + l + ")");
+         AMQRAManagedConnection.log.trace("addConnectionEventListener(" + l + ")");
       }
 
       eventListeners.add(l);
@@ -441,9 +441,9 @@ public class HornetQRAManagedConnection implements ManagedConnection, ExceptionL
     */
    public void removeConnectionEventListener(final ConnectionEventListener l)
    {
-      if (HornetQRAManagedConnection.trace)
+      if (AMQRAManagedConnection.trace)
       {
-         HornetQRAManagedConnection.log.trace("removeConnectionEventListener(" + l + ")");
+         AMQRAManagedConnection.log.trace("removeConnectionEventListener(" + l + ")");
       }
 
       eventListeners.remove(l);
@@ -456,9 +456,9 @@ public class HornetQRAManagedConnection implements ManagedConnection, ExceptionL
     */
    public XAResource getXAResource() throws ResourceException
    {
-      if (HornetQRAManagedConnection.trace)
+      if (AMQRAManagedConnection.trace)
       {
-         HornetQRAManagedConnection.log.trace("getXAResource()");
+         AMQRAManagedConnection.log.trace("getXAResource()");
       }
 
       //
@@ -470,12 +470,12 @@ public class HornetQRAManagedConnection implements ManagedConnection, ExceptionL
             xaResource = xaSession.getXAResource();
       }
 
-      if (HornetQRAManagedConnection.trace)
+      if (AMQRAManagedConnection.trace)
       {
-         HornetQRAManagedConnection.log.trace("XAResource=" + xaResource);
+         AMQRAManagedConnection.log.trace("XAResource=" + xaResource);
       }
 
-      xaResource = new HornetQRAXAResource(this, xaResource);
+      xaResource = new AMQRAXAResource(this, xaResource);
       return xaResource;
    }
 
@@ -486,16 +486,16 @@ public class HornetQRAManagedConnection implements ManagedConnection, ExceptionL
     */
    public LocalTransaction getLocalTransaction() throws ResourceException
    {
-      if (HornetQRAManagedConnection.trace)
+      if (AMQRAManagedConnection.trace)
       {
-         HornetQRAManagedConnection.log.trace("getLocalTransaction()");
+         AMQRAManagedConnection.log.trace("getLocalTransaction()");
       }
 
-      LocalTransaction tx = new HornetQRALocalTransaction(this);
+      LocalTransaction tx = new AMQRALocalTransaction(this);
 
-      if (HornetQRAManagedConnection.trace)
+      if (AMQRAManagedConnection.trace)
       {
-         HornetQRAManagedConnection.log.trace("LocalTransaction=" + tx);
+         AMQRAManagedConnection.log.trace("LocalTransaction=" + tx);
       }
 
       return tx;
@@ -509,9 +509,9 @@ public class HornetQRAManagedConnection implements ManagedConnection, ExceptionL
     */
    public ManagedConnectionMetaData getMetaData() throws ResourceException
    {
-      if (HornetQRAManagedConnection.trace)
+      if (AMQRAManagedConnection.trace)
       {
-         HornetQRAManagedConnection.log.trace("getMetaData()");
+         AMQRAManagedConnection.log.trace("getMetaData()");
       }
 
       if (isDestroyed.get())
@@ -519,7 +519,7 @@ public class HornetQRAManagedConnection implements ManagedConnection, ExceptionL
          throw new IllegalStateException("The managed connection is already destroyed");
       }
 
-      return new HornetQRAMetaData(this);
+      return new AMQRAMetaData(this);
    }
 
    /**
@@ -529,9 +529,9 @@ public class HornetQRAManagedConnection implements ManagedConnection, ExceptionL
     */
    public void setLogWriter(final PrintWriter out) throws ResourceException
    {
-      if (HornetQRAManagedConnection.trace)
+      if (AMQRAManagedConnection.trace)
       {
-         HornetQRAManagedConnection.log.trace("setLogWriter(" + out + ")");
+         AMQRAManagedConnection.log.trace("setLogWriter(" + out + ")");
       }
    }
 
@@ -542,9 +542,9 @@ public class HornetQRAManagedConnection implements ManagedConnection, ExceptionL
     */
    public PrintWriter getLogWriter() throws ResourceException
    {
-      if (HornetQRAManagedConnection.trace)
+      if (AMQRAManagedConnection.trace)
       {
-         HornetQRAManagedConnection.log.trace("getLogWriter()");
+         AMQRAManagedConnection.log.trace("getLogWriter()");
       }
 
       return null;
@@ -556,21 +556,21 @@ public class HornetQRAManagedConnection implements ManagedConnection, ExceptionL
     */
    public void onException(final JMSException exception)
    {
-      if (HornetQRAManagedConnection.trace)
+      if (AMQRAManagedConnection.trace)
       {
-         HornetQRAManagedConnection.log.trace("onException(" + exception + ")");
+         AMQRAManagedConnection.log.trace("onException(" + exception + ")");
       }
 
       if (isDestroyed.get())
       {
-         if (HornetQRAManagedConnection.trace)
+         if (AMQRAManagedConnection.trace)
          {
-            HornetQRAManagedConnection.log.trace("Ignoring error on already destroyed connection " + this, exception);
+            AMQRAManagedConnection.log.trace("Ignoring error on already destroyed connection " + this, exception);
          }
          return;
       }
 
-      HornetQRAManagedConnection.log.warn("Handling JMS exception failure: " + this, exception);
+      AMQRAManagedConnection.log.warn("Handling JMS exception failure: " + this, exception);
 
       try
       {
@@ -578,7 +578,7 @@ public class HornetQRAManagedConnection implements ManagedConnection, ExceptionL
       }
       catch (JMSException e)
       {
-         HornetQRAManagedConnection.log.debug("Unable to unset exception listener", e);
+         AMQRAManagedConnection.log.debug("Unable to unset exception listener", e);
       }
 
       ConnectionEvent event = new ConnectionEvent(this, ConnectionEvent.CONNECTION_ERROR_OCCURRED, exception);
@@ -594,18 +594,18 @@ public class HornetQRAManagedConnection implements ManagedConnection, ExceptionL
    {
       if (xaResource != null && inManagedTx)
       {
-         if (HornetQRAManagedConnection.trace)
+         if (AMQRAManagedConnection.trace)
          {
-            HornetQRAManagedConnection.log.trace("getSession() -> XA session " + xaSession.getSession());
+            AMQRAManagedConnection.log.trace("getSession() -> XA session " + xaSession.getSession());
          }
 
          return xaSession.getSession();
       } 
       else
       {
-         if (HornetQRAManagedConnection.trace)
+         if (AMQRAManagedConnection.trace)
          {
-            HornetQRAManagedConnection.log.trace("getSession() -> session " + xaSession.getSession());
+            AMQRAManagedConnection.log.trace("getSession() -> session " + xaSession.getSession());
          }
 
          return session;
@@ -618,9 +618,9 @@ public class HornetQRAManagedConnection implements ManagedConnection, ExceptionL
     */
    protected void sendEvent(final ConnectionEvent event)
    {
-      if (HornetQRAManagedConnection.trace)
+      if (AMQRAManagedConnection.trace)
       {
-         HornetQRAManagedConnection.log.trace("sendEvent(" + event + ")");
+         AMQRAManagedConnection.log.trace("sendEvent(" + event + ")");
       }
 
       int type = event.getId();
@@ -662,11 +662,11 @@ public class HornetQRAManagedConnection implements ManagedConnection, ExceptionL
     * Remove a handle from the handle map.
     * @param handle The handle to remove.
     */
-   protected void removeHandle(final HornetQRASession handle)
+   protected void removeHandle(final AMQRASession handle)
    {
-      if (HornetQRAManagedConnection.trace)
+      if (AMQRAManagedConnection.trace)
       {
-         HornetQRAManagedConnection.log.trace("removeHandle(" + handle + ")");
+         AMQRAManagedConnection.log.trace("removeHandle(" + handle + ")");
       }
 
       handles.remove(handle);
@@ -676,11 +676,11 @@ public class HornetQRAManagedConnection implements ManagedConnection, ExceptionL
     * Get the request info for this connection.
     * @return The connection request info for this connection.
     */
-   protected HornetQRAConnectionRequestInfo getCRI()
+   protected AMQRAConnectionRequestInfo getCRI()
    {
-      if (HornetQRAManagedConnection.trace)
+      if (AMQRAManagedConnection.trace)
       {
-         HornetQRAManagedConnection.log.trace("getCRI()");
+         AMQRAManagedConnection.log.trace("getCRI()");
       }
 
       return cri;
@@ -690,11 +690,11 @@ public class HornetQRAManagedConnection implements ManagedConnection, ExceptionL
     * Get the connection factory for this connection.
     * @return The connection factory for this connection.
     */
-   protected HornetQRAManagedConnectionFactory getManagedConnectionFactory()
+   protected AMQRAManagedConnectionFactory getManagedConnectionFactory()
    {
-      if (HornetQRAManagedConnection.trace)
+      if (AMQRAManagedConnection.trace)
       {
-         HornetQRAManagedConnection.log.trace("getManagedConnectionFactory()");
+         AMQRAManagedConnection.log.trace("getManagedConnectionFactory()");
       }
 
       return mcf;
@@ -706,9 +706,9 @@ public class HornetQRAManagedConnection implements ManagedConnection, ExceptionL
     */
    void start() throws JMSException
    {
-      if (HornetQRAManagedConnection.trace)
+      if (AMQRAManagedConnection.trace)
       {
-         HornetQRAManagedConnection.log.trace("start()");
+         AMQRAManagedConnection.log.trace("start()");
       }
 
       if (connection != null)
@@ -723,9 +723,9 @@ public class HornetQRAManagedConnection implements ManagedConnection, ExceptionL
     */
    void stop() throws JMSException
    {
-      if (HornetQRAManagedConnection.trace)
+      if (AMQRAManagedConnection.trace)
       {
-         HornetQRAManagedConnection.log.trace("stop()");
+         AMQRAManagedConnection.log.trace("stop()");
       }
 
       if (connection != null)
@@ -740,9 +740,9 @@ public class HornetQRAManagedConnection implements ManagedConnection, ExceptionL
     */
    protected String getUserName()
    {
-      if (HornetQRAManagedConnection.trace)
+      if (AMQRAManagedConnection.trace)
       {
-         HornetQRAManagedConnection.log.trace("getUserName()");
+         AMQRAManagedConnection.log.trace("getUserName()");
       }
 
       return userName;
@@ -754,9 +754,9 @@ public class HornetQRAManagedConnection implements ManagedConnection, ExceptionL
     */
    private void setup() throws ResourceException
    {
-      if (HornetQRAManagedConnection.trace)
+      if (AMQRAManagedConnection.trace)
       {
-         HornetQRAManagedConnection.log.trace("setup()");
+         AMQRAManagedConnection.log.trace("setup()");
       }
 
       try
@@ -764,15 +764,15 @@ public class HornetQRAManagedConnection implements ManagedConnection, ExceptionL
          boolean transacted = cri.isTransacted();
          int acknowledgeMode =  Session.AUTO_ACKNOWLEDGE;
          
-         if (cri.getType() == HornetQRAConnectionFactory.TOPIC_CONNECTION)
+         if (cri.getType() == AMQRAConnectionFactory.TOPIC_CONNECTION)
          {
             if (userName != null && password != null)
             {
-               connection = mcf.getHornetQConnectionFactory().createXATopicConnection(userName, password);
+               connection = mcf.getAMQConnectionFactory().createXATopicConnection(userName, password);
             }
             else
             {
-               connection = mcf.getHornetQConnectionFactory().createXATopicConnection();
+               connection = mcf.getAMQConnectionFactory().createXATopicConnection();
             }
 
             connection.setExceptionListener(this);
@@ -780,15 +780,15 @@ public class HornetQRAManagedConnection implements ManagedConnection, ExceptionL
             xaSession = ((XATopicConnection)connection).createXATopicSession();
             session = ((TopicConnection)connection).createTopicSession(transacted, acknowledgeMode);
          }
-         else if (cri.getType() == HornetQRAConnectionFactory.QUEUE_CONNECTION)
+         else if (cri.getType() == AMQRAConnectionFactory.QUEUE_CONNECTION)
          {
             if (userName != null && password != null)
             {
-               connection = mcf.getHornetQConnectionFactory().createXAQueueConnection(userName, password);
+               connection = mcf.getAMQConnectionFactory().createXAQueueConnection(userName, password);
             }
             else
             {
-               connection = mcf.getHornetQConnectionFactory().createXAQueueConnection();
+               connection = mcf.getAMQConnectionFactory().createXAQueueConnection();
             }
 
             connection.setExceptionListener(this);
@@ -800,11 +800,11 @@ public class HornetQRAManagedConnection implements ManagedConnection, ExceptionL
          {
             if (userName != null && password != null)
             {
-               connection = mcf.getHornetQConnectionFactory().createXAConnection(userName, password);
+               connection = mcf.getAMQConnectionFactory().createXAConnection(userName, password);
             }
             else
             {
-               connection = mcf.getHornetQConnectionFactory().createXAConnection();
+               connection = mcf.getAMQConnectionFactory().createXAConnection();
             }
 
             connection.setExceptionListener(this);

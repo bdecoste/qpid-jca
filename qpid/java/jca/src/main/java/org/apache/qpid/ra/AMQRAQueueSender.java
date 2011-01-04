@@ -22,32 +22,32 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * HornetQQueueSender.
+ * AMQQueueSender.
  * 
  * @author <a href="adrian@jboss.com">Adrian Brock</a>
  * @author <a href="jesper.pedersen@jboss.org">Jesper Pedersen</a>
  * @version $Revision: $
  */
-public class HornetQRAQueueSender extends HornetQRAMessageProducer implements QueueSender
+public class AMQRAQueueSender extends AMQRAMessageProducer implements QueueSender
 {
    /** The logger */
-   private static final Logger log = LoggerFactory.getLogger(HornetQRAQueueSender.class);
+   private static final Logger log = LoggerFactory.getLogger(AMQRAQueueSender.class);
 
    /** Whether trace is enabled */
-   private static boolean trace = HornetQRAQueueSender.log.isTraceEnabled();
+   private static boolean trace = AMQRAQueueSender.log.isTraceEnabled();
 
    /**
     * Create a new wrapper
     * @param producer the producer
     * @param session the session
     */
-   public HornetQRAQueueSender(final QueueSender producer, final HornetQRASession session)
+   public AMQRAQueueSender(final QueueSender producer, final AMQRASession session)
    {
       super(producer, session);
 
-      if (HornetQRAQueueSender.trace)
+      if (AMQRAQueueSender.trace)
       {
-         HornetQRAQueueSender.log.trace("constructor(" + producer + ", " + session + ")");
+         AMQRAQueueSender.log.trace("constructor(" + producer + ", " + session + ")");
       }
    }
 
@@ -58,9 +58,9 @@ public class HornetQRAQueueSender extends HornetQRAMessageProducer implements Qu
     */
    public Queue getQueue() throws JMSException
    {
-      if (HornetQRAQueueSender.trace)
+      if (AMQRAQueueSender.trace)
       {
-         HornetQRAQueueSender.log.trace("getQueue()");
+         AMQRAQueueSender.log.trace("getQueue()");
       }
 
       return ((QueueSender)producer).getQueue();
@@ -84,9 +84,9 @@ public class HornetQRAQueueSender extends HornetQRAMessageProducer implements Qu
       session.lock();
       try
       {
-         if (HornetQRAQueueSender.trace)
+         if (AMQRAQueueSender.trace)
          {
-            HornetQRAQueueSender.log.trace("send " + this +
+            AMQRAQueueSender.log.trace("send " + this +
                                            " destination=" +
                                            destination +
                                            " message=" +
@@ -102,9 +102,9 @@ public class HornetQRAQueueSender extends HornetQRAMessageProducer implements Qu
          checkState();
          producer.send(destination, message, deliveryMode, priority, timeToLive);
 
-         if (HornetQRAQueueSender.trace)
+         if (AMQRAQueueSender.trace)
          {
-            HornetQRAQueueSender.log.trace("sent " + this + " result=" + message);
+            AMQRAQueueSender.log.trace("sent " + this + " result=" + message);
          }
       }
       finally
@@ -124,17 +124,17 @@ public class HornetQRAQueueSender extends HornetQRAMessageProducer implements Qu
       session.lock();
       try
       {
-         if (HornetQRAQueueSender.trace)
+         if (AMQRAQueueSender.trace)
          {
-            HornetQRAQueueSender.log.trace("send " + this + " destination=" + destination + " message=" + message);
+            AMQRAQueueSender.log.trace("send " + this + " destination=" + destination + " message=" + message);
          }
 
          checkState();
          producer.send(destination, message);
 
-         if (HornetQRAQueueSender.trace)
+         if (AMQRAQueueSender.trace)
          {
-            HornetQRAQueueSender.log.trace("sent " + this + " result=" + message);
+            AMQRAQueueSender.log.trace("sent " + this + " result=" + message);
          }
       }
       finally

@@ -41,17 +41,17 @@ import org.hornetq.jms.client.HornetQMessage;
  * @author <a href="mailto:andy.taylor@jboss.org">Andy Taylor</a>
  * @version $Revision: $
  */
-public class HornetQMessageHandler implements MessageHandler
+public class AMQMessageHandler implements MessageListener
 {
    /**
     * The logger
     */
-   private static final Logger log = LoggerFactory.getLogger(HornetQMessageHandler.class);
+   private static final Logger log = LoggerFactory.getLogger(AMQMessageHandler.class);
 
    /**
     * Trace enabled
     */
-   private static boolean trace = HornetQMessageHandler.log.isTraceEnabled();
+   private static boolean trace = AMQMessageHandler.log.isTraceEnabled();
 
    /**
     * The session
@@ -65,7 +65,7 @@ public class HornetQMessageHandler implements MessageHandler
     */
    private MessageEndpoint endpoint;
 
-   private final HornetQActivation activation;
+   private final AMQActivation activation;
 
    private boolean useLocalTx;
    
@@ -75,7 +75,7 @@ public class HornetQMessageHandler implements MessageHandler
 
    private final TransactionManager tm;
 
-   public HornetQMessageHandler(final HornetQActivation activation,
+   public AMQMessageHandler(final AMQActivation activation,
                                 final TransactionManager tm,
                                 final ClientSession session,
                                 final int sessionNr)
@@ -88,16 +88,16 @@ public class HornetQMessageHandler implements MessageHandler
 
    public void setup() throws Exception
    {
-      if (HornetQMessageHandler.trace)
+      if (AMQMessageHandler.trace)
       {
-         HornetQMessageHandler.log.trace("setup()");
+         AMQMessageHandler.log.trace("setup()");
       }
 
-      HornetQActivationSpec spec = activation.getActivationSpec();
+      AMQActivationSpec spec = activation.getActivationSpec();
       String selector = spec.getMessageSelector();
 
       // Create the message consumer
-      SimpleString selectorString = selector == null || selector.trim().equals("") ? null : new SimpleString(selector);
+      AMQShortString selectorString = selector == null || selector.trim().equals("") ? null : new AMQShortString(selector);
       if (activation.isTopic() && spec.isSubscriptionDurable())
       {
          String subscriptionName = spec.getSubscriptionName();
@@ -110,7 +110,7 @@ public class HornetQMessageHandler implements MessageHandler
                                                " - client ID has not been set");
          }
 
-         SimpleString queueName = new SimpleString(HornetQDestination.createQueueNameForDurableSubscription(clientID,
+         AMQShortString queueName = new AMQShortString(AMQDestination.createQueueNameForDurableSubscription(clientID,
                                                                                                             subscriptionName));
 
          QueueQuery subResponse = session.queueQuery(queueName);
@@ -128,7 +128,7 @@ public class HornetQMessageHandler implements MessageHandler
                throw new javax.jms.IllegalStateException("Cannot create a subscriber on the durable subscription since it already has subscriber(s)");
             }
 
-            SimpleString oldFilterString = subResponse.getFilterString();
+            AMQShortString oldFilterString = subResponse.getFilterString();
 
             boolean selectorChanged = selector == null && oldFilterString != null ||
                                       oldFilterString == null &&
@@ -136,7 +136,7 @@ public class HornetQMessageHandler implements MessageHandler
                                       (oldFilterString != null && selector != null && !oldFilterString.toString()
                                                                                                       .equals(selector));
 
-            SimpleString oldTopicName = subResponse.getAddress();
+            AMQShortString oldTopicName = subResponse.getAddress();
 
             boolean topicChanged = !oldTopicName.equals(activation.getAddress());
 
@@ -153,12 +153,12 @@ public class HornetQMessageHandler implements MessageHandler
       }
       else
       {
-         SimpleString queueName;
+         AMQShortString queueName;
          if (activation.isTopic())
          {
             if (activation.getTopicTemporaryQueue() == null)
             {
-               queueName = new SimpleString(UUID.randomUUID().toString());
+               queueName = new AMQShortString(UUID.randomUUID().toString());
                session.createQueue(activation.getAddress(), queueName, selectorString, false);
                activation.setTopicTemporaryQueue(queueName);
             }
@@ -194,9 +194,9 @@ public class HornetQMessageHandler implements MessageHandler
     */
    public void teardown()
    {
-      if (HornetQMessageHandler.trace)
+      if (AMQMessageHandler.trace)
       {
-         HornetQMessageHandler.log.trace("teardown()");
+         AMQMessageHandler.log.trace("teardown()");
       }
 
       try
@@ -209,7 +209,7 @@ public class HornetQMessageHandler implements MessageHandler
       }
       catch (Throwable t)
       {
-         HornetQMessageHandler.log.debug("Error releasing endpoint " + endpoint, t);
+         AMQMessageHandler.log.debug("Error releasing endpoint " + endpoint, t);
       }
 
       try
@@ -218,7 +218,7 @@ public class HornetQMessageHandler implements MessageHandler
          if (activation.getTopicTemporaryQueue() != null)
          {
             // We need to delete temporary topics when the activation is stopped or messages will build up on the server
-            SimpleString tmpQueue = activation.getTopicTemporaryQueue();
+            AMQShortString tmpQueue = activation.getTopicTemporaryQueue();
             QueueQuery subResponse = session.queueQuery(tmpQueue);
             if (subResponse.getConsumerCount() == 0)
             {
@@ -228,7 +228,7 @@ public class HornetQMessageHandler implements MessageHandler
       }
       catch (Throwable t)
       {
-         HornetQMessageHandler.log.debug("Error closing core-queue consumer", t);
+         AMQMessageHandler.log.debug("Error closing core-queue consumer", t);
       }
 
       try
@@ -240,15 +240,15 @@ public class HornetQMessageHandler implements MessageHandler
       }
       catch (Throwable t)
       {
-         HornetQMessageHandler.log.debug("Error releasing session " + session, t);
+         AMQMessageHandler.log.debug("Error releasing session " + session, t);
       }
    }
 
    public void onMessage(final ClientMessage message)
    {
-      if (HornetQMessageHandler.trace)
+      if (AMQMessageHandler.trace)
       {
-         HornetQMessageHandler.log.trace("onMessage(" + message + ")");
+         AMQMessageHandler.log.trace("onMessage(" + message + ")");
       }
 
       HornetQMessage msg = HornetQMessage.createMessage(message, session);
@@ -260,7 +260,7 @@ public class HornetQMessageHandler implements MessageHandler
          {
             tm.setTransactionTimeout(activation.getActivationSpec().getTransactionTimeout());
          }
-         endpoint.beforeDelivery(HornetQActivation.ONMESSAGE);
+         endpoint.beforeDelivery(AMQActivation.ONMESSAGE);
          beforeDelivery = true;
          msg.doBeforeReceive();
          
@@ -284,7 +284,7 @@ public class HornetQMessageHandler implements MessageHandler
          }
          catch (ResourceException e)
          {
-            HornetQMessageHandler.log.warn("Unable to call after delivery", e);
+            AMQMessageHandler.log.warn("Unable to call after delivery", e);
             return;
          }
          if (useLocalTx)
@@ -294,7 +294,7 @@ public class HornetQMessageHandler implements MessageHandler
       }
       catch (Throwable e)
       {
-         HornetQMessageHandler.log.error("Failed to deliver message", e);
+         AMQMessageHandler.log.error("Failed to deliver message", e);
          // we need to call before/afterDelivery as a pair
          if (beforeDelivery)
          {
@@ -304,7 +304,7 @@ public class HornetQMessageHandler implements MessageHandler
             }
             catch (ResourceException e1)
             {
-               HornetQMessageHandler.log.warn("Unable to call after delivery", e);
+               AMQMessageHandler.log.warn("Unable to call after delivery", e);
             }
          }
          if (useLocalTx || !activation.isDeliveryTransacted())
@@ -315,7 +315,7 @@ public class HornetQMessageHandler implements MessageHandler
             }
             catch (HornetQException e1)
             {
-               HornetQMessageHandler.log.warn("Unable to roll local transaction back");
+               AMQMessageHandler.log.warn("Unable to roll local transaction back", e1);
             }
          }
       }

@@ -36,19 +36,19 @@ import org.hornetq.jms.referenceable.SerializableObjectRefAddr;
  * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
  * @version $Revision:  $
  */
-public class HornetQRAConnectionFactoryImpl implements HornetQRAConnectionFactory
+public class AMQRAConnectionFactoryImpl implements AMQRAConnectionFactory
 {
    /** Serial version UID */
    static final long serialVersionUID = 7981708919479859360L;
 
    /** The logger */
-   private static final Logger log = LoggerFactory.getLogger(HornetQRAConnectionFactoryImpl.class);
+   private static final Logger log = LoggerFactory.getLogger(AMQRAConnectionFactoryImpl.class);
 
    /** Trace enabled */
-   private static boolean trace = HornetQRAConnectionFactoryImpl.log.isTraceEnabled();
+   private static boolean trace = AMQRAConnectionFactoryImpl.log.isTraceEnabled();
 
    /** The managed connection factory */
-   private final HornetQRAManagedConnectionFactory mcf;
+   private final AMQRAManagedConnectionFactory mcf;
 
    /** The connection manager */
    private ConnectionManager cm;
@@ -61,11 +61,11 @@ public class HornetQRAConnectionFactoryImpl implements HornetQRAConnectionFactor
     * @param mcf The managed connection factory
     * @param cm The connection manager
     */
-   public HornetQRAConnectionFactoryImpl(final HornetQRAManagedConnectionFactory mcf, final ConnectionManager cm)
+   public AMQRAConnectionFactoryImpl(final AMQRAManagedConnectionFactory mcf, final ConnectionManager cm)
    {
-      if (HornetQRAConnectionFactoryImpl.trace)
+      if (AMQRAConnectionFactoryImpl.trace)
       {
-         HornetQRAConnectionFactoryImpl.log.trace("constructor(" + mcf + ", " + cm + ")");
+         AMQRAConnectionFactoryImpl.log.trace("constructor(" + mcf + ", " + cm + ")");
       }
 
       this.mcf = mcf;
@@ -73,10 +73,10 @@ public class HornetQRAConnectionFactoryImpl implements HornetQRAConnectionFactor
       if (cm == null)
       {
          // This is standalone usage, no appserver
-         this.cm = new HornetQRAConnectionManager();
-         if (HornetQRAConnectionFactoryImpl.trace)
+         this.cm = new AMQRAConnectionManager();
+         if (AMQRAConnectionFactoryImpl.trace)
          {
-            HornetQRAConnectionFactoryImpl.log.trace("Created new ConnectionManager=" + this.cm);
+            AMQRAConnectionFactoryImpl.log.trace("Created new ConnectionManager=" + this.cm);
          }
       }
       else
@@ -84,9 +84,9 @@ public class HornetQRAConnectionFactoryImpl implements HornetQRAConnectionFactor
          this.cm = cm;
       }
 
-      if (HornetQRAConnectionFactoryImpl.trace)
+      if (AMQRAConnectionFactoryImpl.trace)
       {
-         HornetQRAConnectionFactoryImpl.log.trace("Using ManagedConnectionFactory=" + mcf + ", ConnectionManager=" + cm);
+         AMQRAConnectionFactoryImpl.log.trace("Using ManagedConnectionFactory=" + mcf + ", ConnectionManager=" + cm);
       }
    }
 
@@ -96,9 +96,9 @@ public class HornetQRAConnectionFactoryImpl implements HornetQRAConnectionFactor
     */
    public void setReference(final Reference reference)
    {
-      if (HornetQRAConnectionFactoryImpl.trace)
+      if (AMQRAConnectionFactoryImpl.trace)
       {
-         HornetQRAConnectionFactoryImpl.log.trace("setReference(" + reference + ")");
+         AMQRAConnectionFactoryImpl.log.trace("setReference(" + reference + ")");
       }
 
       this.reference = reference;
@@ -110,9 +110,9 @@ public class HornetQRAConnectionFactoryImpl implements HornetQRAConnectionFactor
     */
    public Reference getReference()
    {
-      if (HornetQRAConnectionFactoryImpl.trace)
+      if (AMQRAConnectionFactoryImpl.trace)
       {
-         HornetQRAConnectionFactoryImpl.log.trace("getReference()");
+         AMQRAConnectionFactoryImpl.log.trace("getReference()");
       }
       if (reference == null)
       {
@@ -125,7 +125,7 @@ public class HornetQRAConnectionFactoryImpl implements HornetQRAConnectionFactor
          }
          catch (NamingException e)
          {
-            HornetQRAConnectionFactoryImpl.log.error("Error while giving object Reference.", e);
+            AMQRAConnectionFactoryImpl.log.error("Error while giving object Reference.", ioe);
          }
       }
 
@@ -140,18 +140,18 @@ public class HornetQRAConnectionFactoryImpl implements HornetQRAConnectionFactor
     */
    public QueueConnection createQueueConnection() throws JMSException
    {
-      if (HornetQRAConnectionFactoryImpl.trace)
+      if (AMQRAConnectionFactoryImpl.trace)
       {
-         HornetQRAConnectionFactoryImpl.log.trace("createQueueConnection()");
+         AMQRAConnectionFactoryImpl.log.trace("createQueueConnection()");
       }
 
-      HornetQRASessionFactoryImpl s = new HornetQRASessionFactoryImpl(mcf,
+      AMQRASessionFactoryImpl s = new AMQRASessionFactoryImpl(mcf,
                                                                       cm,
-                                                                      HornetQRAConnectionFactory.QUEUE_CONNECTION);
+                                                                      AMQRAConnectionFactory.QUEUE_CONNECTION);
 
-      if (HornetQRAConnectionFactoryImpl.trace)
+      if (AMQRAConnectionFactoryImpl.trace)
       {
-         HornetQRAConnectionFactoryImpl.log.trace("Created queue connection: " + s);
+         AMQRAConnectionFactoryImpl.log.trace("Created queue connection: " + s);
       }
 
       return s;
@@ -166,20 +166,20 @@ public class HornetQRAConnectionFactoryImpl implements HornetQRAConnectionFactor
     */
    public QueueConnection createQueueConnection(final String userName, final String password) throws JMSException
    {
-      if (HornetQRAConnectionFactoryImpl.trace)
+      if (AMQRAConnectionFactoryImpl.trace)
       {
-         HornetQRAConnectionFactoryImpl.log.trace("createQueueConnection(" + userName + ", ****)");
+         AMQRAConnectionFactoryImpl.log.trace("createQueueConnection(" + userName + ", ****)");
       }
 
-      HornetQRASessionFactoryImpl s = new HornetQRASessionFactoryImpl(mcf,
+      AMQRASessionFactoryImpl s = new AMQRASessionFactoryImpl(mcf,
                                                                       cm,
-                                                                      HornetQRAConnectionFactory.QUEUE_CONNECTION);
+                                                                      AMQRAConnectionFactory.QUEUE_CONNECTION);
       s.setUserName(userName);
       s.setPassword(password);
 
-      if (HornetQRAConnectionFactoryImpl.trace)
+      if (AMQRAConnectionFactoryImpl.trace)
       {
-         HornetQRAConnectionFactoryImpl.log.trace("Created queue connection: " + s);
+         AMQRAConnectionFactoryImpl.log.trace("Created queue connection: " + s);
       }
 
       return s;
@@ -192,18 +192,18 @@ public class HornetQRAConnectionFactoryImpl implements HornetQRAConnectionFactor
     */
    public TopicConnection createTopicConnection() throws JMSException
    {
-      if (HornetQRAConnectionFactoryImpl.trace)
+      if (AMQRAConnectionFactoryImpl.trace)
       {
-         HornetQRAConnectionFactoryImpl.log.trace("createTopicConnection()");
+         AMQRAConnectionFactoryImpl.log.trace("createTopicConnection()");
       }
 
-      HornetQRASessionFactoryImpl s = new HornetQRASessionFactoryImpl(mcf,
+      AMQRASessionFactoryImpl s = new AMQRASessionFactoryImpl(mcf,
                                                                       cm,
-                                                                      HornetQRAConnectionFactory.TOPIC_CONNECTION);
+                                                                      AMQRAConnectionFactory.TOPIC_CONNECTION);
 
-      if (HornetQRAConnectionFactoryImpl.trace)
+      if (AMQRAConnectionFactoryImpl.trace)
       {
-         HornetQRAConnectionFactoryImpl.log.trace("Created topic connection: " + s);
+         AMQRAConnectionFactoryImpl.log.trace("Created topic connection: " + s);
       }
 
       return s;
@@ -218,20 +218,20 @@ public class HornetQRAConnectionFactoryImpl implements HornetQRAConnectionFactor
     */
    public TopicConnection createTopicConnection(final String userName, final String password) throws JMSException
    {
-      if (HornetQRAConnectionFactoryImpl.trace)
+      if (AMQRAConnectionFactoryImpl.trace)
       {
-         HornetQRAConnectionFactoryImpl.log.trace("createTopicConnection(" + userName + ", ****)");
+         AMQRAConnectionFactoryImpl.log.trace("createTopicConnection(" + userName + ", ****)");
       }
 
-      HornetQRASessionFactoryImpl s = new HornetQRASessionFactoryImpl(mcf,
+      AMQRASessionFactoryImpl s = new AMQRASessionFactoryImpl(mcf,
                                                                       cm,
-                                                                      HornetQRAConnectionFactory.TOPIC_CONNECTION);
+                                                                      AMQRAConnectionFactory.TOPIC_CONNECTION);
       s.setUserName(userName);
       s.setPassword(password);
 
-      if (HornetQRAConnectionFactoryImpl.trace)
+      if (AMQRAConnectionFactoryImpl.trace)
       {
-         HornetQRAConnectionFactoryImpl.log.trace("Created topic connection: " + s);
+         AMQRAConnectionFactoryImpl.log.trace("Created topic connection: " + s);
       }
 
       return s;
@@ -244,16 +244,16 @@ public class HornetQRAConnectionFactoryImpl implements HornetQRAConnectionFactor
     */
    public Connection createConnection() throws JMSException
    {
-      if (HornetQRAConnectionFactoryImpl.trace)
+      if (AMQRAConnectionFactoryImpl.trace)
       {
-         HornetQRAConnectionFactoryImpl.log.trace("createConnection()");
+         AMQRAConnectionFactoryImpl.log.trace("createConnection()");
       }
 
-      HornetQRASessionFactoryImpl s = new HornetQRASessionFactoryImpl(mcf, cm, HornetQRAConnectionFactory.CONNECTION);
+      AMQRASessionFactoryImpl s = new AMQRASessionFactoryImpl(mcf, cm, AMQRAConnectionFactory.CONNECTION);
 
-      if (HornetQRAConnectionFactoryImpl.trace)
+      if (AMQRAConnectionFactoryImpl.trace)
       {
-         HornetQRAConnectionFactoryImpl.log.trace("Created connection: " + s);
+         AMQRAConnectionFactoryImpl.log.trace("Created connection: " + s);
       }
 
       return s;
@@ -268,18 +268,18 @@ public class HornetQRAConnectionFactoryImpl implements HornetQRAConnectionFactor
     */
    public Connection createConnection(final String userName, final String password) throws JMSException
    {
-      if (HornetQRAConnectionFactoryImpl.trace)
+      if (AMQRAConnectionFactoryImpl.trace)
       {
-         HornetQRAConnectionFactoryImpl.log.trace("createConnection(" + userName + ", ****)");
+         AMQRAConnectionFactoryImpl.log.trace("createConnection(" + userName + ", ****)");
       }
 
-      HornetQRASessionFactoryImpl s = new HornetQRASessionFactoryImpl(mcf, cm, HornetQRAConnectionFactory.CONNECTION);
+      AMQRASessionFactoryImpl s = new AMQRASessionFactoryImpl(mcf, cm, AMQRAConnectionFactory.CONNECTION);
       s.setUserName(userName);
       s.setPassword(password);
 
-      if (HornetQRAConnectionFactoryImpl.trace)
+      if (AMQRAConnectionFactoryImpl.trace)
       {
-         HornetQRAConnectionFactoryImpl.log.trace("Created connection: " + s);
+         AMQRAConnectionFactoryImpl.log.trace("Created connection: " + s);
       }
 
       return s;
@@ -292,18 +292,18 @@ public class HornetQRAConnectionFactoryImpl implements HornetQRAConnectionFactor
     */
    public XAQueueConnection createXAQueueConnection() throws JMSException
    {
-      if (HornetQRAConnectionFactoryImpl.trace)
+      if (AMQRAConnectionFactoryImpl.trace)
       {
-         HornetQRAConnectionFactoryImpl.log.trace("createXAQueueConnection()");
+         AMQRAConnectionFactoryImpl.log.trace("createXAQueueConnection()");
       }
 
-      HornetQRASessionFactoryImpl s = new HornetQRASessionFactoryImpl(mcf,
+      AMQRASessionFactoryImpl s = new AMQRASessionFactoryImpl(mcf,
                                                                       cm,
-                                                                      HornetQRAConnectionFactory.XA_QUEUE_CONNECTION);
+                                                                      AMQRAConnectionFactory.XA_QUEUE_CONNECTION);
 
-      if (HornetQRAConnectionFactoryImpl.trace)
+      if (AMQRAConnectionFactoryImpl.trace)
       {
-         HornetQRAConnectionFactoryImpl.log.trace("Created queue connection: " + s);
+         AMQRAConnectionFactoryImpl.log.trace("Created queue connection: " + s);
       }
 
       return s;
@@ -318,20 +318,20 @@ public class HornetQRAConnectionFactoryImpl implements HornetQRAConnectionFactor
     */
    public XAQueueConnection createXAQueueConnection(final String userName, final String password) throws JMSException
    {
-      if (HornetQRAConnectionFactoryImpl.trace)
+      if (AMQRAConnectionFactoryImpl.trace)
       {
-         HornetQRAConnectionFactoryImpl.log.trace("createXAQueueConnection(" + userName + ", ****)");
+         AMQRAConnectionFactoryImpl.log.trace("createXAQueueConnection(" + userName + ", ****)");
       }
 
-      HornetQRASessionFactoryImpl s = new HornetQRASessionFactoryImpl(mcf,
+      AMQRASessionFactoryImpl s = new AMQRASessionFactoryImpl(mcf,
                                                                       cm,
-                                                                      HornetQRAConnectionFactory.XA_QUEUE_CONNECTION);
+                                                                      AMQRAConnectionFactory.XA_QUEUE_CONNECTION);
       s.setUserName(userName);
       s.setPassword(password);
 
-      if (HornetQRAConnectionFactoryImpl.trace)
+      if (AMQRAConnectionFactoryImpl.trace)
       {
-         HornetQRAConnectionFactoryImpl.log.trace("Created queue connection: " + s);
+         AMQRAConnectionFactoryImpl.log.trace("Created queue connection: " + s);
       }
 
       return s;
@@ -344,18 +344,18 @@ public class HornetQRAConnectionFactoryImpl implements HornetQRAConnectionFactor
     */
    public XATopicConnection createXATopicConnection() throws JMSException
    {
-      if (HornetQRAConnectionFactoryImpl.trace)
+      if (AMQRAConnectionFactoryImpl.trace)
       {
-         HornetQRAConnectionFactoryImpl.log.trace("createXATopicConnection()");
+         AMQRAConnectionFactoryImpl.log.trace("createXATopicConnection()");
       }
 
-      HornetQRASessionFactoryImpl s = new HornetQRASessionFactoryImpl(mcf,
+      AMQRASessionFactoryImpl s = new AMQRASessionFactoryImpl(mcf,
                                                                       cm,
-                                                                      HornetQRAConnectionFactory.XA_TOPIC_CONNECTION);
+                                                                      AMQRAConnectionFactory.XA_TOPIC_CONNECTION);
 
-      if (HornetQRAConnectionFactoryImpl.trace)
+      if (AMQRAConnectionFactoryImpl.trace)
       {
-         HornetQRAConnectionFactoryImpl.log.trace("Created topic connection: " + s);
+         AMQRAConnectionFactoryImpl.log.trace("Created topic connection: " + s);
       }
 
       return s;
@@ -370,20 +370,20 @@ public class HornetQRAConnectionFactoryImpl implements HornetQRAConnectionFactor
     */
    public XATopicConnection createXATopicConnection(final String userName, final String password) throws JMSException
    {
-      if (HornetQRAConnectionFactoryImpl.trace)
+      if (AMQRAConnectionFactoryImpl.trace)
       {
-         HornetQRAConnectionFactoryImpl.log.trace("createXATopicConnection(" + userName + ", ****)");
+         AMQRAConnectionFactoryImpl.log.trace("createXATopicConnection(" + userName + ", ****)");
       }
 
-      HornetQRASessionFactoryImpl s = new HornetQRASessionFactoryImpl(mcf,
+      AMQRASessionFactoryImpl s = new AMQRASessionFactoryImpl(mcf,
                                                                       cm,
-                                                                      HornetQRAConnectionFactory.XA_TOPIC_CONNECTION);
+                                                                      AMQRAConnectionFactory.XA_TOPIC_CONNECTION);
       s.setUserName(userName);
       s.setPassword(password);
 
-      if (HornetQRAConnectionFactoryImpl.trace)
+      if (AMQRAConnectionFactoryImpl.trace)
       {
-         HornetQRAConnectionFactoryImpl.log.trace("Created topic connection: " + s);
+         AMQRAConnectionFactoryImpl.log.trace("Created topic connection: " + s);
       }
 
       return s;
@@ -396,16 +396,16 @@ public class HornetQRAConnectionFactoryImpl implements HornetQRAConnectionFactor
     */
    public XAConnection createXAConnection() throws JMSException
    {
-      if (HornetQRAConnectionFactoryImpl.trace)
+      if (AMQRAConnectionFactoryImpl.trace)
       {
-         HornetQRAConnectionFactoryImpl.log.trace("createXAConnection()");
+         AMQRAConnectionFactoryImpl.log.trace("createXAConnection()");
       }
 
-      HornetQRASessionFactoryImpl s = new HornetQRASessionFactoryImpl(mcf, cm, HornetQRAConnectionFactory.XA_CONNECTION);
+      AMQRASessionFactoryImpl s = new AMQRASessionFactoryImpl(mcf, cm, AMQRAConnectionFactory.XA_CONNECTION);
 
-      if (HornetQRAConnectionFactoryImpl.trace)
+      if (AMQRAConnectionFactoryImpl.trace)
       {
-         HornetQRAConnectionFactoryImpl.log.trace("Created connection: " + s);
+         AMQRAConnectionFactoryImpl.log.trace("Created connection: " + s);
       }
 
       return s;
@@ -420,18 +420,18 @@ public class HornetQRAConnectionFactoryImpl implements HornetQRAConnectionFactor
     */
    public XAConnection createXAConnection(final String userName, final String password) throws JMSException
    {
-      if (HornetQRAConnectionFactoryImpl.trace)
+      if (AMQRAConnectionFactoryImpl.trace)
       {
-         HornetQRAConnectionFactoryImpl.log.trace("createXAConnection(" + userName + ", ****)");
+         AMQRAConnectionFactoryImpl.log.trace("createXAConnection(" + userName + ", ****)");
       }
 
-      HornetQRASessionFactoryImpl s = new HornetQRASessionFactoryImpl(mcf, cm, HornetQRAConnectionFactory.XA_CONNECTION);
+      AMQRASessionFactoryImpl s = new AMQRASessionFactoryImpl(mcf, cm, AMQRAConnectionFactory.XA_CONNECTION);
       s.setUserName(userName);
       s.setPassword(password);
 
-      if (HornetQRAConnectionFactoryImpl.trace)
+      if (AMQRAConnectionFactoryImpl.trace)
       {
-         HornetQRAConnectionFactoryImpl.log.trace("Created connection: " + s);
+         AMQRAConnectionFactoryImpl.log.trace("Created connection: " + s);
       }
 
       return s;

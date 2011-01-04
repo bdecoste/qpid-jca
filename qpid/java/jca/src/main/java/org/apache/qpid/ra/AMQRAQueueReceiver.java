@@ -27,26 +27,26 @@ import org.slf4j.LoggerFactory;
  * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
  * @version $Revision: $
  */
-public class HornetQRAQueueReceiver extends HornetQRAMessageConsumer implements QueueReceiver
+public class AMQRAQueueReceiver extends AMQRAMessageConsumer implements QueueReceiver
 {
    /** The logger */
-   private static final Logger log = LoggerFactory.getLogger(HornetQRAQueueReceiver.class);
+   private static final Logger log = LoggerFactory.getLogger(AMQRAQueueReceiver.class);
 
    /** Whether trace is enabled */
-   private static boolean trace = HornetQRAQueueReceiver.log.isTraceEnabled();
+   private static boolean trace = AMQRAQueueReceiver.log.isTraceEnabled();
 
    /**
     * Create a new wrapper
     * @param consumer the queue receiver
     * @param session the session
     */
-   public HornetQRAQueueReceiver(final QueueReceiver consumer, final HornetQRASession session)
+   public AMQRAQueueReceiver(final QueueReceiver consumer, final AMQRASession session)
    {
       super(consumer, session);
 
-      if (HornetQRAQueueReceiver.trace)
+      if (AMQRAQueueReceiver.trace)
       {
-         HornetQRAQueueReceiver.log.trace("constructor(" + consumer + ", " + session + ")");
+         AMQRAQueueReceiver.log.trace("constructor(" + consumer + ", " + session + ")");
       }
    }
 
@@ -57,9 +57,9 @@ public class HornetQRAQueueReceiver extends HornetQRAMessageConsumer implements 
     */
    public Queue getQueue() throws JMSException
    {
-      if (HornetQRAQueueReceiver.trace)
+      if (AMQRAQueueReceiver.trace)
       {
-         HornetQRAQueueReceiver.log.trace("getQueue()");
+         AMQRAQueueReceiver.log.trace("getQueue()");
       }
 
       checkState();

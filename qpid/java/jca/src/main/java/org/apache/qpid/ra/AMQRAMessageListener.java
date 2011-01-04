@@ -25,30 +25,30 @@ import org.slf4j.LoggerFactory;
  * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
  * @version $Revision: $
  */
-public class HornetQRAMessageListener implements MessageListener
+public class AMQRAMessageListener implements MessageListener
 {
    /** The logger */
-   private static final Logger log = LoggerFactory.getLogger(HornetQRAMessageListener.class);
+   private static final Logger log = LoggerFactory.getLogger(AMQRAMessageListener.class);
 
    /** Whether trace is enabled */
-   private static boolean trace = HornetQRAMessageListener.log.isTraceEnabled();
+   private static boolean trace = AMQRAMessageListener.log.isTraceEnabled();
 
    /** The message listener */
    private final MessageListener listener;
 
    /** The consumer */
-   private final HornetQRAMessageConsumer consumer;
+   private final AMQRAMessageConsumer consumer;
 
    /**
     * Create a new wrapper
     * @param listener the listener
     * @param consumer the consumer
     */
-   public HornetQRAMessageListener(final MessageListener listener, final HornetQRAMessageConsumer consumer)
+   public AMQRAMessageListener(final MessageListener listener, final AMQRAMessageConsumer consumer)
    {
-      if (HornetQRAMessageListener.trace)
+      if (AMQRAMessageListener.trace)
       {
-         HornetQRAMessageListener.log.trace("constructor(" + listener + ", " + consumer + ")");
+         AMQRAMessageListener.log.trace("constructor(" + listener + ", " + consumer + ")");
       }
 
       this.listener = listener;
@@ -61,9 +61,9 @@ public class HornetQRAMessageListener implements MessageListener
     */
    public void onMessage(Message message)
    {
-      if (HornetQRAMessageListener.trace)
+      if (AMQRAMessageListener.trace)
       {
-         HornetQRAMessageListener.log.trace("onMessage(" + message + ")");
+         AMQRAMessageListener.log.trace("onMessage(" + message + ")");
       }
 
       message = consumer.wrapMessage(message);

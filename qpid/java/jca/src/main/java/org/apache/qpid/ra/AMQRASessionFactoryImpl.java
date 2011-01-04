@@ -42,19 +42,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Implements the JMS Connection API and produces {@link HornetQRASession} objects.
+ * Implements the JMS Connection API and produces {@link AMQRASession} objects.
  *
  * @author <a href="mailto:adrian@jboss.com">Adrian Brock</a>
  * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
  * @version $Revision:  $
  */
-public class HornetQRASessionFactoryImpl implements HornetQRASessionFactory, Referenceable
+public class AMQRASessionFactoryImpl implements AMQRASessionFactory, Referenceable
 {
    /** The logger */
-   private static final Logger log = LoggerFactory.getLogger(HornetQRASessionFactoryImpl.class);
+   private static final Logger log = LoggerFactory.getLogger(AMQRASessionFactoryImpl.class);
 
    /** Trace enabled */
-   private static boolean trace = HornetQRASessionFactoryImpl.log.isTraceEnabled();
+   private static boolean trace = AMQRASessionFactoryImpl.log.isTraceEnabled();
 
    /** Are we closed? */
    private boolean closed = false;
@@ -78,7 +78,7 @@ public class HornetQRASessionFactoryImpl implements HornetQRASessionFactory, Ref
    private boolean started = false;
 
    /** The managed connection factory */
-   private final HornetQRAManagedConnectionFactory mcf;
+   private final AMQRAManagedConnectionFactory mcf;
 
    /** The connection manager */
    private ConnectionManager cm;
@@ -98,7 +98,7 @@ public class HornetQRASessionFactoryImpl implements HornetQRASessionFactory, Ref
     * @param cm The connection manager
     * @param type The connection type
     */
-   public HornetQRASessionFactoryImpl(final HornetQRAManagedConnectionFactory mcf,
+   public AMQRASessionFactoryImpl(final AMQRAManagedConnectionFactory mcf,
                                       final ConnectionManager cm,
                                       final int type)
    {
@@ -106,7 +106,7 @@ public class HornetQRASessionFactoryImpl implements HornetQRASessionFactory, Ref
 
       if (cm == null)
       {
-         this.cm = new HornetQRAConnectionManager();
+         this.cm = new AMQRAConnectionManager();
       }
       else
       {
@@ -115,9 +115,9 @@ public class HornetQRASessionFactoryImpl implements HornetQRASessionFactory, Ref
 
       this.type = type;
 
-      if (HornetQRASessionFactoryImpl.trace)
+      if (AMQRASessionFactoryImpl.trace)
       {
-         HornetQRASessionFactoryImpl.log.trace("constructor(" + mcf + ", " + cm + ", " + type);
+         AMQRASessionFactoryImpl.log.trace("constructor(" + mcf + ", " + cm + ", " + type);
       }
    }
 
@@ -127,9 +127,9 @@ public class HornetQRASessionFactoryImpl implements HornetQRASessionFactory, Ref
     */
    public void setReference(final Reference reference)
    {
-      if (HornetQRASessionFactoryImpl.trace)
+      if (AMQRASessionFactoryImpl.trace)
       {
-         HornetQRASessionFactoryImpl.log.trace("setReference(" + reference + ")");
+         AMQRASessionFactoryImpl.log.trace("setReference(" + reference + ")");
       }
 
       this.reference = reference;
@@ -141,9 +141,9 @@ public class HornetQRASessionFactoryImpl implements HornetQRASessionFactory, Ref
     */
    public Reference getReference()
    {
-      if (HornetQRASessionFactoryImpl.trace)
+      if (AMQRASessionFactoryImpl.trace)
       {
-         HornetQRASessionFactoryImpl.log.trace("getReference()");
+         AMQRASessionFactoryImpl.log.trace("getReference()");
       }
 
       return reference;
@@ -155,9 +155,9 @@ public class HornetQRASessionFactoryImpl implements HornetQRASessionFactory, Ref
     */
    public void setUserName(final String name)
    {
-      if (HornetQRASessionFactoryImpl.trace)
+      if (AMQRASessionFactoryImpl.trace)
       {
-         HornetQRASessionFactoryImpl.log.trace("setUserName(" + name + ")");
+         AMQRASessionFactoryImpl.log.trace("setUserName(" + name + ")");
       }
 
       userName = name;
@@ -169,9 +169,9 @@ public class HornetQRASessionFactoryImpl implements HornetQRASessionFactory, Ref
     */
    public void setPassword(final String password)
    {
-      if (HornetQRASessionFactoryImpl.trace)
+      if (AMQRASessionFactoryImpl.trace)
       {
-         HornetQRASessionFactoryImpl.log.trace("setPassword(****)");
+         AMQRASessionFactoryImpl.log.trace("setPassword(****)");
       }
 
       this.password = password;
@@ -184,16 +184,16 @@ public class HornetQRASessionFactoryImpl implements HornetQRASessionFactory, Ref
     */
    public String getClientID() throws JMSException
    {
-      if (HornetQRASessionFactoryImpl.trace)
+      if (AMQRASessionFactoryImpl.trace)
       {
-         HornetQRASessionFactoryImpl.log.trace("getClientID()");
+         AMQRASessionFactoryImpl.log.trace("getClientID()");
       }
 
       checkClosed();
 
       if (clientID == null)
       {
-         return ((HornetQResourceAdapter)mcf.getResourceAdapter()).getProperties().getClientID();
+         return ((AMQResourceAdapter)mcf.getResourceAdapter()).getProperties().getClientID();
       }
 
       return clientID;
@@ -206,12 +206,12 @@ public class HornetQRASessionFactoryImpl implements HornetQRASessionFactory, Ref
     */
    public void setClientID(final String cID) throws JMSException
    {
-      if (HornetQRASessionFactoryImpl.trace)
+      if (AMQRASessionFactoryImpl.trace)
       {
-         HornetQRASessionFactoryImpl.log.trace("setClientID(" + cID + ")");
+         AMQRASessionFactoryImpl.log.trace("setClientID(" + cID + ")");
       }
 
-      throw new IllegalStateException(HornetQRASessionFactory.ISE);
+      throw new IllegalStateException(AMQRASessionFactory.ISE);
    }
 
    /**
@@ -223,14 +223,14 @@ public class HornetQRASessionFactoryImpl implements HornetQRASessionFactory, Ref
     */
    public QueueSession createQueueSession(final boolean transacted, final int acknowledgeMode) throws JMSException
    {
-      if (HornetQRASessionFactoryImpl.trace)
+      if (AMQRASessionFactoryImpl.trace)
       {
-         HornetQRASessionFactoryImpl.log.trace("createQueueSession(" + transacted + ", " + acknowledgeMode + ")");
+         AMQRASessionFactoryImpl.log.trace("createQueueSession(" + transacted + ", " + acknowledgeMode + ")");
       }
 
       checkClosed();
 
-      if (type == HornetQRAConnectionFactory.TOPIC_CONNECTION || type == HornetQRAConnectionFactory.XA_TOPIC_CONNECTION)
+      if (type == AMQRAConnectionFactory.TOPIC_CONNECTION || type == AMQRAConnectionFactory.XA_TOPIC_CONNECTION)
       {
          throw new IllegalStateException("Can not get a queue session from a topic connection");
       }
@@ -245,15 +245,15 @@ public class HornetQRASessionFactoryImpl implements HornetQRASessionFactory, Ref
     */
    public XAQueueSession createXAQueueSession() throws JMSException
    {
-      if (HornetQRASessionFactoryImpl.trace)
+      if (AMQRASessionFactoryImpl.trace)
       {
-         HornetQRASessionFactoryImpl.log.trace("createXAQueueSession()");
+         AMQRASessionFactoryImpl.log.trace("createXAQueueSession()");
       }
 
       checkClosed();
 
-      if (type == HornetQRAConnectionFactory.CONNECTION || type == HornetQRAConnectionFactory.TOPIC_CONNECTION ||
-          type == HornetQRAConnectionFactory.XA_TOPIC_CONNECTION)
+      if (type == AMQRAConnectionFactory.CONNECTION || type == AMQRAConnectionFactory.TOPIC_CONNECTION ||
+          type == AMQRAConnectionFactory.XA_TOPIC_CONNECTION)
       {
          throw new IllegalStateException("Can not get a topic session from a queue connection");
       }
@@ -275,9 +275,9 @@ public class HornetQRASessionFactoryImpl implements HornetQRASessionFactory, Ref
                                                       final ServerSessionPool sessionPool,
                                                       final int maxMessages) throws JMSException
    {
-      if (HornetQRASessionFactoryImpl.trace)
+      if (AMQRASessionFactoryImpl.trace)
       {
-         HornetQRASessionFactoryImpl.log.trace("createConnectionConsumer(" + queue +
+         AMQRASessionFactoryImpl.log.trace("createConnectionConsumer(" + queue +
                                                ", " +
                                                messageSelector +
                                                ", " +
@@ -287,7 +287,7 @@ public class HornetQRASessionFactoryImpl implements HornetQRASessionFactory, Ref
                                                ")");
       }
 
-      throw new IllegalStateException(HornetQRASessionFactory.ISE);
+      throw new IllegalStateException(AMQRASessionFactory.ISE);
    }
 
    /**
@@ -299,14 +299,14 @@ public class HornetQRASessionFactoryImpl implements HornetQRASessionFactory, Ref
     */
    public TopicSession createTopicSession(final boolean transacted, final int acknowledgeMode) throws JMSException
    {
-      if (HornetQRASessionFactoryImpl.trace)
+      if (AMQRASessionFactoryImpl.trace)
       {
-         HornetQRASessionFactoryImpl.log.trace("createTopicSession(" + transacted + ", " + acknowledgeMode + ")");
+         AMQRASessionFactoryImpl.log.trace("createTopicSession(" + transacted + ", " + acknowledgeMode + ")");
       }
 
       checkClosed();
 
-      if (type == HornetQRAConnectionFactory.QUEUE_CONNECTION || type == HornetQRAConnectionFactory.XA_QUEUE_CONNECTION)
+      if (type == AMQRAConnectionFactory.QUEUE_CONNECTION || type == AMQRAConnectionFactory.XA_QUEUE_CONNECTION)
       {
          throw new IllegalStateException("Can not get a topic session from a queue connection");
       }
@@ -321,15 +321,15 @@ public class HornetQRASessionFactoryImpl implements HornetQRASessionFactory, Ref
     */
    public XATopicSession createXATopicSession() throws JMSException
    {
-      if (HornetQRASessionFactoryImpl.trace)
+      if (AMQRASessionFactoryImpl.trace)
       {
-         HornetQRASessionFactoryImpl.log.trace("createXATopicSession()");
+         AMQRASessionFactoryImpl.log.trace("createXATopicSession()");
       }
 
       checkClosed();
 
-      if (type == HornetQRAConnectionFactory.CONNECTION || type == HornetQRAConnectionFactory.QUEUE_CONNECTION ||
-          type == HornetQRAConnectionFactory.XA_QUEUE_CONNECTION)
+      if (type == AMQRAConnectionFactory.CONNECTION || type == AMQRAConnectionFactory.QUEUE_CONNECTION ||
+          type == AMQRAConnectionFactory.XA_QUEUE_CONNECTION)
       {
          throw new IllegalStateException("Can not get a topic session from a queue connection");
       }
@@ -351,9 +351,9 @@ public class HornetQRASessionFactoryImpl implements HornetQRASessionFactory, Ref
                                                       final ServerSessionPool sessionPool,
                                                       final int maxMessages) throws JMSException
    {
-      if (HornetQRASessionFactoryImpl.trace)
+      if (AMQRASessionFactoryImpl.trace)
       {
-         HornetQRASessionFactoryImpl.log.trace("createConnectionConsumer(" + topic +
+         AMQRASessionFactoryImpl.log.trace("createConnectionConsumer(" + topic +
                                                ", " +
                                                messageSelector +
                                                ", " +
@@ -363,7 +363,7 @@ public class HornetQRASessionFactoryImpl implements HornetQRASessionFactory, Ref
                                                ")");
       }
 
-      throw new IllegalStateException(HornetQRASessionFactory.ISE);
+      throw new IllegalStateException(AMQRASessionFactory.ISE);
    }
 
    /**
@@ -382,9 +382,9 @@ public class HornetQRASessionFactoryImpl implements HornetQRASessionFactory, Ref
                                                              final ServerSessionPool sessionPool,
                                                              final int maxMessages) throws JMSException
    {
-      if (HornetQRASessionFactoryImpl.trace)
+      if (AMQRASessionFactoryImpl.trace)
       {
-         HornetQRASessionFactoryImpl.log.trace("createConnectionConsumer(" + topic +
+         AMQRASessionFactoryImpl.log.trace("createConnectionConsumer(" + topic +
                                                ", " +
                                                subscriptionName +
                                                ", " +
@@ -396,7 +396,7 @@ public class HornetQRASessionFactoryImpl implements HornetQRASessionFactory, Ref
                                                ")");
       }
 
-      throw new IllegalStateException(HornetQRASessionFactory.ISE);
+      throw new IllegalStateException(AMQRASessionFactory.ISE);
    }
 
    /**
@@ -411,9 +411,9 @@ public class HornetQRASessionFactoryImpl implements HornetQRASessionFactory, Ref
                                                       final ServerSessionPool pool,
                                                       final int maxMessages) throws JMSException
    {
-      if (HornetQRASessionFactoryImpl.trace)
+      if (AMQRASessionFactoryImpl.trace)
       {
-         HornetQRASessionFactoryImpl.log.trace("createConnectionConsumer(" + destination +
+         AMQRASessionFactoryImpl.log.trace("createConnectionConsumer(" + destination +
                                                ", " +
                                                pool +
                                                ", " +
@@ -421,7 +421,7 @@ public class HornetQRASessionFactoryImpl implements HornetQRASessionFactory, Ref
                                                ")");
       }
 
-      throw new IllegalStateException(HornetQRASessionFactory.ISE);
+      throw new IllegalStateException(AMQRASessionFactory.ISE);
    }
 
    /**
@@ -438,9 +438,9 @@ public class HornetQRASessionFactoryImpl implements HornetQRASessionFactory, Ref
                                                       final ServerSessionPool pool,
                                                       final int maxMessages) throws JMSException
    {
-      if (HornetQRASessionFactoryImpl.trace)
+      if (AMQRASessionFactoryImpl.trace)
       {
-         HornetQRASessionFactoryImpl.log.trace("createConnectionConsumer(" + destination +
+         AMQRASessionFactoryImpl.log.trace("createConnectionConsumer(" + destination +
                                                ", " +
                                                name +
                                                ", " +
@@ -450,7 +450,7 @@ public class HornetQRASessionFactoryImpl implements HornetQRASessionFactory, Ref
                                                ")");
       }
 
-      throw new IllegalStateException(HornetQRASessionFactory.ISE);
+      throw new IllegalStateException(AMQRASessionFactory.ISE);
    }
 
    /**
@@ -462,9 +462,9 @@ public class HornetQRASessionFactoryImpl implements HornetQRASessionFactory, Ref
     */
    public Session createSession(final boolean transacted, final int acknowledgeMode) throws JMSException
    {
-      if (HornetQRASessionFactoryImpl.trace)
+      if (AMQRASessionFactoryImpl.trace)
       {
-         HornetQRASessionFactoryImpl.log.trace("createSession(" + transacted + ", " + acknowledgeMode + ")");
+         AMQRASessionFactoryImpl.log.trace("createSession(" + transacted + ", " + acknowledgeMode + ")");
       }
 
       checkClosed();
@@ -478,9 +478,9 @@ public class HornetQRASessionFactoryImpl implements HornetQRASessionFactory, Ref
     */
    public XASession createXASession() throws JMSException
    {
-      if (HornetQRASessionFactoryImpl.trace)
+      if (AMQRASessionFactoryImpl.trace)
       {
-         HornetQRASessionFactoryImpl.log.trace("createXASession()");
+         AMQRASessionFactoryImpl.log.trace("createXASession()");
       }
 
       checkClosed();
@@ -494,9 +494,9 @@ public class HornetQRASessionFactoryImpl implements HornetQRASessionFactory, Ref
     */
    public ConnectionMetaData getMetaData() throws JMSException
    {
-      if (HornetQRASessionFactoryImpl.trace)
+      if (AMQRASessionFactoryImpl.trace)
       {
-         HornetQRASessionFactoryImpl.log.trace("getMetaData()");
+         AMQRASessionFactoryImpl.log.trace("getMetaData()");
       }
 
       checkClosed();
@@ -510,12 +510,12 @@ public class HornetQRASessionFactoryImpl implements HornetQRASessionFactory, Ref
     */
    public ExceptionListener getExceptionListener() throws JMSException
    {
-      if (HornetQRASessionFactoryImpl.trace)
+      if (AMQRASessionFactoryImpl.trace)
       {
-         HornetQRASessionFactoryImpl.log.trace("getExceptionListener()");
+         AMQRASessionFactoryImpl.log.trace("getExceptionListener()");
       }
 
-      throw new IllegalStateException(HornetQRASessionFactory.ISE);
+      throw new IllegalStateException(AMQRASessionFactory.ISE);
    }
 
    /**
@@ -525,12 +525,12 @@ public class HornetQRASessionFactoryImpl implements HornetQRASessionFactory, Ref
     */
    public void setExceptionListener(final ExceptionListener listener) throws JMSException
    {
-      if (HornetQRASessionFactoryImpl.trace)
+      if (AMQRASessionFactoryImpl.trace)
       {
-         HornetQRASessionFactoryImpl.log.trace("setExceptionListener(" + listener + ")");
+         AMQRASessionFactoryImpl.log.trace("setExceptionListener(" + listener + ")");
       }
 
-      throw new IllegalStateException(HornetQRASessionFactory.ISE);
+      throw new IllegalStateException(AMQRASessionFactory.ISE);
    }
 
    /**
@@ -541,9 +541,9 @@ public class HornetQRASessionFactoryImpl implements HornetQRASessionFactory, Ref
    {
       checkClosed();
 
-      if (HornetQRASessionFactoryImpl.trace)
+      if (AMQRASessionFactoryImpl.trace)
       {
-         HornetQRASessionFactoryImpl.log.trace("start() " + this);
+         AMQRASessionFactoryImpl.log.trace("start() " + this);
       }
 
       synchronized (sessions)
@@ -555,7 +555,7 @@ public class HornetQRASessionFactoryImpl implements HornetQRASessionFactory, Ref
          started = true;
          for (Iterator i = sessions.iterator(); i.hasNext();)
          {
-            HornetQRASession session = (HornetQRASession)i.next();
+            AMQRASession session = (AMQRASession)i.next();
             session.start();
          }
       }
@@ -567,12 +567,12 @@ public class HornetQRASessionFactoryImpl implements HornetQRASessionFactory, Ref
     */
    public void stop() throws JMSException
    {
-      if (HornetQRASessionFactoryImpl.trace)
+      if (AMQRASessionFactoryImpl.trace)
       {
-         HornetQRASessionFactoryImpl.log.trace("stop() " + this);
+         AMQRASessionFactoryImpl.log.trace("stop() " + this);
       }
 
-      throw new IllegalStateException(HornetQRASessionFactory.ISE);
+      throw new IllegalStateException(AMQRASessionFactory.ISE);
    }
 
    /**
@@ -581,9 +581,9 @@ public class HornetQRASessionFactoryImpl implements HornetQRASessionFactory, Ref
     */
    public void close() throws JMSException
    {
-      if (HornetQRASessionFactoryImpl.trace)
+      if (AMQRASessionFactoryImpl.trace)
       {
-         HornetQRASessionFactoryImpl.log.trace("close() " + this);
+         AMQRASessionFactoryImpl.log.trace("close() " + this);
       }
 
       if (closed)
@@ -597,14 +597,14 @@ public class HornetQRASessionFactoryImpl implements HornetQRASessionFactory, Ref
       {
          for (Iterator i = sessions.iterator(); i.hasNext();)
          {
-            HornetQRASession session = (HornetQRASession)i.next();
+            AMQRASession session = (AMQRASession)i.next();
             try
             {
                session.closeSession();
             }
             catch (Throwable t)
             {
-               HornetQRASessionFactoryImpl.log.trace("Error closing session", t);
+               AMQRASessionFactoryImpl.log.trace("Error closing session", t);
             }
             i.remove();
          }
@@ -617,15 +617,15 @@ public class HornetQRASessionFactoryImpl implements HornetQRASessionFactory, Ref
             TemporaryQueue temp = (TemporaryQueue)i.next();
             try
             {
-               if (HornetQRASessionFactoryImpl.trace)
+               if (AMQRASessionFactoryImpl.trace)
                {
-                  HornetQRASessionFactoryImpl.log.trace("Closing temporary queue " + temp + " for " + this);
+                  AMQRASessionFactoryImpl.log.trace("Closing temporary queue " + temp + " for " + this);
                }
                temp.delete();
             }
             catch (Throwable t)
             {
-               HornetQRASessionFactoryImpl.log.trace("Error deleting temporary queue", t);
+               AMQRASessionFactoryImpl.log.trace("Error deleting temporary queue", t);
             }
             i.remove();
          }
@@ -638,15 +638,15 @@ public class HornetQRASessionFactoryImpl implements HornetQRASessionFactory, Ref
             TemporaryTopic temp = (TemporaryTopic)i.next();
             try
             {
-               if (HornetQRASessionFactoryImpl.trace)
+               if (AMQRASessionFactoryImpl.trace)
                {
-                  HornetQRASessionFactoryImpl.log.trace("Closing temporary topic " + temp + " for " + this);
+                  AMQRASessionFactoryImpl.log.trace("Closing temporary topic " + temp + " for " + this);
                }
                temp.delete();
             }
             catch (Throwable t)
             {
-               HornetQRASessionFactoryImpl.log.trace("Error deleting temporary queue", t);
+               AMQRASessionFactoryImpl.log.trace("Error deleting temporary queue", t);
             }
             i.remove();
          }
@@ -658,11 +658,11 @@ public class HornetQRASessionFactoryImpl implements HornetQRASessionFactory, Ref
     * @param session The session
     * @exception JMSException Thrown if an error occurs
     */
-   public void closeSession(final HornetQRASession session) throws JMSException
+   public void closeSession(final AMQRASession session) throws JMSException
    {
-      if (HornetQRASessionFactoryImpl.trace)
+      if (AMQRASessionFactoryImpl.trace)
       {
-         HornetQRASessionFactoryImpl.log.trace("closeSession(" + session + ")");
+         AMQRASessionFactoryImpl.log.trace("closeSession(" + session + ")");
       }
 
       synchronized (sessions)
@@ -677,9 +677,9 @@ public class HornetQRASessionFactoryImpl implements HornetQRASessionFactory, Ref
     */
    public void addTemporaryQueue(final TemporaryQueue temp)
    {
-      if (HornetQRASessionFactoryImpl.trace)
+      if (AMQRASessionFactoryImpl.trace)
       {
-         HornetQRASessionFactoryImpl.log.trace("addTemporaryQueue(" + temp + ")");
+         AMQRASessionFactoryImpl.log.trace("addTemporaryQueue(" + temp + ")");
       }
 
       synchronized (tempQueues)
@@ -694,9 +694,9 @@ public class HornetQRASessionFactoryImpl implements HornetQRASessionFactory, Ref
     */
    public void addTemporaryTopic(final TemporaryTopic temp)
    {
-      if (HornetQRASessionFactoryImpl.trace)
+      if (AMQRASessionFactoryImpl.trace)
       {
-         HornetQRASessionFactoryImpl.log.trace("addTemporaryTopic(" + temp + ")");
+         AMQRASessionFactoryImpl.log.trace("addTemporaryTopic(" + temp + ")");
       }
 
       synchronized (tempTopics)
@@ -711,11 +711,11 @@ public class HornetQRASessionFactoryImpl implements HornetQRASessionFactory, Ref
     * @return The session 
     * @exception JMSException Thrown if an error occurs
     */
-   protected HornetQRASession allocateConnection(final int sessionType) throws JMSException
+   protected AMQRASession allocateConnection(final int sessionType) throws JMSException
    {
-      if (HornetQRASessionFactoryImpl.trace)
+      if (AMQRASessionFactoryImpl.trace)
       {
-         HornetQRASessionFactoryImpl.log.trace("allocateConnection(" + sessionType + ")");
+         AMQRASessionFactoryImpl.log.trace("allocateConnection(" + sessionType + ")");
       }
 
       try
@@ -727,27 +727,27 @@ public class HornetQRASessionFactoryImpl implements HornetQRASessionFactory, Ref
                throw new IllegalStateException("Only allowed one session per connection. See the J2EE spec, e.g. J2EE1.4 Section 6.6");
             }
 
-            HornetQRAConnectionRequestInfo info = new HornetQRAConnectionRequestInfo(sessionType);
+            AMQRAConnectionRequestInfo info = new AMQRAConnectionRequestInfo(sessionType);
             info.setUserName(userName);
             info.setPassword(password);
             info.setClientID(clientID);
-            info.setDefaults(((HornetQResourceAdapter)mcf.getResourceAdapter()).getProperties());
+            info.setDefaults(((AMQResourceAdapter)mcf.getResourceAdapter()).getProperties());
 
-            if (HornetQRASessionFactoryImpl.trace)
+            if (AMQRASessionFactoryImpl.trace)
             {
-               HornetQRASessionFactoryImpl.log.trace("Allocating session for " + this + " with request info=" + info);
+               AMQRASessionFactoryImpl.log.trace("Allocating session for " + this + " with request info=" + info);
             }
 
-            HornetQRASession session = (HornetQRASession)cm.allocateConnection(mcf, info);
+            AMQRASession session = (AMQRASession)cm.allocateConnection(mcf, info);
 
             try
             {
-               if (HornetQRASessionFactoryImpl.trace)
+               if (AMQRASessionFactoryImpl.trace)
                {
-                  HornetQRASessionFactoryImpl.log.trace("Allocated  " + this + " session=" + session);
+                  AMQRASessionFactoryImpl.log.trace("Allocated  " + this + " session=" + session);
                }
 
-               session.setHornetQSessionFactory(this);
+               session.setAMQSessionFactory(this);
 
                if (started)
                {
@@ -780,7 +780,7 @@ public class HornetQRASessionFactoryImpl implements HornetQRASessionFactory, Ref
       }
       catch (Exception e)
       {
-         HornetQRASessionFactoryImpl.log.error("Could not create session", e);
+         AMQRASessionFactoryImpl.log.error("Could not create session", e);
 
          JMSException je = new JMSException("Could not create a session: " + e.getMessage());
          je.setLinkedException(e);
@@ -796,11 +796,11 @@ public class HornetQRASessionFactoryImpl implements HornetQRASessionFactory, Ref
     * @return The session 
     * @exception JMSException Thrown if an error occurs
     */
-   protected HornetQRASession allocateConnection(final boolean transacted, int acknowledgeMode, final int sessionType) throws JMSException
+   protected AMQRASession allocateConnection(final boolean transacted, int acknowledgeMode, final int sessionType) throws JMSException
    {
-      if (HornetQRASessionFactoryImpl.trace)
+      if (AMQRASessionFactoryImpl.trace)
       {
-         HornetQRASessionFactoryImpl.log.trace("allocateConnection(" + transacted +
+         AMQRASessionFactoryImpl.log.trace("allocateConnection(" + transacted +
                                                ", " +
                                                acknowledgeMode +
                                                ", " +
@@ -822,29 +822,29 @@ public class HornetQRASessionFactoryImpl implements HornetQRASessionFactory, Ref
                acknowledgeMode = Session.SESSION_TRANSACTED;
             }
 
-            HornetQRAConnectionRequestInfo info = new HornetQRAConnectionRequestInfo(transacted,
+            AMQRAConnectionRequestInfo info = new AMQRAConnectionRequestInfo(transacted,
                                                                                      acknowledgeMode,
                                                                                      sessionType);
             info.setUserName(userName);
             info.setPassword(password);
             info.setClientID(clientID);
-            info.setDefaults(((HornetQResourceAdapter)mcf.getResourceAdapter()).getProperties());
+            info.setDefaults(((AMQResourceAdapter)mcf.getResourceAdapter()).getProperties());
 
-            if (HornetQRASessionFactoryImpl.trace)
+            if (AMQRASessionFactoryImpl.trace)
             {
-               HornetQRASessionFactoryImpl.log.trace("Allocating session for " + this + " with request info=" + info);
+               AMQRASessionFactoryImpl.log.trace("Allocating session for " + this + " with request info=" + info);
             }
 
-            HornetQRASession session = (HornetQRASession)cm.allocateConnection(mcf, info);
+            AMQRASession session = (AMQRASession)cm.allocateConnection(mcf, info);
 
             try
             {
-               if (HornetQRASessionFactoryImpl.trace)
+               if (AMQRASessionFactoryImpl.trace)
                {
-                  HornetQRASessionFactoryImpl.log.trace("Allocated  " + this + " session=" + session);
+                  AMQRASessionFactoryImpl.log.trace("Allocated  " + this + " session=" + session);
                }
 
-               session.setHornetQSessionFactory(this);
+               session.setAMQSessionFactory(this);
 
                if (started)
                {
@@ -877,7 +877,7 @@ public class HornetQRASessionFactoryImpl implements HornetQRASessionFactory, Ref
       }
       catch (Exception e)
       {
-         HornetQRASessionFactoryImpl.log.error("Could not create session", e);
+         AMQRASessionFactoryImpl.log.error("Could not create session", e);
 
          JMSException je = new JMSException("Could not create a session: " + e.getMessage());
          je.setLinkedException(e);
@@ -891,9 +891,9 @@ public class HornetQRASessionFactoryImpl implements HornetQRASessionFactory, Ref
     */
    protected void checkClosed() throws IllegalStateException
    {
-      if (HornetQRASessionFactoryImpl.trace)
+      if (AMQRASessionFactoryImpl.trace)
       {
-         HornetQRASessionFactoryImpl.log.trace("checkClosed()" + this);
+         AMQRASessionFactoryImpl.log.trace("checkClosed()" + this);
       }
 
       if (closed)

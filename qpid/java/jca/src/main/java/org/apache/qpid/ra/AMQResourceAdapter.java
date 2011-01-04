@@ -50,7 +50,7 @@ import org.apache.qpid.ra.inflow.HornetQActivationSpec;
  * @author <a href="mailto:andy.taylor@jboss.org">Andy Taylor</a>
  * @version $Revision: $
  */
-public class HornetQResourceAdapter implements ResourceAdapter, Serializable
+public class AMQResourceAdapter implements ResourceAdapter, Serializable
 {
    /**
     * 
@@ -60,12 +60,12 @@ public class HornetQResourceAdapter implements ResourceAdapter, Serializable
    /**
     * The logger
     */
-   private static final Logger log = LoggerFactory.getLogger(HornetQResourceAdapter.class);
+   private static final Logger log = LoggerFactory.getLogger(AMQResourceAdapter.class);
 
    /**
     * Trace enabled
     */
-   private static boolean trace = HornetQResourceAdapter.log.isTraceEnabled();
+   private static boolean trace = AMQResourceAdapter.log.isTraceEnabled();
 
    /**
     * The bootstrap context
@@ -75,7 +75,7 @@ public class HornetQResourceAdapter implements ResourceAdapter, Serializable
    /**
     * The resource adapter properties
     */
-   private final HornetQRAProperties raProperties;
+   private final AMQRAProperties raProperties;
    
    /**
     * The resource adapter properties before parsing
@@ -106,7 +106,7 @@ public class HornetQResourceAdapter implements ResourceAdapter, Serializable
     */
    public HornetQResourceAdapter()
    {
-      if (HornetQResourceAdapter.trace)
+      if (AMQResourceAdapter.trace)
       {
          HornetQResourceAdapter.log.trace("constructor()");
       }
@@ -136,7 +136,7 @@ public class HornetQResourceAdapter implements ResourceAdapter, Serializable
          {
             setup();
          }
-         catch (HornetQException e)
+         catch (AMQRAException e)
          {
             throw new ResourceException("Unable to create activation", e);
          }
@@ -1055,9 +1055,9 @@ public class HornetQResourceAdapter implements ResourceAdapter, Serializable
     */
    public String getUserName()
    {
-      if (HornetQResourceAdapter.trace)
+      if (AMQResourceAdapter.trace)
       {
-         HornetQResourceAdapter.log.trace("getUserName()");
+         AMQResourceAdapter.log.trace("getUserName()");
       }
 
       return raProperties.getUserName();
@@ -1070,9 +1070,9 @@ public class HornetQResourceAdapter implements ResourceAdapter, Serializable
     */
    public void setUserName(final String userName)
    {
-      if (HornetQResourceAdapter.trace)
+      if (AMQResourceAdapter.trace)
       {
-         HornetQResourceAdapter.log.trace("setUserName(" + userName + ")");
+         AMQResourceAdapter.log.trace("setUserName(" + userName + ")");
       }
 
       raProperties.setUserName(userName);
@@ -1085,9 +1085,9 @@ public class HornetQResourceAdapter implements ResourceAdapter, Serializable
     */
    public String getPassword()
    {
-      if (HornetQResourceAdapter.trace)
+      if (AMQResourceAdapter.trace)
       {
-         HornetQResourceAdapter.log.trace("getPassword()");
+         AMQResourceAdapter.log.trace("getPassword()");
       }
 
       return raProperties.getPassword();
@@ -1100,9 +1100,9 @@ public class HornetQResourceAdapter implements ResourceAdapter, Serializable
     */
    public void setPassword(final String password)
    {
-      if (HornetQResourceAdapter.trace)
+      if (AMQResourceAdapter.trace)
       {
-         HornetQResourceAdapter.log.trace("setPassword(****)");
+         AMQResourceAdapter.log.trace("setPassword(****)");
       }
 
       raProperties.setPassword(password);
@@ -1115,9 +1115,9 @@ public class HornetQResourceAdapter implements ResourceAdapter, Serializable
     */
    public String getClientID()
    {
-      if (HornetQResourceAdapter.trace)
+      if (AMQResourceAdapter.trace)
       {
-         HornetQResourceAdapter.log.trace("getClientID()");
+         AMQResourceAdapter.log.trace("getClientID()");
       }
 
       return raProperties.getClientID();
@@ -1130,9 +1130,9 @@ public class HornetQResourceAdapter implements ResourceAdapter, Serializable
     */
    public void setClientID(final String clientID)
    {
-      if (HornetQResourceAdapter.trace)
+      if (AMQResourceAdapter.trace)
       {
-         HornetQResourceAdapter.log.trace("setClientID(" + clientID + ")");
+         AMQResourceAdapter.log.trace("setClientID(" + clientID + ")");
       }
 
       raProperties.setClientID(clientID);
@@ -1145,9 +1145,9 @@ public class HornetQResourceAdapter implements ResourceAdapter, Serializable
     */
    public Boolean getUseLocalTx()
    {
-      if (HornetQResourceAdapter.trace)
+      if (AMQResourceAdapter.trace)
       {
-         HornetQResourceAdapter.log.trace("getUseLocalTx()");
+         AMQResourceAdapter.log.trace("getUseLocalTx()");
       }
 
       return raProperties.getUseLocalTx();
@@ -1160,9 +1160,9 @@ public class HornetQResourceAdapter implements ResourceAdapter, Serializable
     */
    public void setUseLocalTx(final Boolean localTx)
    {
-      if (HornetQResourceAdapter.trace)
+      if (AMQResourceAdapter.trace)
       {
-         HornetQResourceAdapter.log.trace("setUseXA(" + localTx + ")");
+         AMQResourceAdapter.log.trace("setUseXA(" + localTx + ")");
       }
 
       raProperties.setUseLocalTx(localTx);
@@ -1170,36 +1170,36 @@ public class HornetQResourceAdapter implements ResourceAdapter, Serializable
 
    public int getSetupAttempts()
    {
-      if (HornetQResourceAdapter.trace)
+      if (AMQResourceAdapter.trace)
       {
-         HornetQResourceAdapter.log.trace("getSetupAttempts()");
+         AMQResourceAdapter.log.trace("getSetupAttempts()");
       }
       return raProperties.getSetupAttempts();
    }
 
    public void setSetupAttempts(int setupAttempts)
    {
-      if (HornetQResourceAdapter.trace)
+      if (AMQResourceAdapter.trace)
       {
-         HornetQResourceAdapter.log.trace("setSetupAttempts(" + setupAttempts + ")");
+         AMQResourceAdapter.log.trace("setSetupAttempts(" + setupAttempts + ")");
       }
       raProperties.setSetupAttempts(setupAttempts);
    }
 
    public long getSetupInterval()
    {
-      if (HornetQResourceAdapter.trace)
+      if (AMQResourceAdapter.trace)
       {
-         HornetQResourceAdapter.log.trace("getSetupInterval()");
+         AMQResourceAdapter.log.trace("getSetupInterval()");
       }
       return raProperties.getSetupInterval();
    }
 
    public void setSetupInterval(long interval)
    {
-      if (HornetQResourceAdapter.trace)
+      if (AMQResourceAdapter.trace)
       {
-         HornetQResourceAdapter.log.trace("setSetupInterval(" + interval + ")");
+         AMQResourceAdapter.log.trace("setSetupInterval(" + interval + ")");
       }
       raProperties.setSetupInterval(interval);
    }
@@ -1212,9 +1212,9 @@ public class HornetQResourceAdapter implements ResourceAdapter, Serializable
     */
    public boolean equals(final Object obj)
    {
-      if (HornetQResourceAdapter.trace)
+      if (AMQResourceAdapter.trace)
       {
-         HornetQResourceAdapter.log.trace("equals(" + obj + ")");
+         AMQResourceAdapter.log.trace("equals(" + obj + ")");
       }
 
       if (obj == null)
@@ -1222,9 +1222,9 @@ public class HornetQResourceAdapter implements ResourceAdapter, Serializable
          return false;
       }
 
-      if (obj instanceof HornetQResourceAdapter)
+      if (obj instanceof AMQResourceAdapter)
       {
-         return raProperties.equals(((HornetQResourceAdapter)obj).getProperties());
+         return raProperties.equals(((AMQResourceAdapter)obj).getProperties());
       }
       else
       {
@@ -1239,9 +1239,9 @@ public class HornetQResourceAdapter implements ResourceAdapter, Serializable
     */
    public int hashCode()
    {
-      if (HornetQResourceAdapter.trace)
+      if (AMQResourceAdapter.trace)
       {
-         HornetQResourceAdapter.log.trace("hashCode()");
+         AMQResourceAdapter.log.trace("hashCode()");
       }
 
       return raProperties.hashCode();
@@ -1254,9 +1254,9 @@ public class HornetQResourceAdapter implements ResourceAdapter, Serializable
     */
    public WorkManager getWorkManager()
    {
-      if (HornetQResourceAdapter.trace)
+      if (AMQResourceAdapter.trace)
       {
-         HornetQResourceAdapter.log.trace("getWorkManager()");
+         AMQResourceAdapter.log.trace("getWorkManager()");
       }
 
       if (ctx == null)
@@ -1267,7 +1267,7 @@ public class HornetQResourceAdapter implements ResourceAdapter, Serializable
       return ctx.getWorkManager();
    }
 
-   public ClientSession createSession(final ClientSessionFactory parameterFactory,
+   public Session createSession(final ClientSessionFactory parameterFactory,
                                       final int ackMode,
                                       final String user,
                                       final String pass,
@@ -1278,14 +1278,13 @@ public class HornetQResourceAdapter implements ResourceAdapter, Serializable
                                       final boolean useLocalTx,
                                       final Integer txTimeout) throws Exception
    {
-
-      ClientSession result;
+      Session result;
 
       // if we are CMP or BMP using local tx we ignore the ack mode as we are transactional
       if (deliveryTransacted || useLocalTx)
       {
          int actTxBatchSize = transactionBatchSize != null ? transactionBatchSize
-                                                          : HornetQClient.DEFAULT_ACK_BATCH_SIZE;
+                                                          : AMQClient.DEFAULT_ACK_BATCH_SIZE;
          if (useLocalTx)
          {
             result = parameterFactory.createSession(user, pass, false, false, false, false, actTxBatchSize);
@@ -1311,7 +1310,7 @@ public class HornetQResourceAdapter implements ResourceAdapter, Serializable
                   break;
                case Session.DUPS_OK_ACKNOWLEDGE:
                   int actDupsOkBatchSize = dupsOkBatchSize != null ? dupsOkBatchSize
-                                                                  : HornetQClient.DEFAULT_ACK_BATCH_SIZE;
+                                                                  : AMQClient.DEFAULT_ACK_BATCH_SIZE;
                   result = parameterFactory.createSession(user, pass, false, true, true, false, actDupsOkBatchSize);
                   break;
                default:
@@ -1320,7 +1319,7 @@ public class HornetQResourceAdapter implements ResourceAdapter, Serializable
          }
       }
 
-      HornetQResourceAdapter.log.debug("Using queue connection " + result);
+      AMQResourceAdapter.log.debug("Using queue connection " + result);
 
       return result;
 
@@ -1331,11 +1330,11 @@ public class HornetQResourceAdapter implements ResourceAdapter, Serializable
     *
     * @return The properties
     */
-   protected HornetQRAProperties getProperties()
+   protected AMQRAProperties getProperties()
    {
-      if (HornetQResourceAdapter.trace)
+      if (AMQResourceAdapter.trace)
       {
-         HornetQResourceAdapter.log.trace("getProperties()");
+         AMQResourceAdapter.log.trace("getProperties()");
       }
 
       return raProperties;
@@ -1344,7 +1343,7 @@ public class HornetQResourceAdapter implements ResourceAdapter, Serializable
    /**
     * Setup the factory
     */
-   protected void setup() throws HornetQException
+   protected void setup() throws AMQRAException
    {
 
 
@@ -1353,7 +1352,7 @@ public class HornetQResourceAdapter implements ResourceAdapter, Serializable
    }
 
 
-   public HornetQConnectionFactory getDefaultHornetQConnectionFactory() throws ResourceException
+   public AMQConnectionFactory getDefaultAMQConnectionFactory() throws ResourceException
    {
       if (!configured.getAndSet(true))
       {

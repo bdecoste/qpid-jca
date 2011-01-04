@@ -27,26 +27,26 @@ import org.slf4j.LoggerFactory;
  * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
  * @version $Revision: $
  */
-public class HornetQRALocalTransaction implements LocalTransaction
+public class AMQRALocalTransaction implements LocalTransaction
 {
    /** The logger */
-   private static final Logger log = LoggerFactory.getLogger(HornetQRALocalTransaction.class);
+   private static final Logger log = LoggerFactory.getLogger(AMQRALocalTransaction.class);
 
    /** Trace enabled */
-   private static boolean trace = HornetQRALocalTransaction.log.isTraceEnabled();
+   private static boolean trace = AMQRALocalTransaction.log.isTraceEnabled();
 
    /** The managed connection */
-   private final HornetQRAManagedConnection mc;
+   private final AMQRAManagedConnection mc;
 
    /**
     * Constructor
     * @param mc The managed connection
     */
-   public HornetQRALocalTransaction(final HornetQRAManagedConnection mc)
+   public AMQRALocalTransaction(final AMQRAManagedConnection mc)
    {
-      if (HornetQRALocalTransaction.trace)
+      if (AMQRALocalTransaction.trace)
       {
-         HornetQRALocalTransaction.log.trace("constructor(" + mc + ")");
+         AMQRALocalTransaction.log.trace("constructor(" + mc + ")");
       }
 
       this.mc = mc;
@@ -58,9 +58,9 @@ public class HornetQRALocalTransaction implements LocalTransaction
     */
    public void begin() throws ResourceException
    {
-      if (HornetQRALocalTransaction.trace)
+      if (AMQRALocalTransaction.trace)
       {
-         HornetQRALocalTransaction.log.trace("begin()");
+         AMQRALocalTransaction.log.trace("begin()");
       }
       
      // mc.setInManagedTx(true);
@@ -72,9 +72,9 @@ public class HornetQRALocalTransaction implements LocalTransaction
     */
    public void commit() throws ResourceException
    {
-      if (HornetQRALocalTransaction.trace)
+      if (AMQRALocalTransaction.trace)
       {
-         HornetQRALocalTransaction.log.trace("commit()");
+         AMQRALocalTransaction.log.trace("commit()");
       }
       
       mc.lock();
@@ -102,9 +102,9 @@ public class HornetQRALocalTransaction implements LocalTransaction
     */
    public void rollback() throws ResourceException
    {
-      if (HornetQRALocalTransaction.trace)
+      if (AMQRALocalTransaction.trace)
       {
-         HornetQRALocalTransaction.log.trace("rollback()");
+         AMQRALocalTransaction.log.trace("rollback()");
       }
       
       mc.lock();

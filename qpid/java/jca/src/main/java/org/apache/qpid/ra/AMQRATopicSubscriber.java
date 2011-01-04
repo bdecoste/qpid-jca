@@ -27,26 +27,26 @@ import org.slf4j.LoggerFactory;
  * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
  * @version $Revision: $
  */
-public class HornetQRATopicSubscriber extends HornetQRAMessageConsumer implements TopicSubscriber
+public class AMQRATopicSubscriber extends AMQRAMessageConsumer implements TopicSubscriber
 {
    /** The logger */
-   private static final Logger log = LoggerFactory.getLogger(HornetQRATopicSubscriber.class);
+   private static final Logger log = LoggerFactory.getLogger(AMQRATopicSubscriber.class);
 
    /** Whether trace is enabled */
-   private static boolean trace = HornetQRATopicSubscriber.log.isTraceEnabled();
+   private static boolean trace = AMQRATopicSubscriber.log.isTraceEnabled();
 
    /**
     * Create a new wrapper
     * @param consumer the topic subscriber
     * @param session the session
     */
-   public HornetQRATopicSubscriber(final TopicSubscriber consumer, final HornetQRASession session)
+   public AMQRATopicSubscriber(final TopicSubscriber consumer, final AMQRASession session)
    {
       super(consumer, session);
 
-      if (HornetQRATopicSubscriber.trace)
+      if (AMQRATopicSubscriber.trace)
       {
-         HornetQRATopicSubscriber.log.trace("constructor(" + consumer + ", " + session + ")");
+         AMQRATopicSubscriber.log.trace("constructor(" + consumer + ", " + session + ")");
       }
    }
 
@@ -57,9 +57,9 @@ public class HornetQRATopicSubscriber extends HornetQRAMessageConsumer implement
     */
    public boolean getNoLocal() throws JMSException
    {
-      if (HornetQRATopicSubscriber.trace)
+      if (AMQRATopicSubscriber.trace)
       {
-         HornetQRATopicSubscriber.log.trace("getNoLocal()");
+         AMQRATopicSubscriber.log.trace("getNoLocal()");
       }
 
       checkState();
@@ -73,9 +73,9 @@ public class HornetQRATopicSubscriber extends HornetQRAMessageConsumer implement
     */
    public Topic getTopic() throws JMSException
    {
-      if (HornetQRATopicSubscriber.trace)
+      if (AMQRATopicSubscriber.trace)
       {
-         HornetQRATopicSubscriber.log.trace("getTopic()");
+         AMQRATopicSubscriber.log.trace("getTopic()");
       }
 
       checkState();

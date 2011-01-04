@@ -32,14 +32,14 @@ import org.slf4j.LoggerFactory;
 import org.hornetq.jms.client.HornetQConnectionFactory;
 
 /**
- * HornetQ ManagedConectionFactory
+ * AMQ ManagedConectionFactory
  *
  * @author <a href="mailto:adrian@jboss.com">Adrian Brock</a>
  * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>.
  * @author <a href="mailto:andy.taylor@jboss.org">Andy Taylor</a>
  * @version $Revision: $
  */
-public class HornetQRAManagedConnectionFactory implements ManagedConnectionFactory, ResourceAdapterAssociation
+public class AMQRAManagedConnectionFactory implements ManagedConnectionFactory, ResourceAdapterAssociation
 {
    /**
     * Serial version UID
@@ -49,17 +49,17 @@ public class HornetQRAManagedConnectionFactory implements ManagedConnectionFacto
    /**
     * The logger
     */
-   private static final Logger log = LoggerFactory.getLogger(HornetQRAManagedConnectionFactory.class);
+   private static final Logger log = LoggerFactory.getLogger(AMQRAManagedConnectionFactory.class);
 
    /**
     * Trace enabled
     */
-   private static boolean trace = HornetQRAManagedConnectionFactory.log.isTraceEnabled();
+   private static boolean trace = AMQRAManagedConnectionFactory.log.isTraceEnabled();
 
    /**
     * The resource adapter
     */
-   private HornetQResourceAdapter ra;
+   private AMQResourceAdapter ra;
 
    /**
     * Connection manager
@@ -69,26 +69,26 @@ public class HornetQRAManagedConnectionFactory implements ManagedConnectionFacto
    /**
     * The managed connection factory properties
     */
-   private final HornetQRAMCFProperties mcfProperties;
+   private final AMQRAMCFProperties mcfProperties;
 
    /**
     * Connection Factory used if properties are set
     */
-   private HornetQConnectionFactory connectionFactory;
+   private AMQConnectionFactory connectionFactory;
 
    /**
     * Constructor
     */
-   public HornetQRAManagedConnectionFactory()
+   public AMQRAManagedConnectionFactory()
    {
-      if (HornetQRAManagedConnectionFactory.trace)
+      if (AMQRAManagedConnectionFactory.trace)
       {
-         HornetQRAManagedConnectionFactory.log.trace("constructor()");
+         AMQRAManagedConnectionFactory.log.trace("constructor()");
       }
 
       ra = null;
       cm = null;
-      mcfProperties = new HornetQRAMCFProperties();
+      mcfProperties = new AMQRAMCFProperties();
    }
 
    /**
@@ -99,12 +99,12 @@ public class HornetQRAManagedConnectionFactory implements ManagedConnectionFacto
     */
    public Object createConnectionFactory() throws ResourceException
    {
-      if (HornetQRAManagedConnectionFactory.trace)
+      if (AMQRAManagedConnectionFactory.trace)
       {
-         HornetQRAManagedConnectionFactory.log.debug("createConnectionFactory()");
+         AMQRAManagedConnectionFactory.log.debug("createConnectionFactory()");
       }
 
-      return createConnectionFactory(new HornetQRAConnectionManager());
+      return createConnectionFactory(new AMQRAConnectionManager());
    }
 
    /**
@@ -116,18 +116,18 @@ public class HornetQRAManagedConnectionFactory implements ManagedConnectionFacto
     */
    public Object createConnectionFactory(final ConnectionManager cxManager) throws ResourceException
    {
-      if (HornetQRAManagedConnectionFactory.trace)
+      if (AMQRAManagedConnectionFactory.trace)
       {
-         HornetQRAManagedConnectionFactory.log.trace("createConnectionFactory(" + cxManager + ")");
+         AMQRAManagedConnectionFactory.log.trace("createConnectionFactory(" + cxManager + ")");
       }
 
       cm = cxManager;
 
-      HornetQRAConnectionFactory cf = new HornetQRAConnectionFactoryImpl(this, cm);
+      AMQRAConnectionFactory cf = new AMQRAConnectionFactoryImpl(this, cm);
 
-      if (HornetQRAManagedConnectionFactory.trace)
+      if (AMQRAManagedConnectionFactory.trace)
       {
-         HornetQRAManagedConnectionFactory.log.trace("Created connection factory: " + cf +
+         AMQRAManagedConnectionFactory.log.trace("Created connection factory: " + cf +
                                                      ", using connection manager: " +
                                                      cm);
       }
@@ -145,29 +145,29 @@ public class HornetQRAManagedConnectionFactory implements ManagedConnectionFacto
     */
    public ManagedConnection createManagedConnection(final Subject subject, final ConnectionRequestInfo cxRequestInfo) throws ResourceException
    {
-      if (HornetQRAManagedConnectionFactory.trace)
+      if (AMQRAManagedConnectionFactory.trace)
       {
-         HornetQRAManagedConnectionFactory.log.trace("createManagedConnection(" + subject + ", " + cxRequestInfo + ")");
+         AMQRAManagedConnectionFactory.log.trace("createManagedConnection(" + subject + ", " + cxRequestInfo + ")");
       }
 
-      HornetQRAConnectionRequestInfo cri = getCRI((HornetQRAConnectionRequestInfo)cxRequestInfo);
+      AMQRAConnectionRequestInfo cri = getCRI((AMQRAConnectionRequestInfo)cxRequestInfo);
 
-      HornetQRACredential credential = HornetQRACredential.getCredential(this, subject, cri);
+      AMQRACredential credential = AMQRACredential.getCredential(this, subject, cri);
 
-      if (HornetQRAManagedConnectionFactory.trace)
+      if (AMQRAManagedConnectionFactory.trace)
       {
-         HornetQRAManagedConnectionFactory.log.trace("jms credential: " + credential);
+         AMQRAManagedConnectionFactory.log.trace("jms credential: " + credential);
       }
 
-      HornetQRAManagedConnection mc = new HornetQRAManagedConnection(this,
+      AMQRAManagedConnection mc = new AMQRAManagedConnection(this,
                                                                      cri,
                                                                      ra.getTM(),
                                                                      credential.getUserName(),
                                                                      credential.getPassword());
 
-      if (HornetQRAManagedConnectionFactory.trace)
+      if (AMQRAManagedConnectionFactory.trace)
       {
-         HornetQRAManagedConnectionFactory.log.trace("created new managed connection: " + mc);
+         AMQRAManagedConnectionFactory.log.trace("created new managed connection: " + mc);
       }
 
       return mc;
@@ -186,9 +186,9 @@ public class HornetQRAManagedConnectionFactory implements ManagedConnectionFacto
                                                     final Subject subject,
                                                     final ConnectionRequestInfo cxRequestInfo) throws ResourceException
    {
-      if (HornetQRAManagedConnectionFactory.trace)
+      if (AMQRAManagedConnectionFactory.trace)
       {
-         HornetQRAManagedConnectionFactory.log.trace("matchManagedConnections(" + connectionSet +
+         AMQRAManagedConnectionFactory.log.trace("matchManagedConnections(" + connectionSet +
                                                      ", " +
                                                      subject +
                                                      ", " +
@@ -196,12 +196,12 @@ public class HornetQRAManagedConnectionFactory implements ManagedConnectionFacto
                                                      ")");
       }
 
-      HornetQRAConnectionRequestInfo cri = getCRI((HornetQRAConnectionRequestInfo)cxRequestInfo);
-      HornetQRACredential credential = HornetQRACredential.getCredential(this, subject, cri);
+      AMQRAConnectionRequestInfo cri = getCRI((AMQRAConnectionRequestInfo)cxRequestInfo);
+      AMQRACredential credential = AMQRACredential.getCredential(this, subject, cri);
 
-      if (HornetQRAManagedConnectionFactory.trace)
+      if (AMQRAManagedConnectionFactory.trace)
       {
-         HornetQRAManagedConnectionFactory.log.trace("Looking for connection matching credentials: " + credential);
+         AMQRAManagedConnectionFactory.log.trace("Looking for connection matching credentials: " + credential);
       }
 
       Iterator connections = connectionSet.iterator();
@@ -210,9 +210,9 @@ public class HornetQRAManagedConnectionFactory implements ManagedConnectionFacto
       {
          Object obj = connections.next();
 
-         if (obj instanceof HornetQRAManagedConnection)
+         if (obj instanceof AMQRAManagedConnection)
          {
-            HornetQRAManagedConnection mc = (HornetQRAManagedConnection)obj;
+            AMQRAManagedConnection mc = (AMQRAManagedConnection)obj;
             ManagedConnectionFactory mcf = mc.getManagedConnectionFactory();
 
             if ((mc.getUserName() == null || mc.getUserName() != null && mc.getUserName()
@@ -220,9 +220,9 @@ public class HornetQRAManagedConnectionFactory implements ManagedConnectionFacto
             {
                if (cri.equals(mc.getCRI()))
                {
-                  if (HornetQRAManagedConnectionFactory.trace)
+                  if (AMQRAManagedConnectionFactory.trace)
                   {
-                     HornetQRAManagedConnectionFactory.log.trace("Found matching connection: " + mc);
+                     AMQRAManagedConnectionFactory.log.trace("Found matching connection: " + mc);
                   }
 
                   return mc;
@@ -231,9 +231,9 @@ public class HornetQRAManagedConnectionFactory implements ManagedConnectionFacto
          }
       }
 
-      if (HornetQRAManagedConnectionFactory.trace)
+      if (AMQRAManagedConnectionFactory.trace)
       {
-         HornetQRAManagedConnectionFactory.log.trace("No matching connection was found");
+         AMQRAManagedConnectionFactory.log.trace("No matching connection was found");
       }
 
       return null;
@@ -247,9 +247,9 @@ public class HornetQRAManagedConnectionFactory implements ManagedConnectionFacto
     */
    public void setLogWriter(final PrintWriter out) throws ResourceException
    {
-      if (HornetQRAManagedConnectionFactory.trace)
+      if (AMQRAManagedConnectionFactory.trace)
       {
-         HornetQRAManagedConnectionFactory.log.trace("setLogWriter(" + out + ")");
+         AMQRAManagedConnectionFactory.log.trace("setLogWriter(" + out + ")");
       }
    }
 
@@ -261,9 +261,9 @@ public class HornetQRAManagedConnectionFactory implements ManagedConnectionFacto
     */
    public PrintWriter getLogWriter() throws ResourceException
    {
-      if (HornetQRAManagedConnectionFactory.trace)
+      if (AMQRAManagedConnectionFactory.trace)
       {
-         HornetQRAManagedConnectionFactory.log.trace("getLogWriter()");
+         AMQRAManagedConnectionFactory.log.trace("getLogWriter()");
       }
 
       return null;
@@ -276,9 +276,9 @@ public class HornetQRAManagedConnectionFactory implements ManagedConnectionFacto
     */
    public ResourceAdapter getResourceAdapter()
    {
-      if (HornetQRAManagedConnectionFactory.trace)
+      if (AMQRAManagedConnectionFactory.trace)
       {
-         HornetQRAManagedConnectionFactory.log.trace("getResourceAdapter()");
+         AMQRAManagedConnectionFactory.log.trace("getResourceAdapter()");
       }
 
       return ra;
@@ -292,17 +292,17 @@ public class HornetQRAManagedConnectionFactory implements ManagedConnectionFacto
     */
    public void setResourceAdapter(final ResourceAdapter ra) throws ResourceException
    {
-      if (HornetQRAManagedConnectionFactory.trace)
+      if (AMQRAManagedConnectionFactory.trace)
       {
-         HornetQRAManagedConnectionFactory.log.trace("setResourceAdapter(" + ra + ")");
+         AMQRAManagedConnectionFactory.log.trace("setResourceAdapter(" + ra + ")");
       }
 
-      if (ra == null || !(ra instanceof HornetQResourceAdapter))
+      if (ra == null || !(ra instanceof AMQResourceAdapter))
       {
          throw new ResourceException("Resource adapter is " + ra);
       }
 
-      this.ra = (HornetQResourceAdapter)ra;
+      this.ra = (AMQResourceAdapter)ra;
    }
 
    /**
@@ -314,9 +314,9 @@ public class HornetQRAManagedConnectionFactory implements ManagedConnectionFacto
    @Override
    public boolean equals(final Object obj)
    {
-      if (HornetQRAManagedConnectionFactory.trace)
+      if (AMQRAManagedConnectionFactory.trace)
       {
-         HornetQRAManagedConnectionFactory.log.trace("equals(" + obj + ")");
+         AMQRAManagedConnectionFactory.log.trace("equals(" + obj + ")");
       }
 
       if (obj == null)
@@ -324,9 +324,9 @@ public class HornetQRAManagedConnectionFactory implements ManagedConnectionFacto
          return false;
       }
 
-      if (obj instanceof HornetQRAManagedConnectionFactory)
+      if (obj instanceof AMQRAManagedConnectionFactory)
       {
-         HornetQRAManagedConnectionFactory other = (HornetQRAManagedConnectionFactory)obj;
+         AMQRAManagedConnectionFactory other = (AMQRAManagedConnectionFactory)obj;
 
          return mcfProperties.equals(other.getProperties()) && ra.equals(other.getResourceAdapter());
       }
@@ -344,9 +344,9 @@ public class HornetQRAManagedConnectionFactory implements ManagedConnectionFacto
    @Override
    public int hashCode()
    {
-      if (HornetQRAManagedConnectionFactory.trace)
+      if (AMQRAManagedConnectionFactory.trace)
       {
-         HornetQRAManagedConnectionFactory.log.trace("hashCode()");
+         AMQRAManagedConnectionFactory.log.trace("hashCode()");
       }
 
       int hash = mcfProperties.hashCode();
@@ -362,9 +362,9 @@ public class HornetQRAManagedConnectionFactory implements ManagedConnectionFacto
     */
    public String getSessionDefaultType()
    {
-      if (HornetQRAManagedConnectionFactory.trace)
+      if (AMQRAManagedConnectionFactory.trace)
       {
-         HornetQRAManagedConnectionFactory.log.trace("getSessionDefaultType()");
+         AMQRAManagedConnectionFactory.log.trace("getSessionDefaultType()");
       }
 
       return mcfProperties.getSessionDefaultType();
@@ -377,9 +377,9 @@ public class HornetQRAManagedConnectionFactory implements ManagedConnectionFacto
     */
    public void setSessionDefaultType(final String type)
    {
-      if (HornetQRAManagedConnectionFactory.trace)
+      if (AMQRAManagedConnectionFactory.trace)
       {
-         HornetQRAManagedConnectionFactory.log.trace("setSessionDefaultType(" + type + ")");
+         AMQRAManagedConnectionFactory.log.trace("setSessionDefaultType(" + type + ")");
       }
 
       mcfProperties.setSessionDefaultType(type);
@@ -718,9 +718,9 @@ public class HornetQRAManagedConnectionFactory implements ManagedConnectionFacto
     */
    public Integer getUseTryLock()
    {
-      if (HornetQRAManagedConnectionFactory.trace)
+      if (AMQRAManagedConnectionFactory.trace)
       {
-         HornetQRAManagedConnectionFactory.log.trace("getUseTryLock()");
+         AMQRAManagedConnectionFactory.log.trace("getUseTryLock()");
       }
 
       return mcfProperties.getUseTryLock();
@@ -733,9 +733,9 @@ public class HornetQRAManagedConnectionFactory implements ManagedConnectionFacto
     */
    public void setUseTryLock(final Integer useTryLock)
    {
-      if (HornetQRAManagedConnectionFactory.trace)
+      if (AMQRAManagedConnectionFactory.trace)
       {
-         HornetQRAManagedConnectionFactory.log.trace("setUseTryLock(" + useTryLock + ")");
+         AMQRAManagedConnectionFactory.log.trace("setUseTryLock(" + useTryLock + ")");
       }
 
       mcfProperties.setUseTryLock(useTryLock);
@@ -748,12 +748,12 @@ public class HornetQRAManagedConnectionFactory implements ManagedConnectionFacto
     */
    public ConnectionMetaData getMetaData()
    {
-      if (HornetQRAManagedConnectionFactory.trace)
+      if (AMQRAManagedConnectionFactory.trace)
       {
-         HornetQRAManagedConnectionFactory.log.trace("getMetadata()");
+         AMQRAManagedConnectionFactory.log.trace("getMetadata()");
       }
 
-      return new HornetQRAConnectionMetaData();
+      return new AMQRAConnectionMetaData();
    }
 
    /**
@@ -761,7 +761,7 @@ public class HornetQRAManagedConnectionFactory implements ManagedConnectionFacto
     *
     * @return The factory
     */
-   protected synchronized HornetQConnectionFactory getHornetQConnectionFactory() throws ResourceException
+   protected synchronized AMQConnectionFactory getAMQConnectionFactory() throws ResourceException
    {
 
       if (connectionFactory == null)
@@ -776,11 +776,11 @@ public class HornetQRAManagedConnectionFactory implements ManagedConnectionFacto
     *
     * @return The properties
     */
-   protected HornetQRAMCFProperties getProperties()
+   protected AMQRAMCFProperties getProperties()
    {
-      if (HornetQRAManagedConnectionFactory.trace)
+      if (AMQRAManagedConnectionFactory.trace)
       {
-         HornetQRAManagedConnectionFactory.log.trace("getProperties()");
+         AMQRAManagedConnectionFactory.log.trace("getProperties()");
       }
 
       return mcfProperties;
@@ -792,17 +792,17 @@ public class HornetQRAManagedConnectionFactory implements ManagedConnectionFacto
     * @param info The instance that should be updated; may be <code>null</code>
     * @return The instance
     */
-   private HornetQRAConnectionRequestInfo getCRI(final HornetQRAConnectionRequestInfo info)
+   private AMQRAConnectionRequestInfo getCRI(final AMQRAConnectionRequestInfo info)
    {
-      if (HornetQRAManagedConnectionFactory.trace)
+      if (AMQRAManagedConnectionFactory.trace)
       {
-         HornetQRAManagedConnectionFactory.log.trace("getCRI(" + info + ")");
+         AMQRAManagedConnectionFactory.log.trace("getCRI(" + info + ")");
       }
 
       if (info == null)
       {
          // Create a default one
-         return new HornetQRAConnectionRequestInfo(ra.getProperties(), mcfProperties.getType());
+         return new AMQRAConnectionRequestInfo(ra.getProperties(), mcfProperties.getType());
       }
       else
       {

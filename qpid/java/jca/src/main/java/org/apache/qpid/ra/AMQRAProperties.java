@@ -25,16 +25,16 @@ import org.slf4j.LoggerFactory;
  * @author <a href="mailto:andy.taylor@jboss.org">Andy Taylor</a>
  * @version $Revision: $
  */
-public class HornetQRAProperties extends ConnectionFactoryProperties implements Serializable
+public class AMQRAProperties extends ConnectionFactoryProperties implements Serializable
 {
    /** Serial version UID */
    static final long serialVersionUID = -2772367477755473248L;
 
    /** The logger */
-   private static final Logger log = LoggerFactory.getLogger(HornetQRAProperties.class);
+   private static final Logger log = LoggerFactory.getLogger(AMQRAProperties.class);
 
    /** Trace enabled */
-   private static boolean trace = HornetQRAProperties.log.isTraceEnabled();
+   private static boolean trace = AMQRAProperties.log.isTraceEnabled();
 
    /** The user name */
    private String userName;
@@ -64,11 +64,11 @@ public class HornetQRAProperties extends ConnectionFactoryProperties implements 
    /**
     * Constructor
     */
-   public HornetQRAProperties()
+   public AMQRAProperties()
    {
-      if (HornetQRAProperties.trace)
+      if (AMQRAProperties.trace)
       {
-         HornetQRAProperties.log.trace("constructor()");
+         AMQRAProperties.log.trace("constructor()");
       }
    }
 
@@ -78,9 +78,9 @@ public class HornetQRAProperties extends ConnectionFactoryProperties implements 
     */
    public String getUserName()
    {
-      if (HornetQRAProperties.trace)
+      if (AMQRAProperties.trace)
       {
-         HornetQRAProperties.log.trace("getUserName()");
+         AMQRAProperties.log.trace("getUserName()");
       }
 
       return userName;
@@ -92,9 +92,9 @@ public class HornetQRAProperties extends ConnectionFactoryProperties implements 
     */
    public void setUserName(final String userName)
    {
-      if (HornetQRAProperties.trace)
+      if (AMQRAProperties.trace)
       {
-         HornetQRAProperties.log.trace("setUserName(" + userName + ")");
+         AMQRAProperties.log.trace("setUserName(" + userName + ")");
       }
 
       this.userName = userName;
@@ -106,9 +106,9 @@ public class HornetQRAProperties extends ConnectionFactoryProperties implements 
     */
    public String getPassword()
    {
-      if (HornetQRAProperties.trace)
+      if (AMQRAProperties.trace)
       {
-         HornetQRAProperties.log.trace("getPassword()");
+         AMQRAProperties.log.trace("getPassword()");
       }
 
       return password;
@@ -120,9 +120,9 @@ public class HornetQRAProperties extends ConnectionFactoryProperties implements 
     */
    public void setPassword(final String password)
    {
-      if (HornetQRAProperties.trace)
+      if (AMQRAProperties.trace)
       {
-         HornetQRAProperties.log.trace("setPassword(****)");
+         AMQRAProperties.log.trace("setPassword(****)");
       }
 
       this.password = password;
@@ -134,9 +134,9 @@ public class HornetQRAProperties extends ConnectionFactoryProperties implements 
     */
    public Boolean getUseLocalTx()
    {
-      if (HornetQRAProperties.trace)
+      if (AMQRAProperties.trace)
       {
-         HornetQRAProperties.log.trace("getUseLocalTx()");
+         AMQRAProperties.log.trace("getUseLocalTx()");
       }
 
       return localTx;
@@ -148,9 +148,9 @@ public class HornetQRAProperties extends ConnectionFactoryProperties implements 
     */
    public void setUseLocalTx(final Boolean localTx)
    {
-      if (HornetQRAProperties.trace)
+      if (AMQRAProperties.trace)
       {
-         HornetQRAProperties.log.trace("setUseLocalTx(" + localTx + ")");
+         AMQRAProperties.log.trace("setUseLocalTx(" + localTx + ")");
       }
 
       this.localTx = localTx;
@@ -200,7 +200,7 @@ public class HornetQRAProperties extends ConnectionFactoryProperties implements 
    @Override
    public String toString()
    {
-      return "HornetQRAProperties[localTx=" + localTx +
+      return "AMQRAProperties[localTx=" + localTx +
          ", userName=" + userName + ", password=" + password + "]";
    }
 }

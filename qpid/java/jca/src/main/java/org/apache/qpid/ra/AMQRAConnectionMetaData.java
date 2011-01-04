@@ -14,10 +14,11 @@
 package org.apache.qpid.ra;
 
 import java.util.Enumeration;
-import java.util.Vector;
 
 import javax.jms.ConnectionMetaData;
 
+import org.apache.qpid.client.CustomJMSXProperty;
+import org.apache.qpid.common.QpidProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,7 +35,11 @@ public class AMQRAConnectionMetaData implements ConnectionMetaData
    private static final Logger log = LoggerFactory.getLogger(AMQRAConnectionMetaData.class);
 
    /** Trace enabled */
-   private static boolean trace = HornetQRAConnectionMetaData.log.isTraceEnabled();
+   private static boolean trace = AMQRAConnectionMetaData.log.isTraceEnabled();
+   
+   private static final String PROVIDER_VERSION ;
+   private static final int PROVIDER_MAJOR ;
+   private static final int PROVIDER_MINOR ;
 
    /**
     * Constructor
@@ -100,7 +105,7 @@ public class AMQRAConnectionMetaData implements ConnectionMetaData
          AMQRAConnectionMetaData.log.trace("getJMSProviderName()");
       }
 
-      return "HornetQ";
+      return QpidProperties.getProductName() + " Resource Adapter" ;
    }
 
    /**
@@ -114,7 +119,7 @@ public class AMQRAConnectionMetaData implements ConnectionMetaData
          AMQRAConnectionMetaData.log.trace("getProviderVersion()");
       }
 
-      return "2.1";
+      return PROVIDER_VERSION ;
    }
 
    /**
@@ -128,7 +133,7 @@ public class AMQRAConnectionMetaData implements ConnectionMetaData
          AMQRAConnectionMetaData.log.trace("getProviderMajorVersion()");
       }
 
-      return 2;
+      return PROVIDER_MAJOR ;
    }
 
    /**
@@ -142,7 +147,7 @@ public class AMQRAConnectionMetaData implements ConnectionMetaData
          AMQRAConnectionMetaData.log.trace("getProviderMinorVersion()");
       }
 
-      return 1;
+      return PROVIDER_MINOR ;
    }
 
    /**
@@ -151,10 +156,38 @@ public class AMQRAConnectionMetaData implements ConnectionMetaData
     */
    public Enumeration<Object> getJMSXPropertyNames()
    {
-      Vector v = new Vector();
-      v.add("JMSXGroupID");
-      v.add("JMSXGroupSeq");
-      v.add("JMSXDeliveryCount");
-      return v.elements();
+       return CustomJMSXProperty.asEnumeration();
+   }
+   
+   static
+   {
+	   final String version = QpidProperties.getReleaseVersion() ;
+	   int major = -1 ;
+	   int minor = -1 ;
+	   if (version != null)
+	   {
+		   final int separator = version.indexOf('.') ;
+		   if (separator != -1)
+		   {
+			   major = parseInt(version.substring(0, separator), "major") ;
+			   minor = parseInt(version.substring(separator+1, version.length()), "minor") ;
+		   }
+	   }
+	   PROVIDER_VERSION = version ;
+	   PROVIDER_MAJOR = major ;
+	   PROVIDER_MINOR = minor ;
+   }
+   
+   private static int parseInt(final String value, final String name)
+   {
+	   try
+	   {
+		   return Integer.parseInt(value) ;
+	   }
+	   catch (final NumberFormatException nfe)
+	   {
+		   log.warn("Failed to parse " + name + ": " + value) ;
+		   return -1 ;
+	   }
    }
 }

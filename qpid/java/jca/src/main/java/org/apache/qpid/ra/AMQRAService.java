@@ -23,7 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * A HornetQRAService ensures that HornetQ Resource Adapter will be stopped *before* the HornetQ server.
+ * A AMQRAService ensures that AMQ Resource Adapter will be stopped *before* the AMQ server.
  * https://jira.jboss.org/browse/HORNETQ-339
  *
  * @author <a href="mailto:jmesnil@redhat.com">Jeff Mesnil</a>
@@ -73,7 +73,7 @@ public class AMQRAService
       }
       catch (Exception e)
       {
-         log.error("Unable to stop HornetQ resource adapter.", e);
+         log.error("Unable to stop AMQ resource adapter.", e);
       }
    }
 

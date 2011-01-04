@@ -13,6 +13,8 @@
 
 package org.apache.qpid.ra;
 
+import java.io.IOException;
+
 import javax.jms.Connection;
 import javax.jms.JMSException;
 import javax.jms.QueueConnection;
@@ -20,14 +22,12 @@ import javax.jms.TopicConnection;
 import javax.jms.XAConnection;
 import javax.jms.XAQueueConnection;
 import javax.jms.XATopicConnection;
-import javax.naming.NamingException;
+import javax.naming.BinaryRefAddr;
 import javax.naming.Reference;
 import javax.resource.spi.ConnectionManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.hornetq.jms.referenceable.ConnectionFactoryObjectFactory;
-import org.hornetq.jms.referenceable.SerializableObjectRefAddr;
 
 /**
  * The connection factory
@@ -119,11 +119,11 @@ public class AMQRAConnectionFactoryImpl implements AMQRAConnectionFactory
          try
          {
             reference = new Reference(this.getClass().getCanonicalName(),
-                                      new SerializableObjectRefAddr("HornetQ-CF", this),
+                                      new BinaryRefAddr("AMQ-CF", Util.serialize(this)),
                                       ConnectionFactoryObjectFactory.class.getCanonicalName(),
                                       null);
          }
-         catch (NamingException e)
+         catch (final IOException ioe)
          {
             AMQRAConnectionFactoryImpl.log.error("Error while giving object Reference.", ioe);
          }

@@ -63,7 +63,7 @@ public class AMQRAMetaData implements ManagedConnectionMetaData
          AMQRAMetaData.log.trace("getEISProductName()");
       }
 
-      return "HornetQ";
+      return "AMQ";
    }
 
    /**

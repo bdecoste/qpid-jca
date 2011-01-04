@@ -12,9 +12,6 @@
  */
 package org.apache.qpid.ra.inflow;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.jms.Session;
 import javax.resource.ResourceException;
 import javax.resource.spi.ActivationSpec;
@@ -24,8 +21,7 @@ import javax.resource.spi.ResourceAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.qpid.ra.ConnectionFactoryProperties;
-import org.apache.qpid.ra.HornetQResourceAdapter;
-import org.apache.qpid.ra.Util;
+import org.apache.qpid.ra.AMQResourceAdapter;
 
 /**
  * The activation spec
@@ -47,8 +43,8 @@ public class AMQActivationSpec extends ConnectionFactoryProperties implements Ac
    /** Whether trace is enabled */
    private static boolean trace = AMQActivationSpec.log.isTraceEnabled();
 
-   /** The transport config, changing the default configured from the RA */
-   private Map<String, Object> connectionParameters = new HashMap<String, Object>();
+//   /** The transport config, changing the default configured from the RA */
+//   private Map<String, Object> connectionParameters = new HashMap<String, Object>();
 
    public String strConnectionParameters;
 
@@ -608,25 +604,25 @@ public class AMQActivationSpec extends ConnectionFactoryProperties implements Ac
       }
    }
 
-   /**
-    * @return the connectionParameters
-    */
-   public String getConnectionParameters()
-   {
-      return strConnectionParameters;
-   }
+//   /**
+//    * @return the connectionParameters
+//    */
+//   public String getConnectionParameters()
+//   {
+//      return strConnectionParameters;
+//   }
 
-   @Override
-   public Map<String, Object> getParsedConnectionParameters()
-   {
-      return connectionParameters;
-   }
+//   @Override
+//   public Map<String, Object> getParsedConnectionParameters()
+//   {
+//      return connectionParameters;
+//   }
 
-   public void setConnectionParameters(final String configuration)
-   {
-      strConnectionParameters = configuration;
-      connectionParameters = Util.parseConfig(configuration);
-   }
+//   public void setConnectionParameters(final String configuration)
+//   {
+//      strConnectionParameters = configuration;
+//      connectionParameters = Util.parseConfig(configuration);
+//   }
 
    /**
     * Get a string representation

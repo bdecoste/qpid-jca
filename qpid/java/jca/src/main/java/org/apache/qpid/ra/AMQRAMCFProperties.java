@@ -99,33 +99,19 @@ public class AMQRAMCFProperties extends ConnectionFactoryProperties implements S
       return type;
    }
 
-   /**
-    * @return the connectionParameters
-    */
-   public String getStrConnectionParameters()
-   {
-      return strConnectionParameters;
-   }
-
-   public void setConnectionParameters(final String configuration)
-   {
-      strConnectionParameters = configuration;
-      setParsedConnectionParameters(Util.parseConfig(configuration));
-   }
-
-   /**
-    * @return the connectionParameters
-    */
-   public String getBackupConnectionParameters()
-   {
-      return strBackupConnectionParameters;
-   }
-
-   public void setBackupConnectionParameters(final String configuration)
-   {
-      strBackupConnectionParameters = configuration;
-      setParsedBackupConnectionParameters(Util.parseConfig(configuration));
-   }
+//   /**
+//    * @return the connectionParameters
+//    */
+//   public String getStrConnectionParameters()
+//   {
+//      return strConnectionParameters;
+//   }
+//
+//   public void setConnectionParameters(final String configuration)
+//   {
+//      strConnectionParameters = configuration;
+//      setParsedConnectionParameters(Util.parseConfig(configuration));
+//   }
 
    /**
     * Set the default session type.

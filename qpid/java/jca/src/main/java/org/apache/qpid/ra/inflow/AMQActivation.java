@@ -21,6 +21,7 @@ import javax.jms.Destination;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.Queue;
+import javax.jms.Session;
 import javax.jms.Topic;
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -29,17 +30,15 @@ import javax.resource.spi.endpoint.MessageEndpointFactory;
 import javax.resource.spi.work.Work;
 import javax.resource.spi.work.WorkManager;
 
-import org.hornetq.api.core.HornetQException;
-import org.hornetq.api.core.SimpleString;
-import org.hornetq.api.core.client.ClientSession;
-import org.hornetq.jms.client.HornetQConnectionFactory;
-import org.hornetq.jms.client.HornetQDestination;
-import org.hornetq.api.jms.HornetQJMSClient;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.apache.qpid.ra.HornetQResourceAdapter;
+import org.apache.qpid.client.AMQConnectionFactory;
+import org.apache.qpid.client.AMQDestination;
+import org.apache.qpid.client.BasicMessageConsumer;
+import org.apache.qpid.client.BasicMessageProducer;
+import org.apache.qpid.framing.AMQShortString;
+import org.apache.qpid.ra.AMQResourceAdapter;
 import org.apache.qpid.ra.Util;
 
 /**
@@ -284,14 +283,13 @@ public class AMQActivation
       setupDestination();
       for (int i = 0; i < spec.getMaxSession(); i++)
       {
-         ClientSession session = null;
+         Session session = null;
 
          try
          {
             session = setupSession();
             AMQMessageHandler handler = new AMQMessageHandler(this, ra.getTM(), session, i);
             handler.setup();
-            session.start();
             handlers.add(handler);
          }
          catch (Exception e)
@@ -321,7 +319,7 @@ public class AMQActivation
       }
       if (spec.isHasBeenUpdated())
       {
-         factory.close();
+//         factory.close();   KEV
          factory = null;
       }
       AMQActivation.log.debug("Tearing down complete " + this);
@@ -344,13 +342,13 @@ public class AMQActivation
     * @return The connection
     * @throws Exception Thrown if an error occurs
     */
-   protected ClientSession setupSession() throws Exception
+   protected Session setupSession() throws Exception
    {
-      ClientSession result = null;
+      Session result = null;
 
       try
       {
-         result = ra.createSession(factory.getCoreFactory(),
+         result = ra.createSession(factory.getServerLocator().createSessionFactory(),
                                    spec.getAcknowledgeModeInt(),
                                    spec.getUser(),
                                    spec.getPassword(),
@@ -386,7 +384,7 @@ public class AMQActivation
       }
    }
 
-   public SimpleString getAddress()
+   public AMQShortString getAddress()
    {
       return destination.getSimpleAddress();
    }
@@ -504,7 +502,7 @@ public class AMQActivation
     */
    public void handleFailure(Throwable failure)
    {
-      if(failure instanceof HornetQException && ((HornetQException)failure).getCode() == HornetQException.QUEUE_DOES_NOT_EXIST)
+      if(doesNotExist(failure))
       {
          log.info("awaiting topic/queue creation " + getActivationSpec().getDestination());
       }
@@ -539,12 +537,12 @@ public class AMQActivation
             try
             {
                setup();
-               log.info("Reconnected with HornetQ");            
+               log.info("Reconnected with AMQ");            
                break;
             }
             catch (Throwable t)
             {
-               if(failure instanceof HornetQException && ((HornetQException)failure).getCode() == HornetQException.QUEUE_DOES_NOT_EXIST)
+               if(doesNotExist(failure))
                {
                   log.info("awaiting topic/queue creation " + getActivationSpec().getDestination());
                }
@@ -563,6 +561,18 @@ public class AMQActivation
       }
    }
    
+   /**
+    * Check to see if the failure represents a missing endpoint
+    * @param failure The failure.
+    * @return true if it represents a missing endpoint, false otherwise
+    */
+   private boolean doesNotExist(final Throwable failure)
+   {
+//      KEV - investigate qpid alternative if necessary
+//      return (failure instanceof AMQException && ((AMQException)failure).getCode() == AMQException.QUEUE_DOES_NOT_EXIST) ;
+      return false ;
+   }
+
    /**
     * Handles the setup
     */

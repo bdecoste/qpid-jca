@@ -15,23 +15,22 @@ package org.apache.qpid.ra.inflow;
 import java.util.UUID;
 
 import javax.jms.InvalidClientIDException;
+import javax.jms.JMSException;
 import javax.jms.MessageListener;
 import javax.resource.ResourceException;
 import javax.resource.spi.endpoint.MessageEndpoint;
 import javax.resource.spi.endpoint.MessageEndpointFactory;
 import javax.transaction.TransactionManager;
 
-import org.hornetq.api.core.HornetQException;
-import org.hornetq.api.core.SimpleString;
-import org.hornetq.api.core.client.ClientConsumer;
-import org.hornetq.api.core.client.ClientMessage;
-import org.hornetq.api.core.client.ClientSession;
-import org.hornetq.api.core.client.MessageHandler;
-import org.hornetq.api.core.client.ClientSession.QueueQuery;
+import org.apache.qpid.client.AMQDestination;
+import org.apache.qpid.client.AMQSession;
+import org.apache.qpid.client.BasicMessageConsumer;
+import org.apache.qpid.client.BasicMessageProducer;
+import org.apache.qpid.framing.AMQShortString;
+import org.apache.qpid.jms.Message;
+import org.apache.qpid.jms.MessageConsumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.hornetq.jms.client.HornetQDestination;
-import org.hornetq.jms.client.HornetQMessage;
 
 /**
  * The message handler
@@ -56,9 +55,9 @@ public class AMQMessageHandler implements MessageListener
    /**
     * The session
     */
-   private final ClientSession session;
+   private final AMQSession<BasicMessageConsumer<?>, BasicMessageProducer> session;
 
-   private ClientConsumer consumer;
+   private MessageConsumer consumer;
 
    /**
     * The endpoint
@@ -77,7 +76,7 @@ public class AMQMessageHandler implements MessageListener
 
    public AMQMessageHandler(final AMQActivation activation,
                                 final TransactionManager tm,
-                                final ClientSession session,
+                                final AMQSession<BasicMessageConsumer<?>, BasicMessageProducer> session,
                                 final int sessionNr)
    {
       this.activation = activation;
@@ -186,7 +185,7 @@ public class AMQMessageHandler implements MessageListener
       {
          endpoint = endpointFactory.createEndpoint(null);
       }
-      consumer.setMessageHandler(this);
+      consumer.setMessageListener(this);
    }
 
    /**
@@ -244,14 +243,13 @@ public class AMQMessageHandler implements MessageListener
       }
    }
 
-   public void onMessage(final ClientMessage message)
+   public void onMessage(final Message message)
    {
       if (AMQMessageHandler.trace)
       {
          AMQMessageHandler.log.trace("onMessage(" + message + ")");
       }
 
-      HornetQMessage msg = HornetQMessage.createMessage(message, session);
       boolean beforeDelivery = false;
 
       try
@@ -262,7 +260,6 @@ public class AMQMessageHandler implements MessageListener
          }
          endpoint.beforeDelivery(AMQActivation.ONMESSAGE);
          beforeDelivery = true;
-         msg.doBeforeReceive();
          
          //In the transacted case the message must be acked *before* onMessage is called
          
@@ -271,7 +268,7 @@ public class AMQMessageHandler implements MessageListener
             message.acknowledge();
          }
          
-         ((MessageListener)endpoint).onMessage(msg);
+         ((MessageListener)endpoint).onMessage(message);
          
          if (!transacted)
          {
@@ -311,9 +308,9 @@ public class AMQMessageHandler implements MessageListener
          {
             try
             {
-               session.rollback(true);
+               session.rollback();
             }
-            catch (HornetQException e1)
+            catch (JMSException e1)
             {
                AMQMessageHandler.log.warn("Unable to roll local transaction back", e1);
             }

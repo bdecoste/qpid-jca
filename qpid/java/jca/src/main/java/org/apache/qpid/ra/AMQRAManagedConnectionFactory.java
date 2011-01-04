@@ -27,9 +27,10 @@ import javax.resource.spi.ResourceAdapter;
 import javax.resource.spi.ResourceAdapterAssociation;
 import javax.security.auth.Subject;
 
+import org.apache.qpid.client.AMQConnectionFactory;
+import org.apache.qpid.client.SSLConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.hornetq.jms.client.HornetQConnectionFactory;
 
 /**
  * AMQ ManagedConectionFactory
@@ -385,101 +386,18 @@ public class AMQRAManagedConnectionFactory implements ManagedConnectionFactory, 
       mcfProperties.setSessionDefaultType(type);
    }
 
-   /**
-    * @return the connectionParameters
-    */
-   public String getConnectionParameters()
-   {
-      return mcfProperties.getStrConnectionParameters();
-   }
-
-   public void setConnectionParameters(final String configuration)
-   {
-      mcfProperties.setConnectionParameters(configuration);
-   }
-
-   public String getBackupConnectorClassName()
-   {
-      return mcfProperties.getBackupConnectorClassName();
-   }
-
-   public void setBackupConnectorClassName(final String backupConnectorClassName)
-   {
-      mcfProperties.setBackupConnectorClassName(backupConnectorClassName);
-   }
-
-   public String getBackupConnectionParameters()
-   {
-      return mcfProperties.getBackupConnectionParameters();
-   }
-
-   public void setBackupConnectionParameters(final String configuration)
-   {
-      mcfProperties.setBackupConnectionParameters(configuration);
-   }
-
-   /**
-    * @return the transportType
-    */
-   public String getConnectorClassName()
-   {
-      return mcfProperties.getConnectorClassName();
-   }
-
-   public void setConnectorClassName(final String value)
-   {
-      mcfProperties.setConnectorClassName(value);
-   }
-
-   public String getConnectionLoadBalancingPolicyClassName()
-   {
-      return mcfProperties.getConnectionLoadBalancingPolicyClassName();
-   }
-
-   public void setConnectionLoadBalancingPolicyClassName(final String connectionLoadBalancingPolicyClassName)
-   {
-      mcfProperties.setConnectionLoadBalancingPolicyClassName(connectionLoadBalancingPolicyClassName);
-   }
-
-   public String getDiscoveryAddress()
-   {
-      return mcfProperties.getDiscoveryAddress();
-   }
-
-   public void setDiscoveryAddress(final String discoveryAddress)
-   {
-      mcfProperties.setDiscoveryAddress(discoveryAddress);
-   }
-
-   public Integer getDiscoveryPort()
-   {
-      return mcfProperties.getDiscoveryPort();
-   }
-
-   public void setDiscoveryPort(final Integer discoveryPort)
-   {
-      mcfProperties.setDiscoveryPort(discoveryPort);
-   }
-
-   public Long getDiscoveryRefreshTimeout()
-   {
-      return mcfProperties.getDiscoveryRefreshTimeout();
-   }
-
-   public void setDiscoveryRefreshTimeout(final Long discoveryRefreshTimeout)
-   {
-      mcfProperties.setDiscoveryRefreshTimeout(discoveryRefreshTimeout);
-   }
-
-   public Long getDiscoveryInitialWaitTimeout()
-   {
-      return mcfProperties.getDiscoveryInitialWaitTimeout();
-   }
-
-   public void setDiscoveryInitialWaitTimeout(final Long discoveryInitialWaitTimeout)
-   {
-      mcfProperties.setDiscoveryInitialWaitTimeout(discoveryInitialWaitTimeout);
-   }
+//   /**
+//    * @return the connectionParameters
+//    */
+//   public String getConnectionParameters()
+//   {
+//      return mcfProperties.getStrConnectionParameters();
+//   }
+//
+//   public void setConnectionParameters(final String configuration)
+//   {
+//      mcfProperties.setConnectionParameters(configuration);
+//   }
 
    public String getClientID()
    {
@@ -490,225 +408,176 @@ public class AMQRAManagedConnectionFactory implements ManagedConnectionFactory, 
    {
       mcfProperties.setClientID(clientID);
    }
-
-   public Integer getDupsOKBatchSize()
+   public String getConnectionURL()
    {
-      return mcfProperties.getDupsOKBatchSize();
+      return mcfProperties.getConnectionURL() ;
    }
 
-   public void setDupsOKBatchSize(final Integer dupsOKBatchSize)
+   public void setConnectionURL(final String connectionURL)
    {
-      mcfProperties.setDupsOKBatchSize(dupsOKBatchSize);
+      mcfProperties.setConnectionURL(connectionURL);
    }
 
-   public Integer getTransactionBatchSize()
+   public String getDefaultPassword()
    {
-      return mcfProperties.getTransactionBatchSize();
+      if (AMQRAManagedConnectionFactory.trace)
+      {
+         AMQRAManagedConnectionFactory.log.trace("getDefaultPassword()");
+      }
+      return mcfProperties.getDefaultPassword();
    }
 
-   public void setTransactionBatchSize(final Integer transactionBatchSize)
+   public void setDefaultPassword(final String defaultPassword)
    {
-      mcfProperties.setTransactionBatchSize(transactionBatchSize);
+      if (AMQRAManagedConnectionFactory.trace)
+      {
+         AMQRAManagedConnectionFactory.log.trace("setDefaultPassword(" + defaultPassword + ")");
+      }
+      mcfProperties.setDefaultPassword(defaultPassword);
    }
 
-   public Long getClientFailureCheckPeriod()
+   public String getDefaultUsername()
    {
-      return mcfProperties.getClientFailureCheckPeriod();
+      if (AMQRAManagedConnectionFactory.trace)
+      {
+         AMQRAManagedConnectionFactory.log.trace("getDefaultUsername()");
+      }
+      return mcfProperties.getDefaultUsername();
    }
 
-   public void setClientFailureCheckPeriod(final Long clientFailureCheckPeriod)
+   public void setDefaultUsername(final String defaultUsername)
    {
-      mcfProperties.setClientFailureCheckPeriod(clientFailureCheckPeriod);
+      if (AMQRAManagedConnectionFactory.trace)
+      {
+         AMQRAManagedConnectionFactory.log.trace("setDefaultUsername(" + defaultUsername + ")");
+      }
+      mcfProperties.setDefaultUsername(defaultUsername);
    }
 
-   public Long getConnectionTTL()
+   public String getHost()
    {
-      return mcfProperties.getConnectionTTL();
+      if (AMQRAManagedConnectionFactory.trace)
+      {
+         AMQRAManagedConnectionFactory.log.trace("getHost()");
+      }
+      return mcfProperties.getHost();
    }
 
-   public void setConnectionTTL(final Long connectionTTL)
+   public void setHost(final String host)
    {
-      mcfProperties.setConnectionTTL(connectionTTL);
+      if (AMQRAManagedConnectionFactory.trace)
+      {
+         AMQRAManagedConnectionFactory.log.trace("setHost(" + host + ")");
+      }
+      mcfProperties.setHost(host);
    }
 
-   public Long getCallTimeout()
+   public Integer getPort()
    {
-      return mcfProperties.getCallTimeout();
+      if (AMQRAManagedConnectionFactory.trace)
+      {
+         AMQRAManagedConnectionFactory.log.trace("getPort()");
+      }
+      return mcfProperties.getPort();
    }
 
-   public void setCallTimeout(final Long callTimeout)
+   public void setPort(final Integer port)
    {
-      mcfProperties.setCallTimeout(callTimeout);
+      if (AMQRAManagedConnectionFactory.trace)
+      {
+         AMQRAManagedConnectionFactory.log.trace("setPort(" + port + ")");
+      }
+      mcfProperties.setPort(port);
    }
 
-   public Integer getConsumerWindowSize()
+   public String getPath()
    {
-      return mcfProperties.getConsumerWindowSize();
+      if (AMQRAManagedConnectionFactory.trace)
+      {
+         AMQRAManagedConnectionFactory.log.trace("getPath()");
+      }
+      return mcfProperties.getPath();
    }
 
-   public void setConsumerWindowSize(final Integer consumerWindowSize)
+   public void setPath(final String path)
    {
-      mcfProperties.setConsumerWindowSize(consumerWindowSize);
+      if (AMQRAManagedConnectionFactory.trace)
+      {
+         AMQRAManagedConnectionFactory.log.trace("setPath(" + path + ")");
+      }
+      mcfProperties.setPath(path);
    }
 
-   public Integer getConsumerMaxRate()
+   public SSLConfiguration getSSLConfig()
    {
-      return mcfProperties.getConsumerMaxRate();
+      if (AMQRAManagedConnectionFactory.trace)
+      {
+         AMQRAManagedConnectionFactory.log.trace("getSSLConfig()");
+      }
+      return mcfProperties.getSSLConfig();
+   }
+   
+   public void setSSLConfig(final SSLConfiguration sslConfig)
+   {
+      if (AMQRAManagedConnectionFactory.trace)
+      {
+         AMQRAManagedConnectionFactory.log.trace("setSSLConfig(" + sslConfig + ")");
+      }
+      mcfProperties.setSSLConfig(sslConfig);
+   }
+   
+   public String getKeystorePath()
+   {
+      if (AMQRAManagedConnectionFactory.trace)
+      {
+         AMQRAManagedConnectionFactory.log.trace("getKeystorePath()");
+      }
+      return mcfProperties.getKeystorePath();
    }
 
-   public void setConsumerMaxRate(final Integer consumerMaxRate)
+   public void setKeystorePath(final String path)
    {
-      mcfProperties.setConsumerMaxRate(consumerMaxRate);
+      if (AMQRAManagedConnectionFactory.trace)
+      {
+         AMQRAManagedConnectionFactory.log.trace("setKeystorePath(" + path + ")");
+      }
+      mcfProperties.setKeystorePath(path);
+   }
+   
+   public String getKeystorePassword()
+   {
+      if (AMQRAManagedConnectionFactory.trace)
+      {
+         AMQRAManagedConnectionFactory.log.trace("getKeystorePassword()");
+      }
+      return mcfProperties.getKeystorePassword();
    }
 
-   public Integer getConfirmationWindowSize()
+   public void setKeystorePassword(final String password)
    {
-      return mcfProperties.getConfirmationWindowSize();
+      if (AMQRAManagedConnectionFactory.trace)
+      {
+         AMQRAManagedConnectionFactory.log.trace("setKeystorePassword(" + password + ")");
+      }
+      mcfProperties.setKeystorePassword(password);
+   }
+   
+   public String getCertType()
+   {
+      if (AMQRAManagedConnectionFactory.trace)
+      {
+         AMQRAManagedConnectionFactory.log.trace("getCertType()");
+      }
+      return mcfProperties.getCertType();
    }
 
-   public void setConfirmationWindowSize(final Integer confirmationWindowSize)
+   public void setCertType(final String certType)
    {
-      mcfProperties.setConfirmationWindowSize(confirmationWindowSize);
-   }
-
-   public Integer getProducerMaxRate()
-   {
-      return mcfProperties.getProducerMaxRate();
-   }
-
-   public void setProducerMaxRate(final Integer producerMaxRate)
-   {
-      mcfProperties.setProducerMaxRate(producerMaxRate);
-   }
-
-   public Integer getMinLargeMessageSize()
-   {
-      return mcfProperties.getMinLargeMessageSize();
-   }
-
-   public void setMinLargeMessageSize(final Integer minLargeMessageSize)
-   {
-      mcfProperties.setMinLargeMessageSize(minLargeMessageSize);
-   }
-
-   public Boolean isBlockOnAcknowledge()
-   {
-      return mcfProperties.isBlockOnAcknowledge();
-   }
-
-   public void setBlockOnAcknowledge(final Boolean blockOnAcknowledge)
-   {
-      mcfProperties.setBlockOnAcknowledge(blockOnAcknowledge);
-   }
-
-   public Boolean isBlockOnNonDurableSend()
-   {
-      return mcfProperties.isBlockOnNonDurableSend();
-   }
-
-   public void setBlockOnNonDurableSend(final Boolean blockOnNonDurableSend)
-   {
-      mcfProperties.setBlockOnNonDurableSend(blockOnNonDurableSend);
-   }
-
-   public Boolean isBlockOnDurableSend()
-   {
-      return mcfProperties.isBlockOnDurableSend();
-   }
-
-   public void setBlockOnDurableSend(final Boolean blockOnDurableSend)
-   {
-      mcfProperties.setBlockOnDurableSend(blockOnDurableSend);
-   }
-
-   public Boolean isAutoGroup()
-   {
-      return mcfProperties.isAutoGroup();
-   }
-
-   public void setAutoGroup(final Boolean autoGroup)
-   {
-      mcfProperties.setAutoGroup(autoGroup);
-   }
-
-   public Boolean isPreAcknowledge()
-   {
-      return mcfProperties.isPreAcknowledge();
-   }
-
-   public void setPreAcknowledge(final Boolean preAcknowledge)
-   {
-      mcfProperties.setPreAcknowledge(preAcknowledge);
-   }
-
-   public Long getRetryInterval()
-   {
-      return mcfProperties.getRetryInterval();
-   }
-
-   public void setRetryInterval(final Long retryInterval)
-   {
-      mcfProperties.setRetryInterval(retryInterval);
-   }
-
-   public Double getRetryIntervalMultiplier()
-   {
-      return mcfProperties.getRetryIntervalMultiplier();
-   }
-
-   public void setRetryIntervalMultiplier(final Double retryIntervalMultiplier)
-   {
-      mcfProperties.setRetryIntervalMultiplier(retryIntervalMultiplier);
-   }
-
-   public Integer getReconnectAttempts()
-   {
-      return mcfProperties.getReconnectAttempts();
-   }
-
-   public void setReconnectAttempts(final Integer reconnectAttempts)
-   {
-      mcfProperties.setReconnectAttempts(reconnectAttempts);
-   }
-
-   public Boolean isFailoverOnServerShutdown()
-   {
-      return mcfProperties.isFailoverOnServerShutdown();
-   }
-
-   public void setFailoverOnServerShutdown(final Boolean failoverOnServerShutdown)
-   {
-      mcfProperties.setFailoverOnServerShutdown(failoverOnServerShutdown);
-   }
-
-   public Boolean isUseGlobalPools()
-   {
-      return mcfProperties.isUseGlobalPools();
-   }
-
-   public void setUseGlobalPools(final Boolean useGlobalPools)
-   {
-      mcfProperties.setUseGlobalPools(useGlobalPools);
-   }
-
-   public Integer getScheduledThreadPoolMaxSize()
-   {
-      return mcfProperties.getScheduledThreadPoolMaxSize();
-   }
-
-   public void setScheduledThreadPoolMaxSize(final Integer scheduledThreadPoolMaxSize)
-   {
-      mcfProperties.setScheduledThreadPoolMaxSize(scheduledThreadPoolMaxSize);
-   }
-
-   public Integer getThreadPoolMaxSize()
-   {
-      return mcfProperties.getThreadPoolMaxSize();
-   }
-
-   public void setThreadPoolMaxSize(final Integer threadPoolMaxSize)
-   {
-      mcfProperties.setThreadPoolMaxSize(threadPoolMaxSize);
+      if (AMQRAManagedConnectionFactory.trace)
+      {
+         AMQRAManagedConnectionFactory.log.trace("setCertType(" + certType + ")");
+      }
+      mcfProperties.setCertType(certType);
    }
 
    /**
@@ -766,7 +635,14 @@ public class AMQRAManagedConnectionFactory implements ManagedConnectionFactory, 
 
       if (connectionFactory == null)
       {
-         connectionFactory = ra.createHornetQConnectionFactory(mcfProperties);
+         try
+         {
+            connectionFactory = ra.createAMQConnectionFactory(mcfProperties);
+         }
+         catch (final AMQRAException amqrae)
+         {
+            throw new ResourceException("Unexpected exception crating the connection factory", amqrae) ;
+         }
       }
       return connectionFactory;
    }

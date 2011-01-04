@@ -29,21 +29,16 @@ import javax.resource.spi.work.WorkManager;
 import javax.transaction.TransactionManager;
 import javax.transaction.xa.XAResource;
 
-import org.hornetq.api.core.HornetQException;
-import org.hornetq.api.core.TransportConfiguration;
-import org.hornetq.api.core.client.ClientSession;
-import org.hornetq.api.core.client.ClientSessionFactory;
-import org.hornetq.api.core.client.HornetQClient;
-import org.hornetq.jms.client.HornetQConnectionFactory;
-import org.hornetq.jms.server.impl.JMSFactoryType;
-import org.hornetq.api.jms.HornetQJMSClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.apache.qpid.ra.inflow.HornetQActivation;
-import org.apache.qpid.ra.inflow.HornetQActivationSpec;
+import org.apache.qpid.client.AMQConnectionFactory;
+import org.apache.qpid.client.SSLConfiguration;
+import org.apache.qpid.ra.inflow.AMQActivation;
+import org.apache.qpid.ra.inflow.AMQActivationSpec;
+import org.apache.qpid.url.URLSyntaxException;
 
 /**
- * The resource adapter for HornetQ
+ * The resource adapter for AMQ
  *
  * @author <a href="adrian@jboss.com">Adrian Brock</a>
  * @author <a href="jesper.pedersen@jboss.org">Jesper Pedersen</a>
@@ -77,15 +72,10 @@ public class AMQResourceAdapter implements ResourceAdapter, Serializable
     */
    private final AMQRAProperties raProperties;
    
-   /**
-    * The resource adapter properties before parsing
-    */
-   private String unparsedProperties;
-
-   /**
-    * The JBoss connection factory
-    */
-   private ClientSessionFactory sessionFactory;
+//   /**
+//    * The resource adapter properties before parsing
+//    */
+//   private String unparsedProperties;
 
    /**
     * Have the factory been configured
@@ -95,32 +85,32 @@ public class AMQResourceAdapter implements ResourceAdapter, Serializable
    /**
     * The activations by activation spec
     */
-   private final Map<ActivationSpec, HornetQActivation> activations;
+   private final Map<ActivationSpec, AMQActivation> activations;
 
-   private HornetQConnectionFactory defaultHornetQConnectionFactory;
+   private AMQConnectionFactory defaultAMQConnectionFactory;
    
    private TransactionManager tm;
 
    /**
     * Constructor
     */
-   public HornetQResourceAdapter()
+   public AMQResourceAdapter()
    {
       if (AMQResourceAdapter.trace)
       {
-         HornetQResourceAdapter.log.trace("constructor()");
+         AMQResourceAdapter.log.trace("constructor()");
       }
 
-      raProperties = new HornetQRAProperties();
-      sessionFactory = null;
+      raProperties = new AMQRAProperties();
       configured = new AtomicBoolean(false);
-      activations = new ConcurrentHashMap<ActivationSpec, HornetQActivation>();
+      activations = new ConcurrentHashMap<ActivationSpec, AMQActivation>();
    }
 
    public TransactionManager getTM()
    {
       return tm;
    }
+
    /**
     * Endpoint activation
     *
@@ -141,12 +131,12 @@ public class AMQResourceAdapter implements ResourceAdapter, Serializable
             throw new ResourceException("Unable to create activation", e);
          }
       }
-      if (HornetQResourceAdapter.trace)
+      if (AMQResourceAdapter.trace)
       {
-         HornetQResourceAdapter.log.trace("endpointActivation(" + endpointFactory + ", " + spec + ")");
+         AMQResourceAdapter.log.trace("endpointActivation(" + endpointFactory + ", " + spec + ")");
       }
 
-      HornetQActivation activation = new HornetQActivation(this, endpointFactory, (HornetQActivationSpec)spec);
+      AMQActivation activation = new AMQActivation(this, endpointFactory, (AMQActivationSpec)spec);
       activations.put(spec, activation);
       activation.start();
    }
@@ -159,12 +149,12 @@ public class AMQResourceAdapter implements ResourceAdapter, Serializable
     */
    public void endpointDeactivation(final MessageEndpointFactory endpointFactory, final ActivationSpec spec)
    {
-      if (HornetQResourceAdapter.trace)
+      if (AMQResourceAdapter.trace)
       {
-         HornetQResourceAdapter.log.trace("endpointDeactivation(" + endpointFactory + ", " + spec + ")");
+         AMQResourceAdapter.log.trace("endpointDeactivation(" + endpointFactory + ", " + spec + ")");
       }
 
-      HornetQActivation activation = activations.remove(spec);
+      AMQActivation activation = activations.remove(spec);
       if (activation != null)
       {
          activation.stop();
@@ -180,9 +170,9 @@ public class AMQResourceAdapter implements ResourceAdapter, Serializable
     */
    public XAResource[] getXAResources(final ActivationSpec[] specs) throws ResourceException
    {
-      if (HornetQResourceAdapter.trace)
+      if (AMQResourceAdapter.trace)
       {
-         HornetQResourceAdapter.log.trace("getXAResources(" + specs + ")");
+         AMQResourceAdapter.log.trace("getXAResources(" + specs + ")");
       }
 
       throw new ResourceException("Unsupported");
@@ -197,16 +187,16 @@ public class AMQResourceAdapter implements ResourceAdapter, Serializable
     */
    public void start(final BootstrapContext ctx) throws ResourceAdapterInternalException
    {
-      if (HornetQResourceAdapter.trace)
+      if (AMQResourceAdapter.trace)
       {
-         HornetQResourceAdapter.log.trace("start(" + ctx + ")");
+         AMQResourceAdapter.log.trace("start(" + ctx + ")");
       }
       
       locateTM();
 
       this.ctx = ctx;
 
-      HornetQResourceAdapter.log.info("HornetQ resource adaptor started");
+      AMQResourceAdapter.log.info("AMQ resource adaptor started");
    }
 
    /**
@@ -214,12 +204,12 @@ public class AMQResourceAdapter implements ResourceAdapter, Serializable
     */
    public void stop()
    {
-      if (HornetQResourceAdapter.trace)
+      if (AMQResourceAdapter.trace)
       {
-         HornetQResourceAdapter.log.trace("stop()");
+         AMQResourceAdapter.log.trace("stop()");
       }
 
-      for (Map.Entry<ActivationSpec, HornetQActivation> entry : activations.entrySet())
+      for (Map.Entry<ActivationSpec, AMQActivation> entry : activations.entrySet())
       {
          try
          {
@@ -227,826 +217,28 @@ public class AMQResourceAdapter implements ResourceAdapter, Serializable
          }
          catch (Exception ignored)
          {
-            HornetQResourceAdapter.log.debug("Ignored", ignored);
+            AMQResourceAdapter.log.debug("Ignored", ignored);
          }
       }
 
       activations.clear();
 
-      HornetQResourceAdapter.log.info("HornetQ resource adapter stopped");
-   }
-
-   public void setConnectorClassName(final String connectorClassName)
-   {
-      if (HornetQResourceAdapter.trace)
-      {
-         HornetQResourceAdapter.log.trace("setTransportType(" + connectorClassName + ")");
-      }
-
-      raProperties.setConnectorClassName(connectorClassName);
-   }
-
-   public String getConnectorClassName()
-   {
-      return raProperties.getConnectorClassName();
-   }
-
-   public String getConnectionParameters()
-   {
-      return unparsedProperties;
-   }
-
-   public void setConnectionParameters(final String config)
-   {
-      if (config != null)
-      {
-         this.unparsedProperties = config;
-         raProperties.setParsedConnectionParameters(Util.parseConfig(config));
-      }
-   }
-
-   public String getBackupConnectorClassName()
-   {
-      return raProperties.getBackupConnectorClassName();
-   }
-
-   public void setBackupConnectorClassName(final String backupConnector)
-   {
-      if (HornetQResourceAdapter.trace)
-      {
-         HornetQResourceAdapter.log.trace("setBackUpTransportType(" + backupConnector + ")");
-      }
-      raProperties.setBackupConnectorClassName(backupConnector);
-   }
-
-   public Map<String, Object> getBackupConnectionParameters()
-   {
-      return raProperties.getParsedBackupConnectionParameters();
-   }
-
-   public void setBackupTransportConfiguration(final String config)
-   {
-      if (config != null)
-      {
-         raProperties.setParsedBackupConnectionParameters(Util.parseConfig(config));
-      }
-   }
-
-   /**
-    * Get the discovery group name
-    *
-    * @return The value
-    */
-   public String getDiscoveryAddress()
-   {
-      if (HornetQResourceAdapter.trace)
-      {
-         HornetQResourceAdapter.log.trace("getDiscoveryGroupAddress()");
-      }
-
-      return raProperties.getDiscoveryAddress();
-   }
-
-   /**
-    * Set the discovery group name
-    *
-    * @param dgn The value
-    */
-   public void setDiscoveryAddress(final String dgn)
-   {
-      if (HornetQResourceAdapter.trace)
-      {
-         HornetQResourceAdapter.log.trace("setDiscoveryGroupAddress(" + dgn + ")");
-      }
-
-      raProperties.setDiscoveryAddress(dgn);
-   }
-
-   /**
-    * Get the discovery group port
-    *
-    * @return The value
-    */
-   public Integer getDiscoveryPort()
-   {
-      if (HornetQResourceAdapter.trace)
-      {
-         HornetQResourceAdapter.log.trace("getDiscoveryGroupPort()");
-      }
-
-      return raProperties.getDiscoveryPort();
-   }
-
-   /**
-    * Set the discovery group port
-    *
-    * @param dgp The value
-    */
-   public void setDiscoveryPort(final Integer dgp)
-   {
-      if (HornetQResourceAdapter.trace)
-      {
-         HornetQResourceAdapter.log.trace("setDiscoveryGroupPort(" + dgp + ")");
-      }
-
-      raProperties.setDiscoveryPort(dgp);
-   }
-
-   /**
-    * Get discovery refresh timeout
-    *
-    * @return The value
-    */
-   public Long getDiscoveryRefreshTimeout()
-   {
-      if (HornetQResourceAdapter.trace)
-      {
-         HornetQResourceAdapter.log.trace("getDiscoveryRefreshTimeout()");
-      }
-
-      return raProperties.getDiscoveryRefreshTimeout();
-   }
-
-   /**
-    * Set discovery refresh timeout
-    *
-    * @param discoveryRefreshTimeout The value
-    */
-   public void setDiscoveryRefreshTimeout(final Long discoveryRefreshTimeout)
-   {
-      if (HornetQResourceAdapter.trace)
-      {
-         HornetQResourceAdapter.log.trace("setDiscoveryRefreshTimeout(" + discoveryRefreshTimeout + ")");
-      }
-
-      raProperties.setDiscoveryRefreshTimeout(discoveryRefreshTimeout);
-   }
-
-   /**
-    * Get discovery initial wait timeout
-    *
-    * @return The value
-    */
-   public Long getDiscoveryInitialWaitTimeout()
-   {
-      if (HornetQResourceAdapter.trace)
-      {
-         HornetQResourceAdapter.log.trace("getDiscoveryInitialWaitTimeout()");
-      }
-
-      return raProperties.getDiscoveryInitialWaitTimeout();
-   }
-
-   /**
-    * Set discovery initial wait timeout
-    *
-    * @param discoveryInitialWaitTimeout The value
-    */
-   public void setDiscoveryInitialWaitTimeout(final Long discoveryInitialWaitTimeout)
-   {
-      if (HornetQResourceAdapter.trace)
-      {
-         HornetQResourceAdapter.log.trace("setDiscoveryInitialWaitTimeout(" + discoveryInitialWaitTimeout + ")");
-      }
-
-      raProperties.setDiscoveryInitialWaitTimeout(discoveryInitialWaitTimeout);
-   }
-
-   /**
-    * Get client failure check period
-    *
-    * @return The value
-    */
-   public Long getClientFailureCheckPeriod()
-   {
-      if (HornetQResourceAdapter.trace)
-      {
-         HornetQResourceAdapter.log.trace("getClientFailureCheckPeriod()");
-      }
-
-      return raProperties.getClientFailureCheckPeriod();
-   }
-
-   /**
-    * Set client failure check period
-    *
-    * @param clientFailureCheckPeriod The value
-    */
-   public void setClientFailureCheckPeriod(final Long clientFailureCheckPeriod)
-   {
-      if (HornetQResourceAdapter.trace)
-      {
-         HornetQResourceAdapter.log.trace("setClientFailureCheckPeriod(" + clientFailureCheckPeriod + ")");
-      }
-
-      raProperties.setClientFailureCheckPeriod(clientFailureCheckPeriod);
-   }
-
-   /**
-    * Get connection TTL
-    *
-    * @return The value
-    */
-   public Long getConnectionTTL()
-   {
-      if (HornetQResourceAdapter.trace)
-      {
-         HornetQResourceAdapter.log.trace("getConnectionTTL()");
-      }
-
-      return raProperties.getConnectionTTL();
-   }
-
-   /**
-    * Set connection TTL
-    *
-    * @param connectionTTL The value
-    */
-   public void setConnectionTTL(final Long connectionTTL)
-   {
-      if (HornetQResourceAdapter.trace)
-      {
-         HornetQResourceAdapter.log.trace("setConnectionTTL(" + connectionTTL + ")");
-      }
-
-      raProperties.setConnectionTTL(connectionTTL);
-   }
-
-   /**
-    * Get call timeout
-    *
-    * @return The value
-    */
-   public Long getCallTimeout()
-   {
-      if (HornetQResourceAdapter.trace)
-      {
-         HornetQResourceAdapter.log.trace("getCallTimeout()");
-      }
-
-      return raProperties.getCallTimeout();
-   }
-
-   /**
-    * Set call timeout
-    *
-    * @param callTimeout The value
-    */
-   public void setCallTimeout(final Long callTimeout)
-   {
-      if (HornetQResourceAdapter.trace)
-      {
-         HornetQResourceAdapter.log.trace("setCallTimeout(" + callTimeout + ")");
-      }
-
-      raProperties.setCallTimeout(callTimeout);
-   }
-
-   /**
-    * Get dups ok batch size
-    *
-    * @return The value
-    */
-   public Integer getDupsOKBatchSize()
-   {
-      if (HornetQResourceAdapter.trace)
-      {
-         HornetQResourceAdapter.log.trace("getDupsOKBatchSize()");
-      }
-
-      return raProperties.getDupsOKBatchSize();
-   }
-
-   /**
-    * Set dups ok batch size
-    *
-    * @param dupsOKBatchSize The value
-    */
-   public void setDupsOKBatchSize(final Integer dupsOKBatchSize)
-   {
-      if (HornetQResourceAdapter.trace)
-      {
-         HornetQResourceAdapter.log.trace("setDupsOKBatchSize(" + dupsOKBatchSize + ")");
-      }
-
-      raProperties.setDupsOKBatchSize(dupsOKBatchSize);
-   }
-
-   /**
-    * Get transaction batch size
-    *
-    * @return The value
-    */
-   public Integer getTransactionBatchSize()
-   {
-      if (HornetQResourceAdapter.trace)
-      {
-         HornetQResourceAdapter.log.trace("getTransactionBatchSize()");
-      }
-
-      return raProperties.getTransactionBatchSize();
-   }
-
-   /**
-    * Set transaction batch size
-    *
-    * @param transactionBatchSize The value
-    */
-   public void setTransactionBatchSize(final Integer transactionBatchSize)
-   {
-      if (HornetQResourceAdapter.trace)
-      {
-         HornetQResourceAdapter.log.trace("setTransactionBatchSize(" + transactionBatchSize + ")");
-      }
-
-      raProperties.setTransactionBatchSize(transactionBatchSize);
-   }
-
-   /**
-    * Get consumer window size
-    *
-    * @return The value
-    */
-   public Integer getConsumerWindowSize()
-   {
-      if (HornetQResourceAdapter.trace)
-      {
-         HornetQResourceAdapter.log.trace("getConsumerWindowSize()");
-      }
-
-      return raProperties.getConsumerWindowSize();
-   }
-
-   /**
-    * Set consumer window size
-    *
-    * @param consumerWindowSize The value
-    */
-   public void setConsumerWindowSize(final Integer consumerWindowSize)
-   {
-      if (HornetQResourceAdapter.trace)
-      {
-         HornetQResourceAdapter.log.trace("setConsumerWindowSize(" + consumerWindowSize + ")");
-      }
-
-      raProperties.setConsumerWindowSize(consumerWindowSize);
-   }
-
-   /**
-    * Get consumer max rate
-    *
-    * @return The value
-    */
-   public Integer getConsumerMaxRate()
-   {
-      if (HornetQResourceAdapter.trace)
-      {
-         HornetQResourceAdapter.log.trace("getConsumerMaxRate()");
-      }
-
-      return raProperties.getConsumerMaxRate();
-   }
-
-   /**
-    * Set consumer max rate
-    *
-    * @param consumerMaxRate The value
-    */
-   public void setConsumerMaxRate(final Integer consumerMaxRate)
-   {
-      if (HornetQResourceAdapter.trace)
-      {
-         HornetQResourceAdapter.log.trace("setConsumerMaxRate(" + consumerMaxRate + ")");
-      }
-
-      raProperties.setConsumerMaxRate(consumerMaxRate);
-   }
-
-   /**
-    * Get confirmation window size
-    *
-    * @return The value
-    */
-   public Integer getConfirmationWindowSize()
-   {
-      if (HornetQResourceAdapter.trace)
-      {
-         HornetQResourceAdapter.log.trace("getConfirmationWindowSize()");
-      }
-
-      return raProperties.getConfirmationWindowSize();
-   }
-
-   /**
-    * Set confirmation window size
-    *
-    * @param confirmationWindowSize The value
-    */
-   public void setConfirmationWindowSize(final Integer confirmationWindowSize)
-   {
-      if (HornetQResourceAdapter.trace)
-      {
-         HornetQResourceAdapter.log.trace("setConfirmationWindowSize(" + confirmationWindowSize + ")");
-      }
-
-      raProperties.setConfirmationWindowSize(confirmationWindowSize);
-   }
-
-   /**
-    * Get producer max rate
-    *
-    * @return The value
-    */
-   public Integer getProducerMaxRate()
-   {
-      if (HornetQResourceAdapter.trace)
-      {
-         HornetQResourceAdapter.log.trace("getProducerMaxRate()");
-      }
-
-      return raProperties.getProducerMaxRate();
-   }
-
-   /**
-    * Set producer max rate
-    *
-    * @param producerMaxRate The value
-    */
-   public void setProducerMaxRate(final Integer producerMaxRate)
-   {
-      if (HornetQResourceAdapter.trace)
-      {
-         HornetQResourceAdapter.log.trace("setProducerMaxRate(" + producerMaxRate + ")");
-      }
-
-      raProperties.setProducerMaxRate(producerMaxRate);
-   }
-
-   /**
-    * Get min large message size
-    *
-    * @return The value
-    */
-   public Integer getMinLargeMessageSize()
-   {
-      if (HornetQResourceAdapter.trace)
-      {
-         HornetQResourceAdapter.log.trace("getMinLargeMessageSize()");
-      }
-
-      return raProperties.getMinLargeMessageSize();
-   }
-
-   /**
-    * Set min large message size
-    *
-    * @param minLargeMessageSize The value
-    */
-   public void setMinLargeMessageSize(final Integer minLargeMessageSize)
-   {
-      if (HornetQResourceAdapter.trace)
-      {
-         HornetQResourceAdapter.log.trace("setMinLargeMessageSize(" + minLargeMessageSize + ")");
-      }
-
-      raProperties.setMinLargeMessageSize(minLargeMessageSize);
-   }
-
-   /**
-    * Get block on acknowledge
-    *
-    * @return The value
-    */
-   public Boolean getBlockOnAcknowledge()
-   {
-      if (HornetQResourceAdapter.trace)
-      {
-         HornetQResourceAdapter.log.trace("getBlockOnAcknowledge()");
-      }
-
-      return raProperties.isBlockOnAcknowledge();
-   }
-
-   /**
-    * Set block on acknowledge
-    *
-    * @param blockOnAcknowledge The value
-    */
-   public void setBlockOnAcknowledge(final Boolean blockOnAcknowledge)
-   {
-      if (HornetQResourceAdapter.trace)
-      {
-         HornetQResourceAdapter.log.trace("setBlockOnAcknowledge(" + blockOnAcknowledge + ")");
-      }
-
-      raProperties.setBlockOnAcknowledge(blockOnAcknowledge);
-   }
-
-   /**
-    * Get block on non durable send
-    *
-    * @return The value
-    */
-   public Boolean getBlockOnNonDurableSend()
-   {
-      if (HornetQResourceAdapter.trace)
-      {
-         HornetQResourceAdapter.log.trace("getBlockOnNonDurableSend()");
-      }
-
-      return raProperties.isBlockOnNonDurableSend();
-   }
-
-   /**
-    * Set block on non durable send
-    *
-    * @param blockOnNonDurableSend The value
-    */
-   public void setBlockOnNonDurableSend(final Boolean blockOnNonDurableSend)
-   {
-      if (HornetQResourceAdapter.trace)
-      {
-         HornetQResourceAdapter.log.trace("setBlockOnNonDurableSend(" + blockOnNonDurableSend + ")");
-      }
-
-      raProperties.setBlockOnNonDurableSend(blockOnNonDurableSend);
-   }
-
-   /**
-    * Get block on durable send
-    *
-    * @return The value
-    */
-   public Boolean getBlockOnDurableSend()
-   {
-      if (HornetQResourceAdapter.trace)
-      {
-         HornetQResourceAdapter.log.trace("getBlockOnDurableSend()");
-      }
-
-      return raProperties.isBlockOnDurableSend();
-   }
-
-   /**
-    * Set block on durable send
-    *
-    * @param blockOnDurableSend The value
-    */
-   public void setBlockOnDurableSend(final Boolean blockOnDurableSend)
-   {
-      if (HornetQResourceAdapter.trace)
-      {
-         HornetQResourceAdapter.log.trace("setBlockOnDurableSend(" + blockOnDurableSend + ")");
-      }
-
-      raProperties.setBlockOnDurableSend(blockOnDurableSend);
-   }
-
-   /**
-    * Get auto group
-    *
-    * @return The value
-    */
-   public Boolean getAutoGroup()
-   {
-      if (HornetQResourceAdapter.trace)
-      {
-         HornetQResourceAdapter.log.trace("getAutoGroup()");
-      }
-
-      return raProperties.isAutoGroup();
-   }
-
-   /**
-    * Set auto group
-    *
-    * @param autoGroup The value
-    */
-   public void setAutoGroup(final Boolean autoGroup)
-   {
-      if (HornetQResourceAdapter.trace)
-      {
-         HornetQResourceAdapter.log.trace("setAutoGroup(" + autoGroup + ")");
-      }
-
-      raProperties.setAutoGroup(autoGroup);
-   }
-
-   /**
-    * Get pre acknowledge
-    *
-    * @return The value
-    */
-   public Boolean getPreAcknowledge()
-   {
-      if (HornetQResourceAdapter.trace)
-      {
-         HornetQResourceAdapter.log.trace("getPreAcknowledge()");
-      }
-
-      return raProperties.isPreAcknowledge();
-   }
-
-   /**
-    * Set pre acknowledge
-    *
-    * @param preAcknowledge The value
-    */
-   public void setPreAcknowledge(final Boolean preAcknowledge)
-   {
-      if (HornetQResourceAdapter.trace)
-      {
-         HornetQResourceAdapter.log.trace("setPreAcknowledge(" + preAcknowledge + ")");
-      }
-
-      raProperties.setPreAcknowledge(preAcknowledge);
-   }
-
-   /**
-    * Get retry interval
-    *
-    * @return The value
-    */
-   public Long getRetryInterval()
-   {
-      if (HornetQResourceAdapter.trace)
-      {
-         HornetQResourceAdapter.log.trace("getRetryInterval()");
-      }
-
-      return raProperties.getRetryInterval();
-   }
-
-   /**
-    * Set retry interval
-    *
-    * @param retryInterval The value
-    */
-   public void setRetryInterval(final Long retryInterval)
-   {
-      if (HornetQResourceAdapter.trace)
-      {
-         HornetQResourceAdapter.log.trace("setRetryInterval(" + retryInterval + ")");
-      }
-
-      raProperties.setRetryInterval(retryInterval);
-   }
-
-   /**
-    * Get retry interval multiplier
-    *
-    * @return The value
-    */
-   public Double getRetryIntervalMultiplier()
-   {
-      if (HornetQResourceAdapter.trace)
-      {
-         HornetQResourceAdapter.log.trace("getRetryIntervalMultiplier()");
-      }
-
-      return raProperties.getRetryIntervalMultiplier();
-   }
-
-   /**
-    * Set retry interval multiplier
-    *
-    * @param retryIntervalMultiplier The value
-    */
-   public void setRetryIntervalMultiplier(final Double retryIntervalMultiplier)
-   {
-      if (HornetQResourceAdapter.trace)
-      {
-         HornetQResourceAdapter.log.trace("setRetryIntervalMultiplier(" + retryIntervalMultiplier + ")");
-      }
-
-      raProperties.setRetryIntervalMultiplier(retryIntervalMultiplier);
-   }
-
-   /**
-    * Get number of reconnect attempts
-    *
-    * @return The value
-    */
-   public Integer getReconnectAttempts()
-   {
-      if (HornetQResourceAdapter.trace)
-      {
-         HornetQResourceAdapter.log.trace("getReconnectAttempts()");
-      }
-
-      return raProperties.getReconnectAttempts();
-   }
-
-   /**
-    * Set number of reconnect attempts
-    *
-    * @param reconnectAttempts The value
-    */
-   public void setReconnectAttempts(final Integer reconnectAttempts)
-   {
-      if (HornetQResourceAdapter.trace)
-      {
-         HornetQResourceAdapter.log.trace("setReconnectAttempts(" + reconnectAttempts + ")");
-      }
-
-      raProperties.setReconnectAttempts(reconnectAttempts);
-   }
-
-   /**
-    * Get failover on server shutdown
-    *
-    * @return The value
-    */
-   public Boolean isFailoverOnServerShutdown()
-   {
-      if (HornetQResourceAdapter.trace)
-      {
-         HornetQResourceAdapter.log.trace("isFailoverOnServerShutdown()");
-      }
-
-      return raProperties.isFailoverOnServerShutdown();
-   }
-
-   /**
-    * Get failover on server shutdown
-    *
-    * @return The value
-    */
-   public Boolean getFailoverOnServerShutdown()
-   {
-      return isFailoverOnServerShutdown();
-   }
-
-   /**
-    * Set failover on server shutdown
-    *
-    * @param failoverOnServerShutdown The value
-    */
-   public void setFailoverOnServerShutdown(final Boolean failoverOnServerShutdown)
-   {
-      if (HornetQResourceAdapter.trace)
-      {
-         HornetQResourceAdapter.log.trace("setFailoverOnServerShutdown(" + failoverOnServerShutdown + ")");
-      }
-
-      raProperties.setFailoverOnServerShutdown(failoverOnServerShutdown);
-   }
-
-   public String getConnectionLoadBalancingPolicyClassName()
-   {
-      return raProperties.getConnectionLoadBalancingPolicyClassName();
-   }
-
-   public void setConnectionLoadBalancingPolicyClassName(final String connectionLoadBalancingPolicyClassName)
-   {
-      if (HornetQResourceAdapter.trace)
-      {
-         HornetQResourceAdapter.log.trace("setFailoverOnServerShutdown(" + connectionLoadBalancingPolicyClassName + ")");
-      }
-      raProperties.setConnectionLoadBalancingPolicyClassName(connectionLoadBalancingPolicyClassName);
-   }
-
-   public Integer getScheduledThreadPoolMaxSize()
-   {
-      return raProperties.getScheduledThreadPoolMaxSize();
-   }
-
-   public void setScheduledThreadPoolMaxSize(final Integer scheduledThreadPoolMaxSize)
-   {
-      if (HornetQResourceAdapter.trace)
-      {
-         HornetQResourceAdapter.log.trace("setFailoverOnServerShutdown(" + scheduledThreadPoolMaxSize + ")");
-      }
-      raProperties.setScheduledThreadPoolMaxSize(scheduledThreadPoolMaxSize);
-   }
-
-   public Integer getThreadPoolMaxSize()
-   {
-      return raProperties.getThreadPoolMaxSize();
-   }
-
-   public void setThreadPoolMaxSize(final Integer threadPoolMaxSize)
-   {
-      if (HornetQResourceAdapter.trace)
-      {
-         HornetQResourceAdapter.log.trace("setFailoverOnServerShutdown(" + threadPoolMaxSize + ")");
-      }
-      raProperties.setThreadPoolMaxSize(threadPoolMaxSize);
-   }
-
-   public Boolean getUseGlobalPools()
-   {
-      return raProperties.isUseGlobalPools();
-   }
-
-   public void setUseGlobalPools(final Boolean useGlobalPools)
-   {
-      if (HornetQResourceAdapter.trace)
-      {
-         HornetQResourceAdapter.log.trace("setFailoverOnServerShutdown(" + useGlobalPools + ")");
-      }
-      raProperties.setUseGlobalPools(useGlobalPools);
-   }
+      AMQResourceAdapter.log.info("AMQ resource adapter stopped");
+   }
+//
+//   public String getConnectionParameters()
+//   {
+//      return unparsedProperties;
+//   }
+//
+//   public void setConnectionParameters(final String config)
+//   {
+//      if (config != null)
+//      {
+//         this.unparsedProperties = config;
+//         raProperties.setParsedConnectionParameters(Util.parseConfig(config));
+//      }
+//   }
 
    /**
     * Get the user name
@@ -1345,10 +537,7 @@ public class AMQResourceAdapter implements ResourceAdapter, Serializable
     */
    protected void setup() throws AMQRAException
    {
-
-
-      defaultHornetQConnectionFactory = createHornetQConnectionFactory(raProperties);
-      sessionFactory = defaultHornetQConnectionFactory.getCoreFactory();
+      defaultAMQConnectionFactory = createAMQConnectionFactory(raProperties);
    }
 
 
@@ -1360,49 +549,26 @@ public class AMQResourceAdapter implements ResourceAdapter, Serializable
          {
             setup();
          }
-         catch (HornetQException e)
+         catch (AMQRAException e)
          {
             throw new ResourceException("Unable to create activation", e);
          }
       }
-      return defaultHornetQConnectionFactory;
+      return defaultAMQConnectionFactory;
    }
 
-   public HornetQConnectionFactory createHornetQConnectionFactory(final ConnectionFactoryProperties overrideProperties)
+   public AMQConnectionFactory createAMQConnectionFactory(final ConnectionFactoryProperties overrideProperties)
+      throws AMQRAException
    {
-      HornetQConnectionFactory cf;
-      String connectorClassName = overrideProperties.getConnectorClassName() != null ? overrideProperties.getConnectorClassName()
-                                                                                    : getConnectorClassName();
-      String discoveryAddress = overrideProperties.getDiscoveryAddress() != null ? overrideProperties.getDiscoveryAddress()
-                                                                                : getDiscoveryAddress();
-      if (connectorClassName != null)
+      final AMQConnectionFactory cf = new AMQConnectionFactory() ;
+      try
       {
-         Map<String, Object> connectionParams =
-               overrideConnectionParameters(overrideProperties.getParsedConnectionParameters(),raProperties.getParsedConnectionParameters());
-         TransportConfiguration transportConf = new TransportConfiguration(connectorClassName, connectionParams);
-
-         String backUpCOnnectorClassname = overrideProperties.getBackupConnectorClassName() != null ? overrideProperties.getBackupConnectorClassName()
-                                                                                                   : getBackupConnectorClassName();
-         Map<String, Object> backupConnectionParams =
-               overrideConnectionParameters(overrideProperties.getParsedBackupConnectionParameters(),
-                     getBackupConnectionParameters());
-         TransportConfiguration backup = backUpCOnnectorClassname == null ? null
-                                                                         : new TransportConfiguration(backUpCOnnectorClassname,
-                                                                                                      backupConnectionParams);
-
-         cf = HornetQJMSClient.createConnectionFactory(transportConf, backup, JMSFactoryType.XA_CF);
+         setParams(cf, overrideProperties);
       }
-      else if (discoveryAddress != null)
+      catch (final URLSyntaxException urlse)
       {
-         Integer discoveryPort = overrideProperties.getDiscoveryPort() != null ? overrideProperties.getDiscoveryPort()
-                                                                              : getDiscoveryPort();
-         cf = HornetQJMSClient.createConnectionFactory(discoveryAddress, discoveryPort, JMSFactoryType.XA_CF);
+         throw new AMQRAException("Unexpected exception creating connection factory", urlse) ;
       }
-      else
-      {
-         throw new IllegalArgumentException("must provide either TransportType or DiscoveryGroupAddress and DiscoveryGroupPort for HornetQ ResourceAdapter Connection Factory");
-      }
-      setParams(cf, overrideProperties);
       return cf;
    }
 
@@ -1441,7 +607,7 @@ public class AMQResourceAdapter implements ResourceAdapter, Serializable
       if (tm == null)
       {
          log.warn("It wasn't possible to lookup for a Transaction Manager through the configured properties TransactionManagerLocatorClass and TransactionManagerLocatorMethod");
-         log.warn("HornetQ Resource Adapter won't be able to set and verify transaction timeouts in certain cases.");
+         log.warn("AMQ Resource Adapter won't be able to set and verify transaction timeouts in certain cases.");
       }
       else
       {
@@ -1450,166 +616,57 @@ public class AMQResourceAdapter implements ResourceAdapter, Serializable
    }
    
 
-   private void setParams(final HornetQConnectionFactory cf,
+   private void setParams(final AMQConnectionFactory cf,
                           final ConnectionFactoryProperties overrideProperties)
+      throws URLSyntaxException
    {
-      Boolean val = overrideProperties.isAutoGroup() != null ? overrideProperties.isAutoGroup()
-                                                            : raProperties.isAutoGroup();
-      if (val != null)
+      final String overrideURL = overrideProperties.getConnectionURL() ;
+      final String url = overrideURL != null ? overrideURL : raProperties.getConnectionURL() ;
+      if (url != null)
       {
-         cf.setAutoGroup(val);
+         cf.setConnectionURLString(url) ;
       }
-      val = overrideProperties.isBlockOnAcknowledge() != null ? overrideProperties.isBlockOnAcknowledge()
-                                                             : raProperties.isBlockOnAcknowledge();
-      if (val != null)
+      
+      final String overrideDefaultPassword = overrideProperties.getDefaultPassword() ;
+      final String defaultPassword = (overrideDefaultPassword != null ? overrideDefaultPassword : raProperties.getDefaultPassword()) ;
+      if (defaultPassword != null)
       {
-         cf.setBlockOnAcknowledge(val);
+         cf.setDefaultPassword(defaultPassword) ;
       }
-      val = overrideProperties.isBlockOnNonDurableSend() != null ? overrideProperties.isBlockOnNonDurableSend()
-                                                                   : raProperties.isBlockOnNonDurableSend();
-      if (val != null)
+      
+      final String overrideDefaultUsername = overrideProperties.getDefaultUsername() ;
+      final String defaultUsername = (overrideDefaultUsername != null ? overrideDefaultUsername : raProperties.getDefaultUsername()) ;
+      if (defaultUsername != null)
       {
-         cf.setBlockOnNonDurableSend(val);
+         cf.setDefaultUsername(defaultUsername) ;
       }
-      val = overrideProperties.isBlockOnDurableSend() != null ? overrideProperties.isBlockOnDurableSend()
-                                                                : raProperties.isBlockOnDurableSend();
-      if (val != null)
+      
+      final String overrideHost = overrideProperties.getHost() ;
+      final String host = (overrideHost != null ? overrideHost : raProperties.getHost()) ;
+      if (host != null)
       {
-         cf.setBlockOnDurableSend(val);
+         cf.setHost(host) ;
       }
-      val = overrideProperties.isFailoverOnServerShutdown() != null ? overrideProperties.isFailoverOnServerShutdown()
-                                                                   : raProperties.isFailoverOnServerShutdown();
-      if (val != null)
+      
+      final Integer overridePort = overrideProperties.getPort() ;
+      final Integer port = (overridePort != null ? overridePort : raProperties.getPort()) ;
+      if (port != null)
       {
-         cf.setFailoverOnServerShutdown(val);
+         cf.setPort(port) ;
       }
-      val = overrideProperties.isPreAcknowledge() != null ? overrideProperties.isPreAcknowledge()
-                                                         : raProperties.isPreAcknowledge();
-      if (val != null)
+      
+      final SSLConfiguration overrideSLlConfig = overrideProperties.getSSLConfig() ;
+      final SSLConfiguration sslConfig = (overrideSLlConfig != null ? overrideSLlConfig : raProperties.getSSLConfig()) ;
+      if (sslConfig != null)
       {
-         cf.setPreAcknowledge(val);
+         cf.setSSLConfiguration(sslConfig) ;
       }
-      val = overrideProperties.isUseGlobalPools() != null ? overrideProperties.isUseGlobalPools()
-                                                         : raProperties.isUseGlobalPools();
-      if (val != null)
+      
+      final String overridePath = overrideProperties.getPath() ;
+      final String path = (overridePath != null ? overridePath : raProperties.getPath()) ;
+      if (path != null)
       {
-         cf.setUseGlobalPools(val);
-      }
-      Integer val2 = overrideProperties.getConsumerMaxRate() != null ? overrideProperties.getConsumerMaxRate()
-                                                                    : raProperties.getConsumerMaxRate();
-      if (val2 != null)
-      {
-         cf.setConsumerMaxRate(val2);
-      }
-      val2 = overrideProperties.getConsumerWindowSize() != null ? overrideProperties.getConsumerWindowSize()
-                                                               : raProperties.getConsumerWindowSize();
-      if (val2 != null)
-      {
-         cf.setConsumerWindowSize(val2);
-      }
-      val2 = overrideProperties.getDupsOKBatchSize() != null ? overrideProperties.getDupsOKBatchSize()
-                                                            : raProperties.getDupsOKBatchSize();
-      if (val2 != null)
-      {
-         cf.setDupsOKBatchSize(val2);
-      }
-
-      val2 = overrideProperties.getMinLargeMessageSize() != null ? overrideProperties.getMinLargeMessageSize()
-                                                                : raProperties.getMinLargeMessageSize();
-      if (val2 != null)
-      {
-         cf.setMinLargeMessageSize(val2);
-      }
-      val2 = overrideProperties.getProducerMaxRate() != null ? overrideProperties.getProducerMaxRate()
-                                                            : raProperties.getProducerMaxRate();
-      if (val2 != null)
-      {
-         cf.setProducerMaxRate(val2);
-      }
-      val2 = overrideProperties.getConfirmationWindowSize() != null ? overrideProperties.getConfirmationWindowSize()
-                                                                   : raProperties.getConfirmationWindowSize();
-      if (val2 != null)
-      {
-         cf.setConfirmationWindowSize(val2);
-      }
-      val2 = overrideProperties.getReconnectAttempts() != null ? overrideProperties.getReconnectAttempts()
-                                                              : raProperties.getReconnectAttempts();
-      if (val2 != null)
-      {
-         cf.setReconnectAttempts(val2);
-      }
-      val2 = overrideProperties.getThreadPoolMaxSize() != null ? overrideProperties.getThreadPoolMaxSize()
-                                                              : raProperties.getThreadPoolMaxSize();
-      if (val2 != null)
-      {
-         cf.setThreadPoolMaxSize(val2);
-      }
-      val2 = overrideProperties.getScheduledThreadPoolMaxSize() != null ? overrideProperties.getScheduledThreadPoolMaxSize()
-                                                                       : raProperties.getScheduledThreadPoolMaxSize();
-      if (val2 != null)
-      {
-         cf.setScheduledThreadPoolMaxSize(val2);
-      }
-      val2 = overrideProperties.getTransactionBatchSize() != null ? overrideProperties.getTransactionBatchSize()
-                                                                 : raProperties.getTransactionBatchSize();
-      if (val2 != null)
-      {
-         cf.setTransactionBatchSize(val2);
-      }
-      Long val3 = overrideProperties.getClientFailureCheckPeriod() != null ? overrideProperties.getClientFailureCheckPeriod()
-                                                                          : raProperties.getClientFailureCheckPeriod();
-      if (val3 != null)
-      {
-         cf.setClientFailureCheckPeriod(val3);
-      }
-      val3 = overrideProperties.getCallTimeout() != null ? overrideProperties.getCallTimeout()
-                                                        : raProperties.getCallTimeout();
-      if (val3 != null)
-      {
-         cf.setCallTimeout(val3);
-      }
-      val3 = overrideProperties.getConnectionTTL() != null ? overrideProperties.getConnectionTTL()
-                                                          : raProperties.getConnectionTTL();
-      if (val3 != null)
-      {
-         cf.setConnectionTTL(val3);
-      }
-      val3 = overrideProperties.getDiscoveryInitialWaitTimeout() != null ? overrideProperties.getDiscoveryInitialWaitTimeout()
-                                                                        : raProperties.getDiscoveryInitialWaitTimeout();
-      if (val3 != null)
-      {
-         cf.setDiscoveryInitialWaitTimeout(val3);
-      }
-      val3 = overrideProperties.getDiscoveryRefreshTimeout() != null ? overrideProperties.getDiscoveryRefreshTimeout()
-                                                                    : raProperties.getDiscoveryRefreshTimeout();
-      if (val3 != null)
-      {
-         cf.setDiscoveryRefreshTimeout(val3);
-      }
-      val3 = overrideProperties.getRetryInterval() != null ? overrideProperties.getRetryInterval()
-                                                          : raProperties.getRetryInterval();
-      if (val3 != null)
-      {
-         cf.setRetryInterval(val3);
-      }
-      Double val4 = overrideProperties.getRetryIntervalMultiplier() != null ? overrideProperties.getRetryIntervalMultiplier()
-                                                                           : raProperties.getRetryIntervalMultiplier();
-      if (val4 != null)
-      {
-         cf.setRetryIntervalMultiplier(val4);
-      }
-      String val5 = overrideProperties.getClientID() != null ? overrideProperties.getClientID()
-                                                            : raProperties.getClientID();
-      if (val5 != null)
-      {
-         cf.setClientID(val5);
-      }
-      val5 = overrideProperties.getConnectionLoadBalancingPolicyClassName() != null ? overrideProperties.getConnectionLoadBalancingPolicyClassName()
-                                                                                   : raProperties.getConnectionLoadBalancingPolicyClassName();
-      if (val5 != null)
-      {
-         cf.setConnectionLoadBalancingPolicyClassName(val5);
+         cf.setVirtualPath(path) ;
       }
    }
-
 }

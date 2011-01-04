@@ -21,36 +21,36 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * HornetQXAResource.
+ * AMQXAResource.
  * 
  * @author <a href="adrian@jboss.com">Adrian Brock</a>
  * @author <a href="jesper.pedersen@jboss.org">Jesper Pedersen</a>
  * @version $Revision: $
  */
-public class HornetQRAXAResource implements XAResource
+public class AMQRAXAResource implements XAResource
 {
    /** The logger */
-   private static final Logger log = LoggerFactory.getLogger(HornetQRAXAResource.class);
+   private static final Logger log = LoggerFactory.getLogger(AMQRAXAResource.class);
 
    /** Trace enabled */
-   private static boolean trace = HornetQRAXAResource.log.isTraceEnabled();
+   private static boolean trace = AMQRAXAResource.log.isTraceEnabled();
 
    /** The managed connection */
-   private final HornetQRAManagedConnection managedConnection;
+   private final AMQRAManagedConnection managedConnection;
 
    /** The resource */
    private final XAResource xaResource;
 
    /**
-    * Create a new HornetQXAResource.
+    * Create a new AMQXAResource.
     * @param managedConnection the managed connection
     * @param xaResource the xa resource
     */
-   public HornetQRAXAResource(final HornetQRAManagedConnection managedConnection, final XAResource xaResource)
+   public AMQRAXAResource(final AMQRAManagedConnection managedConnection, final XAResource xaResource)
    {
-      if (HornetQRAXAResource.trace)
+      if (AMQRAXAResource.trace)
       {
-         HornetQRAXAResource.log.trace("constructor(" + managedConnection + ", " + xaResource + ")");
+         AMQRAXAResource.log.trace("constructor(" + managedConnection + ", " + xaResource + ")");
       }
 
       this.managedConnection = managedConnection;
@@ -65,9 +65,9 @@ public class HornetQRAXAResource implements XAResource
     */
    public void start(final Xid xid, final int flags) throws XAException
    {
-      if (HornetQRAXAResource.trace)
+      if (AMQRAXAResource.trace)
       {
-         HornetQRAXAResource.log.trace("start(" + xid + ", " + flags + ")");
+         AMQRAXAResource.log.trace("start(" + xid + ", " + flags + ")");
       }
 
       managedConnection.lock();
@@ -90,9 +90,9 @@ public class HornetQRAXAResource implements XAResource
     */
    public void end(final Xid xid, final int flags) throws XAException
    {
-      if (HornetQRAXAResource.trace)
+      if (AMQRAXAResource.trace)
       {
-         HornetQRAXAResource.log.trace("end(" + xid + ", " + flags + ")");
+         AMQRAXAResource.log.trace("end(" + xid + ", " + flags + ")");
       }
 
       managedConnection.lock();
@@ -115,9 +115,9 @@ public class HornetQRAXAResource implements XAResource
     */
    public int prepare(final Xid xid) throws XAException
    {
-      if (HornetQRAXAResource.trace)
+      if (AMQRAXAResource.trace)
       {
-         HornetQRAXAResource.log.trace("prepare(" + xid + ")");
+         AMQRAXAResource.log.trace("prepare(" + xid + ")");
       }
 
       return xaResource.prepare(xid);
@@ -131,9 +131,9 @@ public class HornetQRAXAResource implements XAResource
     */
    public void commit(final Xid xid, final boolean onePhase) throws XAException
    {
-      if (HornetQRAXAResource.trace)
+      if (AMQRAXAResource.trace)
       {
-         HornetQRAXAResource.log.trace("commit(" + xid + ", " + onePhase + ")");
+         AMQRAXAResource.log.trace("commit(" + xid + ", " + onePhase + ")");
       }
 
       xaResource.commit(xid, onePhase);
@@ -146,9 +146,9 @@ public class HornetQRAXAResource implements XAResource
     */
    public void rollback(final Xid xid) throws XAException
    {
-      if (HornetQRAXAResource.trace)
+      if (AMQRAXAResource.trace)
       {
-         HornetQRAXAResource.log.trace("rollback(" + xid + ")");
+         AMQRAXAResource.log.trace("rollback(" + xid + ")");
       }
 
       xaResource.rollback(xid);
@@ -161,9 +161,9 @@ public class HornetQRAXAResource implements XAResource
     */
    public void forget(final Xid xid) throws XAException
    {
-      if (HornetQRAXAResource.trace)
+      if (AMQRAXAResource.trace)
       {
-         HornetQRAXAResource.log.trace("forget(" + xid + ")");
+         AMQRAXAResource.log.trace("forget(" + xid + ")");
       }
 
       managedConnection.lock();
@@ -187,9 +187,9 @@ public class HornetQRAXAResource implements XAResource
     */
    public boolean isSameRM(final XAResource xaRes) throws XAException
    {
-      if (HornetQRAXAResource.trace)
+      if (AMQRAXAResource.trace)
       {
-         HornetQRAXAResource.log.trace("isSameRM(" + xaRes + ")");
+         AMQRAXAResource.log.trace("isSameRM(" + xaRes + ")");
       }
 
       return xaResource.isSameRM(xaRes);
@@ -203,9 +203,9 @@ public class HornetQRAXAResource implements XAResource
     */
    public Xid[] recover(final int flag) throws XAException
    {
-      if (HornetQRAXAResource.trace)
+      if (AMQRAXAResource.trace)
       {
-         HornetQRAXAResource.log.trace("recover(" + flag + ")");
+         AMQRAXAResource.log.trace("recover(" + flag + ")");
       }
 
       return xaResource.recover(flag);
@@ -218,9 +218,9 @@ public class HornetQRAXAResource implements XAResource
     */
    public int getTransactionTimeout() throws XAException
    {
-      if (HornetQRAXAResource.trace)
+      if (AMQRAXAResource.trace)
       {
-         HornetQRAXAResource.log.trace("getTransactionTimeout()");
+         AMQRAXAResource.log.trace("getTransactionTimeout()");
       }
 
       return xaResource.getTransactionTimeout();
@@ -234,9 +234,9 @@ public class HornetQRAXAResource implements XAResource
     */
    public boolean setTransactionTimeout(final int seconds) throws XAException
    {
-      if (HornetQRAXAResource.trace)
+      if (AMQRAXAResource.trace)
       {
-         HornetQRAXAResource.log.trace("setTransactionTimeout(" + seconds + ")");
+         AMQRAXAResource.log.trace("setTransactionTimeout(" + seconds + ")");
       }
 
       return xaResource.setTransactionTimeout(seconds);

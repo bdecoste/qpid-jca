@@ -30,11 +30,11 @@ import org.slf4j.LoggerFactory;
  *
  *
  */
-public class HornetQRAService
+public class AMQRAService
 {
    // Constants -----------------------------------------------------
 
-   private static final Logger log = LoggerFactory.getLogger(HornetQRAService.class);
+   private static final Logger log = LoggerFactory.getLogger(AMQRAService.class);
 
    // Attributes ----------------------------------------------------
 
@@ -46,7 +46,7 @@ public class HornetQRAService
 
    // Constructors --------------------------------------------------
 
-   public HornetQRAService(final MBeanServer mBeanServer, final String resourceAdapterObjectName)
+   public AMQRAService(final MBeanServer mBeanServer, final String resourceAdapterObjectName)
    {
       this.mBeanServer = mBeanServer;
       this.resourceAdapterObjectName = resourceAdapterObjectName;

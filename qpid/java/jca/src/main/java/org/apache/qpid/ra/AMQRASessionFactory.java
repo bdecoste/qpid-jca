@@ -30,7 +30,7 @@ import javax.jms.XATopicConnection;
  * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
  * @version $Revision: 71554 $
  */
-public interface HornetQRASessionFactory extends Connection, TopicConnection, QueueConnection, XAConnection,
+public interface AMQRASessionFactory extends Connection, TopicConnection, QueueConnection, XAConnection,
          XATopicConnection, XAQueueConnection
 {
    /** Error message for strict behaviour */
@@ -53,5 +53,5 @@ public interface HornetQRASessionFactory extends Connection, TopicConnection, Qu
     * @param session The session
     * @throws JMSException for any error 
     */
-   void closeSession(HornetQRASession session) throws JMSException;
+   void closeSession(AMQRASession session) throws JMSException;
 }

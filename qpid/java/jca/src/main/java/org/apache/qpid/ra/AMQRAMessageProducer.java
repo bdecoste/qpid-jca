@@ -22,39 +22,39 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * HornetQMessageProducer.
+ * AMQMessageProducer.
  * 
  * @author <a href="adrian@jboss.com">Adrian Brock</a>
  * @author <a href="jesper.pedersen@jboss.org">Jesper Pedersen</a>
  * @version $Revision:  $
  */
-public class HornetQRAMessageProducer implements MessageProducer
+public class AMQRAMessageProducer implements MessageProducer
 {
    /** The logger */
-   private static final Logger log = LoggerFactory.getLogger(HornetQRAMessageProducer.class);
+   private static final Logger log = LoggerFactory.getLogger(AMQRAMessageProducer.class);
 
    /** Whether trace is enabled */
-   private static boolean trace = HornetQRAMessageProducer.log.isTraceEnabled();
+   private static boolean trace = AMQRAMessageProducer.log.isTraceEnabled();
 
    /** The wrapped message producer */
    protected MessageProducer producer;
 
    /** The session for this consumer */
-   protected HornetQRASession session;
+   protected AMQRASession session;
 
    /**
     * Create a new wrapper
     * @param producer the producer
     * @param session the session
     */
-   public HornetQRAMessageProducer(final MessageProducer producer, final HornetQRASession session)
+   public AMQRAMessageProducer(final MessageProducer producer, final AMQRASession session)
    {
       this.producer = producer;
       this.session = session;
 
-      if (HornetQRAMessageProducer.trace)
+      if (AMQRAMessageProducer.trace)
       {
-         HornetQRAMessageProducer.log.trace("new HornetQMessageProducer " + this +
+         AMQRAMessageProducer.log.trace("new AMQMessageProducer " + this +
                                             " producer=" +
                                             producer +
                                             " session=" +
@@ -68,9 +68,9 @@ public class HornetQRAMessageProducer implements MessageProducer
     */
    public void close() throws JMSException
    {
-      if (HornetQRAMessageProducer.trace)
+      if (AMQRAMessageProducer.trace)
       {
-         HornetQRAMessageProducer.log.trace("close " + this);
+         AMQRAMessageProducer.log.trace("close " + this);
       }
       try
       {
@@ -100,9 +100,9 @@ public class HornetQRAMessageProducer implements MessageProducer
       session.lock();
       try
       {
-         if (HornetQRAMessageProducer.trace)
+         if (AMQRAMessageProducer.trace)
          {
-            HornetQRAMessageProducer.log.trace("send " + this +
+            AMQRAMessageProducer.log.trace("send " + this +
                                                " destination=" +
                                                destination +
                                                " message=" +
@@ -119,9 +119,9 @@ public class HornetQRAMessageProducer implements MessageProducer
 
          producer.send(destination, message, deliveryMode, priority, timeToLive);
 
-         if (HornetQRAMessageProducer.trace)
+         if (AMQRAMessageProducer.trace)
          {
-            HornetQRAMessageProducer.log.trace("sent " + this + " result=" + message);
+            AMQRAMessageProducer.log.trace("sent " + this + " result=" + message);
          }
       }
       finally
@@ -141,18 +141,18 @@ public class HornetQRAMessageProducer implements MessageProducer
       session.lock();
       try
       {
-         if (HornetQRAMessageProducer.trace)
+         if (AMQRAMessageProducer.trace)
          {
-            HornetQRAMessageProducer.log.trace("send " + this + " destination=" + destination + " message=" + message);
+            AMQRAMessageProducer.log.trace("send " + this + " destination=" + destination + " message=" + message);
          }
 
          checkState();
 
          producer.send(destination, message);
 
-         if (HornetQRAMessageProducer.trace)
+         if (AMQRAMessageProducer.trace)
          {
-            HornetQRAMessageProducer.log.trace("sent " + this + " result=" + message);
+            AMQRAMessageProducer.log.trace("sent " + this + " result=" + message);
          }
       }
       finally
@@ -174,9 +174,9 @@ public class HornetQRAMessageProducer implements MessageProducer
       session.lock();
       try
       {
-         if (HornetQRAMessageProducer.trace)
+         if (AMQRAMessageProducer.trace)
          {
-            HornetQRAMessageProducer.log.trace("send " + this +
+            AMQRAMessageProducer.log.trace("send " + this +
                                                " message=" +
                                                message +
                                                " deliveryMode=" +
@@ -191,9 +191,9 @@ public class HornetQRAMessageProducer implements MessageProducer
 
          producer.send(message, deliveryMode, priority, timeToLive);
 
-         if (HornetQRAMessageProducer.trace)
+         if (AMQRAMessageProducer.trace)
          {
-            HornetQRAMessageProducer.log.trace("sent " + this + " result=" + message);
+            AMQRAMessageProducer.log.trace("sent " + this + " result=" + message);
          }
       }
       finally
@@ -212,18 +212,18 @@ public class HornetQRAMessageProducer implements MessageProducer
       session.lock();
       try
       {
-         if (HornetQRAMessageProducer.trace)
+         if (AMQRAMessageProducer.trace)
          {
-            HornetQRAMessageProducer.log.trace("send " + this + " message=" + message);
+            AMQRAMessageProducer.log.trace("send " + this + " message=" + message);
          }
 
          checkState();
 
          producer.send(message);
 
-         if (HornetQRAMessageProducer.trace)
+         if (AMQRAMessageProducer.trace)
          {
-            HornetQRAMessageProducer.log.trace("sent " + this + " result=" + message);
+            AMQRAMessageProducer.log.trace("sent " + this + " result=" + message);
          }
       }
       finally
@@ -239,9 +239,9 @@ public class HornetQRAMessageProducer implements MessageProducer
     */
    public int getDeliveryMode() throws JMSException
    {
-      if (HornetQRAMessageProducer.trace)
+      if (AMQRAMessageProducer.trace)
       {
-         HornetQRAMessageProducer.log.trace("getDeliveryMode()");
+         AMQRAMessageProducer.log.trace("getDeliveryMode()");
       }
 
       return producer.getDeliveryMode();
@@ -254,9 +254,9 @@ public class HornetQRAMessageProducer implements MessageProducer
     */
    public Destination getDestination() throws JMSException
    {
-      if (HornetQRAMessageProducer.trace)
+      if (AMQRAMessageProducer.trace)
       {
-         HornetQRAMessageProducer.log.trace("getDestination()");
+         AMQRAMessageProducer.log.trace("getDestination()");
       }
 
       return producer.getDestination();
@@ -269,9 +269,9 @@ public class HornetQRAMessageProducer implements MessageProducer
     */
    public boolean getDisableMessageID() throws JMSException
    {
-      if (HornetQRAMessageProducer.trace)
+      if (AMQRAMessageProducer.trace)
       {
-         HornetQRAMessageProducer.log.trace("getDisableMessageID()");
+         AMQRAMessageProducer.log.trace("getDisableMessageID()");
       }
 
       return producer.getDisableMessageID();
@@ -284,9 +284,9 @@ public class HornetQRAMessageProducer implements MessageProducer
     */
    public boolean getDisableMessageTimestamp() throws JMSException
    {
-      if (HornetQRAMessageProducer.trace)
+      if (AMQRAMessageProducer.trace)
       {
-         HornetQRAMessageProducer.log.trace("getDisableMessageTimestamp()");
+         AMQRAMessageProducer.log.trace("getDisableMessageTimestamp()");
       }
 
       return producer.getDisableMessageTimestamp();
@@ -299,9 +299,9 @@ public class HornetQRAMessageProducer implements MessageProducer
     */
    public int getPriority() throws JMSException
    {
-      if (HornetQRAMessageProducer.trace)
+      if (AMQRAMessageProducer.trace)
       {
-         HornetQRAMessageProducer.log.trace("getPriority()");
+         AMQRAMessageProducer.log.trace("getPriority()");
       }
 
       return producer.getPriority();
@@ -314,9 +314,9 @@ public class HornetQRAMessageProducer implements MessageProducer
     */
    public long getTimeToLive() throws JMSException
    {
-      if (HornetQRAMessageProducer.trace)
+      if (AMQRAMessageProducer.trace)
       {
-         HornetQRAMessageProducer.log.trace("getTimeToLive()");
+         AMQRAMessageProducer.log.trace("getTimeToLive()");
       }
 
       return producer.getTimeToLive();
@@ -329,9 +329,9 @@ public class HornetQRAMessageProducer implements MessageProducer
     */
    public void setDeliveryMode(final int deliveryMode) throws JMSException
    {
-      if (HornetQRAMessageProducer.trace)
+      if (AMQRAMessageProducer.trace)
       {
-         HornetQRAMessageProducer.log.trace("setDeliveryMode(" + deliveryMode + ")");
+         AMQRAMessageProducer.log.trace("setDeliveryMode(" + deliveryMode + ")");
       }
 
       producer.setDeliveryMode(deliveryMode);
@@ -344,9 +344,9 @@ public class HornetQRAMessageProducer implements MessageProducer
     */
    public void setDisableMessageID(final boolean value) throws JMSException
    {
-      if (HornetQRAMessageProducer.trace)
+      if (AMQRAMessageProducer.trace)
       {
-         HornetQRAMessageProducer.log.trace("setDisableMessageID(" + value + ")");
+         AMQRAMessageProducer.log.trace("setDisableMessageID(" + value + ")");
       }
 
       producer.setDisableMessageID(value);
@@ -359,9 +359,9 @@ public class HornetQRAMessageProducer implements MessageProducer
     */
    public void setDisableMessageTimestamp(final boolean value) throws JMSException
    {
-      if (HornetQRAMessageProducer.trace)
+      if (AMQRAMessageProducer.trace)
       {
-         HornetQRAMessageProducer.log.trace("setDisableMessageTimestamp(" + value + ")");
+         AMQRAMessageProducer.log.trace("setDisableMessageTimestamp(" + value + ")");
       }
 
       producer.setDisableMessageTimestamp(value);
@@ -374,9 +374,9 @@ public class HornetQRAMessageProducer implements MessageProducer
     */
    public void setPriority(final int defaultPriority) throws JMSException
    {
-      if (HornetQRAMessageProducer.trace)
+      if (AMQRAMessageProducer.trace)
       {
-         HornetQRAMessageProducer.log.trace("setPriority(" + defaultPriority + ")");
+         AMQRAMessageProducer.log.trace("setPriority(" + defaultPriority + ")");
       }
 
       producer.setPriority(defaultPriority);
@@ -389,9 +389,9 @@ public class HornetQRAMessageProducer implements MessageProducer
     */
    public void setTimeToLive(final long timeToLive) throws JMSException
    {
-      if (HornetQRAMessageProducer.trace)
+      if (AMQRAMessageProducer.trace)
       {
-         HornetQRAMessageProducer.log.trace("setTimeToLive(" + timeToLive + ")");
+         AMQRAMessageProducer.log.trace("setTimeToLive(" + timeToLive + ")");
       }
 
       producer.setTimeToLive(timeToLive);

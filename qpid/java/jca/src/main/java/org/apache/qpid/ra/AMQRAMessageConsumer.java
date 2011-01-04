@@ -33,33 +33,33 @@ import org.slf4j.LoggerFactory;
  * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
  * @version $Revision: $
  */
-public class HornetQRAMessageConsumer implements MessageConsumer
+public class AMQRAMessageConsumer implements MessageConsumer
 {
    /** The logger */
-   private static final Logger log = LoggerFactory.getLogger(HornetQRAMessageConsumer.class);
+   private static final Logger log = LoggerFactory.getLogger(AMQRAMessageConsumer.class);
 
    /** Whether trace is enabled */
-   private static boolean trace = HornetQRAMessageConsumer.log.isTraceEnabled();
+   private static boolean trace = AMQRAMessageConsumer.log.isTraceEnabled();
 
    /** The wrapped message consumer */
    protected MessageConsumer consumer;
 
    /** The session for this consumer */
-   protected HornetQRASession session;
+   protected AMQRASession session;
 
    /**
     * Create a new wrapper
     * @param consumer the consumer
     * @param session the session
     */
-   public HornetQRAMessageConsumer(final MessageConsumer consumer, final HornetQRASession session)
+   public AMQRAMessageConsumer(final MessageConsumer consumer, final AMQRASession session)
    {
       this.consumer = consumer;
       this.session = session;
 
-      if (HornetQRAMessageConsumer.trace)
+      if (AMQRAMessageConsumer.trace)
       {
-         HornetQRAMessageConsumer.log.trace("new HornetQMessageConsumer " + this +
+         AMQRAMessageConsumer.log.trace("new AMQMessageConsumer " + this +
                                             " consumer=" +
                                             consumer +
                                             " session=" +
@@ -73,9 +73,9 @@ public class HornetQRAMessageConsumer implements MessageConsumer
     */
    public void close() throws JMSException
    {
-      if (HornetQRAMessageConsumer.trace)
+      if (AMQRAMessageConsumer.trace)
       {
-         HornetQRAMessageConsumer.log.trace("close " + this);
+         AMQRAMessageConsumer.log.trace("close " + this);
       }
       try
       {
@@ -93,9 +93,9 @@ public class HornetQRAMessageConsumer implements MessageConsumer
     */
    void checkState() throws JMSException
    {
-      if (HornetQRAMessageConsumer.trace)
+      if (AMQRAMessageConsumer.trace)
       {
-         HornetQRAMessageConsumer.log.trace("checkState()");
+         AMQRAMessageConsumer.log.trace("checkState()");
       }
       session.checkState();
    }
@@ -107,9 +107,9 @@ public class HornetQRAMessageConsumer implements MessageConsumer
     */
    public MessageListener getMessageListener() throws JMSException
    {
-      if (HornetQRAMessageConsumer.trace)
+      if (AMQRAMessageConsumer.trace)
       {
-         HornetQRAMessageConsumer.log.trace("getMessageListener()");
+         AMQRAMessageConsumer.log.trace("getMessageListener()");
       }
 
       checkState();
@@ -151,9 +151,9 @@ public class HornetQRAMessageConsumer implements MessageConsumer
     */
    public String getMessageSelector() throws JMSException
    {
-      if (HornetQRAMessageConsumer.trace)
+      if (AMQRAMessageConsumer.trace)
       {
-         HornetQRAMessageConsumer.log.trace("getMessageSelector()");
+         AMQRAMessageConsumer.log.trace("getMessageSelector()");
       }
 
       checkState();
@@ -170,17 +170,17 @@ public class HornetQRAMessageConsumer implements MessageConsumer
       session.lock();
       try
       {
-         if (HornetQRAMessageConsumer.trace)
+         if (AMQRAMessageConsumer.trace)
          {
-            HornetQRAMessageConsumer.log.trace("receive " + this);
+            AMQRAMessageConsumer.log.trace("receive " + this);
          }
 
          checkState();
          Message message = consumer.receive();
 
-         if (HornetQRAMessageConsumer.trace)
+         if (AMQRAMessageConsumer.trace)
          {
-            HornetQRAMessageConsumer.log.trace("received " + this + " result=" + message);
+            AMQRAMessageConsumer.log.trace("received " + this + " result=" + message);
          }
 
          if (message == null)
@@ -209,17 +209,17 @@ public class HornetQRAMessageConsumer implements MessageConsumer
       session.lock();
       try
       {
-         if (HornetQRAMessageConsumer.trace)
+         if (AMQRAMessageConsumer.trace)
          {
-            HornetQRAMessageConsumer.log.trace("receive " + this + " timeout=" + timeout);
+            AMQRAMessageConsumer.log.trace("receive " + this + " timeout=" + timeout);
          }
 
          checkState();
          Message message = consumer.receive(timeout);
 
-         if (HornetQRAMessageConsumer.trace)
+         if (AMQRAMessageConsumer.trace)
          {
-            HornetQRAMessageConsumer.log.trace("received " + this + " result=" + message);
+            AMQRAMessageConsumer.log.trace("received " + this + " result=" + message);
          }
 
          if (message == null)
@@ -247,17 +247,17 @@ public class HornetQRAMessageConsumer implements MessageConsumer
       session.lock();
       try
       {
-         if (HornetQRAMessageConsumer.trace)
+         if (AMQRAMessageConsumer.trace)
          {
-            HornetQRAMessageConsumer.log.trace("receiveNoWait " + this);
+            AMQRAMessageConsumer.log.trace("receiveNoWait " + this);
          }
 
          checkState();
          Message message = consumer.receiveNoWait();
 
-         if (HornetQRAMessageConsumer.trace)
+         if (AMQRAMessageConsumer.trace)
          {
-            HornetQRAMessageConsumer.log.trace("received " + this + " result=" + message);
+            AMQRAMessageConsumer.log.trace("received " + this + " result=" + message);
          }
 
          if (message == null)
@@ -281,9 +281,9 @@ public class HornetQRAMessageConsumer implements MessageConsumer
     */
    void closeConsumer() throws JMSException
    {
-      if (HornetQRAMessageConsumer.trace)
+      if (AMQRAMessageConsumer.trace)
       {
-         HornetQRAMessageConsumer.log.trace("closeConsumer()");
+         AMQRAMessageConsumer.log.trace("closeConsumer()");
       }
 
       consumer.close();
@@ -296,32 +296,32 @@ public class HornetQRAMessageConsumer implements MessageConsumer
     */
    Message wrapMessage(final Message message)
    {
-      if (HornetQRAMessageConsumer.trace)
+      if (AMQRAMessageConsumer.trace)
       {
-         HornetQRAMessageConsumer.log.trace("wrapMessage(" + message + ")");
+         AMQRAMessageConsumer.log.trace("wrapMessage(" + message + ")");
       }
 
       if (message instanceof BytesMessage)
       {
-         return new HornetQRABytesMessage((BytesMessage)message, session);
+         return new AMQRABytesMessage((BytesMessage)message, session);
       }
       else if (message instanceof MapMessage)
       {
-         return new HornetQRAMapMessage((MapMessage)message, session);
+         return new AMQRAMapMessage((MapMessage)message, session);
       }
       else if (message instanceof ObjectMessage)
       {
-         return new HornetQRAObjectMessage((ObjectMessage)message, session);
+         return new AMQRAObjectMessage((ObjectMessage)message, session);
       }
       else if (message instanceof StreamMessage)
       {
-         return new HornetQRAStreamMessage((StreamMessage)message, session);
+         return new AMQRAStreamMessage((StreamMessage)message, session);
       }
       else if (message instanceof TextMessage)
       {
-         return new HornetQRATextMessage((TextMessage)message, session);
+         return new AMQRATextMessage((TextMessage)message, session);
       }
-      return new HornetQRAMessage(message, session);
+      return new AMQRAMessage(message, session);
    }
 
    /**
@@ -331,11 +331,11 @@ public class HornetQRAMessageConsumer implements MessageConsumer
     */
    MessageListener wrapMessageListener(final MessageListener listener)
    {
-      if (HornetQRAMessageConsumer.trace)
+      if (AMQRAMessageConsumer.trace)
       {
-         HornetQRAMessageConsumer.log.trace("getMessageSelector()");
+         AMQRAMessageConsumer.log.trace("getMessageSelector()");
       }
 
-      return new HornetQRAMessageListener(listener, this);
+      return new AMQRAMessageListener(listener, this);
    }
 }

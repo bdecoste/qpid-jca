@@ -29,25 +29,25 @@ import org.slf4j.LoggerFactory;
  * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
  * @version $Revision: $
  */
-public class HornetQRAConnectionManager implements ConnectionManager
+public class AMQRAConnectionManager implements ConnectionManager
 {
    /** Serial version UID */
    static final long serialVersionUID = 4409118162975011014L;
 
    /** The logger */
-   private static final Logger log = LoggerFactory.getLogger(HornetQRAConnectionManager.class);
+   private static final Logger log = LoggerFactory.getLogger(AMQRAConnectionManager.class);
 
    /** Trace enabled */
-   private static boolean trace = HornetQRAConnectionManager.log.isTraceEnabled();
+   private static boolean trace = AMQRAConnectionManager.log.isTraceEnabled();
 
    /**
     * Constructor
     */
-   public HornetQRAConnectionManager()
+   public AMQRAConnectionManager()
    {
-      if (HornetQRAConnectionManager.trace)
+      if (AMQRAConnectionManager.trace)
       {
-         HornetQRAConnectionManager.log.trace("constructor()");
+         AMQRAConnectionManager.log.trace("constructor()");
       }
    }
 
@@ -60,17 +60,17 @@ public class HornetQRAConnectionManager implements ConnectionManager
     */
    public Object allocateConnection(final ManagedConnectionFactory mcf, final ConnectionRequestInfo cxRequestInfo) throws ResourceException
    {
-      if (HornetQRAConnectionManager.trace)
+      if (AMQRAConnectionManager.trace)
       {
-         HornetQRAConnectionManager.log.trace("allocateConnection(" + mcf + ", " + cxRequestInfo + ")");
+         AMQRAConnectionManager.log.trace("allocateConnection(" + mcf + ", " + cxRequestInfo + ")");
       }
 
       ManagedConnection mc = mcf.createManagedConnection(null, cxRequestInfo);
       Object c = mc.getConnection(null, cxRequestInfo);
 
-      if (HornetQRAConnectionManager.trace)
+      if (AMQRAConnectionManager.trace)
       {
-         HornetQRAConnectionManager.log.trace("Allocated connection: " + c + ", with managed connection: " + mc);
+         AMQRAConnectionManager.log.trace("Allocated connection: " + c + ", with managed connection: " + mc);
       }
 
       return c;

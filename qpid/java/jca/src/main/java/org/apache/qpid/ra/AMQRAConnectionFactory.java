@@ -30,7 +30,7 @@ import javax.resource.Referenceable;
  * @author <a href="mailto:jesper.pedersen@jboss.com">Jesper Pedersen</a>
  * @version $Revision: $
  */
-public interface HornetQRAConnectionFactory extends ConnectionFactory, TopicConnectionFactory, QueueConnectionFactory,
+public interface AMQRAConnectionFactory extends ConnectionFactory, TopicConnectionFactory, QueueConnectionFactory,
          XAConnectionFactory, XAQueueConnectionFactory, XATopicConnectionFactory, Serializable, Referenceable
 {
    /** Connection factory capable of handling connections */

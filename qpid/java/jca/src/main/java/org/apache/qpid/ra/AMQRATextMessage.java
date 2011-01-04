@@ -26,26 +26,26 @@ import org.slf4j.LoggerFactory;
  * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
  * @version $Revision: $
  */
-public class HornetQRATextMessage extends HornetQRAMessage implements TextMessage
+public class AMQRATextMessage extends AMQRAMessage implements TextMessage
 {
    /** The logger */
-   private static final Logger log = LoggerFactory.getLogger(HornetQRATextMessage.class);
+   private static final Logger log = LoggerFactory.getLogger(AMQRATextMessage.class);
 
    /** Whether trace is enabled */
-   private static boolean trace = HornetQRATextMessage.log.isTraceEnabled();
+   private static boolean trace = AMQRATextMessage.log.isTraceEnabled();
 
    /**
     * Create a new wrapper
     * @param message the message
     * @param session the session
     */
-   public HornetQRATextMessage(final TextMessage message, final HornetQRASession session)
+   public AMQRATextMessage(final TextMessage message, final AMQRASession session)
    {
       super(message, session);
 
-      if (HornetQRATextMessage.trace)
+      if (AMQRATextMessage.trace)
       {
-         HornetQRATextMessage.log.trace("constructor(" + message + ", " + session + ")");
+         AMQRATextMessage.log.trace("constructor(" + message + ", " + session + ")");
       }
    }
 
@@ -56,9 +56,9 @@ public class HornetQRATextMessage extends HornetQRAMessage implements TextMessag
     */
    public String getText() throws JMSException
    {
-      if (HornetQRATextMessage.trace)
+      if (AMQRATextMessage.trace)
       {
-         HornetQRATextMessage.log.trace("getText()");
+         AMQRATextMessage.log.trace("getText()");
       }
 
       return ((TextMessage)message).getText();
@@ -71,9 +71,9 @@ public class HornetQRATextMessage extends HornetQRAMessage implements TextMessag
     */
    public void setText(final String string) throws JMSException
    {
-      if (HornetQRATextMessage.trace)
+      if (AMQRATextMessage.trace)
       {
-         HornetQRATextMessage.log.trace("setText(" + string + ")");
+         AMQRATextMessage.log.trace("setText(" + string + ")");
       }
 
       ((TextMessage)message).setText(string);

@@ -22,32 +22,32 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * HornetQQueueSender.
+ * AMQQueueSender.
  * 
  * @author <a href="adrian@jboss.com">Adrian Brock</a>
  * @author <a href="jesper.pedersen@jboss.org">Jesper Pedersen</a>
  * @version $Revision:  $
  */
-public class HornetQRATopicPublisher extends HornetQRAMessageProducer implements TopicPublisher
+public class AMQRATopicPublisher extends AMQRAMessageProducer implements TopicPublisher
 {
    /** The logger */
-   private static final Logger log = LoggerFactory.getLogger(HornetQRATopicPublisher.class);
+   private static final Logger log = LoggerFactory.getLogger(AMQRATopicPublisher.class);
 
    /** Whether trace is enabled */
-   private static boolean trace = HornetQRATopicPublisher.log.isTraceEnabled();
+   private static boolean trace = AMQRATopicPublisher.log.isTraceEnabled();
 
    /**
     * Create a new wrapper
     * @param producer the producer
     * @param session the session
     */
-   public HornetQRATopicPublisher(final TopicPublisher producer, final HornetQRASession session)
+   public AMQRATopicPublisher(final TopicPublisher producer, final AMQRASession session)
    {
       super(producer, session);
 
-      if (HornetQRATopicPublisher.trace)
+      if (AMQRATopicPublisher.trace)
       {
-         HornetQRATopicPublisher.log.trace("constructor(" + producer + ", " + session + ")");
+         AMQRATopicPublisher.log.trace("constructor(" + producer + ", " + session + ")");
       }
    }
 
@@ -58,9 +58,9 @@ public class HornetQRATopicPublisher extends HornetQRAMessageProducer implements
     */
    public Topic getTopic() throws JMSException
    {
-      if (HornetQRATopicPublisher.trace)
+      if (AMQRATopicPublisher.trace)
       {
-         HornetQRATopicPublisher.log.trace("getTopic()");
+         AMQRATopicPublisher.log.trace("getTopic()");
       }
 
       return ((TopicPublisher)producer).getTopic();
@@ -79,9 +79,9 @@ public class HornetQRATopicPublisher extends HornetQRAMessageProducer implements
       session.lock();
       try
       {
-         if (HornetQRATopicPublisher.trace)
+         if (AMQRATopicPublisher.trace)
          {
-            HornetQRATopicPublisher.log.trace("send " + this +
+            AMQRATopicPublisher.log.trace("send " + this +
                                               " message=" +
                                               message +
                                               " deliveryMode=" +
@@ -96,9 +96,9 @@ public class HornetQRATopicPublisher extends HornetQRAMessageProducer implements
 
          ((TopicPublisher)producer).publish(message, deliveryMode, priority, timeToLive);
 
-         if (HornetQRATopicPublisher.trace)
+         if (AMQRATopicPublisher.trace)
          {
-            HornetQRATopicPublisher.log.trace("sent " + this + " result=" + message);
+            AMQRATopicPublisher.log.trace("sent " + this + " result=" + message);
          }
       }
       finally
@@ -117,18 +117,18 @@ public class HornetQRATopicPublisher extends HornetQRAMessageProducer implements
       session.lock();
       try
       {
-         if (HornetQRATopicPublisher.trace)
+         if (AMQRATopicPublisher.trace)
          {
-            HornetQRATopicPublisher.log.trace("send " + this + " message=" + message);
+            AMQRATopicPublisher.log.trace("send " + this + " message=" + message);
          }
 
          checkState();
 
          ((TopicPublisher)producer).publish(message);
 
-         if (HornetQRATopicPublisher.trace)
+         if (AMQRATopicPublisher.trace)
          {
-            HornetQRATopicPublisher.log.trace("sent " + this + " result=" + message);
+            AMQRATopicPublisher.log.trace("sent " + this + " result=" + message);
          }
       }
       finally
@@ -155,9 +155,9 @@ public class HornetQRATopicPublisher extends HornetQRAMessageProducer implements
       session.lock();
       try
       {
-         if (HornetQRATopicPublisher.trace)
+         if (AMQRATopicPublisher.trace)
          {
-            HornetQRATopicPublisher.log.trace("send " + this +
+            AMQRATopicPublisher.log.trace("send " + this +
                                               " destination=" +
                                               destination +
                                               " message=" +
@@ -174,9 +174,9 @@ public class HornetQRATopicPublisher extends HornetQRAMessageProducer implements
 
          ((TopicPublisher)producer).publish(destination, message, deliveryMode, priority, timeToLive);
 
-         if (HornetQRATopicPublisher.trace)
+         if (AMQRATopicPublisher.trace)
          {
-            HornetQRATopicPublisher.log.trace("sent " + this + " result=" + message);
+            AMQRATopicPublisher.log.trace("sent " + this + " result=" + message);
          }
       }
       finally
@@ -196,18 +196,18 @@ public class HornetQRATopicPublisher extends HornetQRAMessageProducer implements
       session.lock();
       try
       {
-         if (HornetQRATopicPublisher.trace)
+         if (AMQRATopicPublisher.trace)
          {
-            HornetQRATopicPublisher.log.trace("send " + this + " destination=" + destination + " message=" + message);
+            AMQRATopicPublisher.log.trace("send " + this + " destination=" + destination + " message=" + message);
          }
 
          checkState();
 
          ((TopicPublisher)producer).publish(destination, message);
 
-         if (HornetQRATopicPublisher.trace)
+         if (AMQRATopicPublisher.trace)
          {
-            HornetQRATopicPublisher.log.trace("sent " + this + " result=" + message);
+            AMQRATopicPublisher.log.trace("sent " + this + " result=" + message);
          }
       }
       finally

@@ -37,15 +37,15 @@ import org.apache.qpid.ra.Util;
  * @author <a href="mailto:clebert.suconic@jboss.org">Clebert Suconic</a>
  * @version $Revision: $
  */
-public class HornetQActivationSpec extends ConnectionFactoryProperties implements ActivationSpec
+public class AMQActivationSpec extends ConnectionFactoryProperties implements ActivationSpec
 {
    private static final int DEFAULT_MAX_SESSION = 15;
 
    /** The logger */
-   private static final Logger log = LoggerFactory.getLogger(HornetQActivationSpec.class);
+   private static final Logger log = LoggerFactory.getLogger(AMQActivationSpec.class);
 
    /** Whether trace is enabled */
-   private static boolean trace = HornetQActivationSpec.log.isTraceEnabled();
+   private static boolean trace = AMQActivationSpec.log.isTraceEnabled();
 
    /** The transport config, changing the default configured from the RA */
    private Map<String, Object> connectionParameters = new HashMap<String, Object>();
@@ -53,7 +53,7 @@ public class HornetQActivationSpec extends ConnectionFactoryProperties implement
    public String strConnectionParameters;
 
    /** The resource adapter */
-   private HornetQResourceAdapter ra;
+   private AMQResourceAdapter ra;
 
    /** The destination */
    private String destination;
@@ -90,20 +90,20 @@ public class HornetQActivationSpec extends ConnectionFactoryProperties implement
    /* use local tx instead of XA*/
    private Boolean localTx;
 
-   // undefined by default, default is specified at the RA level in HornetQRAProperties
+   // undefined by default, default is specified at the RA level in AMQRAProperties
    private Integer setupAttempts;
    
-   // undefined by default, default is specified at the RA level in HornetQRAProperties
+   // undefined by default, default is specified at the RA level in AMQRAProperties
    private Long setupInterval;
 
    /**
     * Constructor
     */
-   public HornetQActivationSpec()
+   public AMQActivationSpec()
    {
-      if (HornetQActivationSpec.trace)
+      if (AMQActivationSpec.trace)
       {
-         HornetQActivationSpec.log.trace("constructor()");
+         AMQActivationSpec.log.trace("constructor()");
       }
 
       ra = null;
@@ -125,9 +125,9 @@ public class HornetQActivationSpec extends ConnectionFactoryProperties implement
     */
    public ResourceAdapter getResourceAdapter()
    {
-      if (HornetQActivationSpec.trace)
+      if (AMQActivationSpec.trace)
       {
-         HornetQActivationSpec.log.trace("getResourceAdapter()");
+         AMQActivationSpec.log.trace("getResourceAdapter()");
       }
 
       return ra;
@@ -156,17 +156,17 @@ public class HornetQActivationSpec extends ConnectionFactoryProperties implement
     */
    public void setResourceAdapter(final ResourceAdapter ra) throws ResourceException
    {
-      if (HornetQActivationSpec.trace)
+      if (AMQActivationSpec.trace)
       {
-         HornetQActivationSpec.log.trace("setResourceAdapter(" + ra + ")");
+         AMQActivationSpec.log.trace("setResourceAdapter(" + ra + ")");
       }
 
-      if (ra == null || !(ra instanceof HornetQResourceAdapter))
+      if (ra == null || !(ra instanceof AMQResourceAdapter))
       {
          throw new ResourceException("Resource adapter is " + ra);
       }
 
-      this.ra = (HornetQResourceAdapter)ra;
+      this.ra = (AMQResourceAdapter)ra;
    }
 
    /**
@@ -175,9 +175,9 @@ public class HornetQActivationSpec extends ConnectionFactoryProperties implement
     */
    public String getDestination()
    {
-      if (HornetQActivationSpec.trace)
+      if (AMQActivationSpec.trace)
       {
-         HornetQActivationSpec.log.trace("getDestination()");
+         AMQActivationSpec.log.trace("getDestination()");
       }
 
       return destination;
@@ -189,9 +189,9 @@ public class HornetQActivationSpec extends ConnectionFactoryProperties implement
     */
    public void setDestination(final String value)
    {
-      if (HornetQActivationSpec.trace)
+      if (AMQActivationSpec.trace)
       {
-         HornetQActivationSpec.log.trace("setDestination(" + value + ")");
+         AMQActivationSpec.log.trace("setDestination(" + value + ")");
       }
 
       destination = value;
@@ -203,9 +203,9 @@ public class HornetQActivationSpec extends ConnectionFactoryProperties implement
     */
    public String getDestinationType()
    {
-      if (HornetQActivationSpec.trace)
+      if (AMQActivationSpec.trace)
       {
-         HornetQActivationSpec.log.trace("getDestinationType()");
+         AMQActivationSpec.log.trace("getDestinationType()");
       }
 
       return destinationType;
@@ -217,9 +217,9 @@ public class HornetQActivationSpec extends ConnectionFactoryProperties implement
     */
    public void setDestinationType(final String value)
    {
-      if (HornetQActivationSpec.trace)
+      if (AMQActivationSpec.trace)
       {
-         HornetQActivationSpec.log.trace("setDestinationType(" + value + ")");
+         AMQActivationSpec.log.trace("setDestinationType(" + value + ")");
       }
 
       destinationType = value;
@@ -231,9 +231,9 @@ public class HornetQActivationSpec extends ConnectionFactoryProperties implement
     */
    public String getMessageSelector()
    {
-      if (HornetQActivationSpec.trace)
+      if (AMQActivationSpec.trace)
       {
-         HornetQActivationSpec.log.trace("getMessageSelector()");
+         AMQActivationSpec.log.trace("getMessageSelector()");
       }
 
       return messageSelector;
@@ -245,9 +245,9 @@ public class HornetQActivationSpec extends ConnectionFactoryProperties implement
     */
    public void setMessageSelector(final String value)
    {
-      if (HornetQActivationSpec.trace)
+      if (AMQActivationSpec.trace)
       {
-         HornetQActivationSpec.log.trace("setMessageSelector(" + value + ")");
+         AMQActivationSpec.log.trace("setMessageSelector(" + value + ")");
       }
 
       messageSelector = value;
@@ -259,9 +259,9 @@ public class HornetQActivationSpec extends ConnectionFactoryProperties implement
     */
    public String getAcknowledgeMode()
    {
-      if (HornetQActivationSpec.trace)
+      if (AMQActivationSpec.trace)
       {
-         HornetQActivationSpec.log.trace("getAcknowledgeMode()");
+         AMQActivationSpec.log.trace("getAcknowledgeMode()");
       }
 
       if (Session.DUPS_OK_ACKNOWLEDGE == acknowledgeMode)
@@ -280,9 +280,9 @@ public class HornetQActivationSpec extends ConnectionFactoryProperties implement
     */
    public void setAcknowledgeMode(final String value)
    {
-      if (HornetQActivationSpec.trace)
+      if (AMQActivationSpec.trace)
       {
-         HornetQActivationSpec.log.trace("setAcknowledgeMode(" + value + ")");
+         AMQActivationSpec.log.trace("setAcknowledgeMode(" + value + ")");
       }
 
       if ("DUPS_OK_ACKNOWLEDGE".equalsIgnoreCase(value) || "Dups-ok-acknowledge".equalsIgnoreCase(value))
@@ -304,9 +304,9 @@ public class HornetQActivationSpec extends ConnectionFactoryProperties implement
     */
    public int getAcknowledgeModeInt()
    {
-      if (HornetQActivationSpec.trace)
+      if (AMQActivationSpec.trace)
       {
-         HornetQActivationSpec.log.trace("getAcknowledgeMode()");
+         AMQActivationSpec.log.trace("getAcknowledgeMode()");
       }
 
       return acknowledgeMode;
@@ -318,9 +318,9 @@ public class HornetQActivationSpec extends ConnectionFactoryProperties implement
     */
    public String getSubscriptionDurability()
    {
-      if (HornetQActivationSpec.trace)
+      if (AMQActivationSpec.trace)
       {
-         HornetQActivationSpec.log.trace("getSubscriptionDurability()");
+         AMQActivationSpec.log.trace("getSubscriptionDurability()");
       }
 
       if (subscriptionDurability)
@@ -339,9 +339,9 @@ public class HornetQActivationSpec extends ConnectionFactoryProperties implement
     */
    public void setSubscriptionDurability(final String value)
    {
-      if (HornetQActivationSpec.trace)
+      if (AMQActivationSpec.trace)
       {
-         HornetQActivationSpec.log.trace("setSubscriptionDurability(" + value + ")");
+         AMQActivationSpec.log.trace("setSubscriptionDurability(" + value + ")");
       }
 
       subscriptionDurability = "Durable".equals(value);
@@ -353,9 +353,9 @@ public class HornetQActivationSpec extends ConnectionFactoryProperties implement
     */
    public boolean isSubscriptionDurable()
    {
-      if (HornetQActivationSpec.trace)
+      if (AMQActivationSpec.trace)
       {
-         HornetQActivationSpec.log.trace("isSubscriptionDurable()");
+         AMQActivationSpec.log.trace("isSubscriptionDurable()");
       }
 
       return subscriptionDurability;
@@ -367,9 +367,9 @@ public class HornetQActivationSpec extends ConnectionFactoryProperties implement
     */
    public String getSubscriptionName()
    {
-      if (HornetQActivationSpec.trace)
+      if (AMQActivationSpec.trace)
       {
-         HornetQActivationSpec.log.trace("getSubscriptionName()");
+         AMQActivationSpec.log.trace("getSubscriptionName()");
       }
 
       return subscriptionName;
@@ -381,9 +381,9 @@ public class HornetQActivationSpec extends ConnectionFactoryProperties implement
     */
    public void setSubscriptionName(final String value)
    {
-      if (HornetQActivationSpec.trace)
+      if (AMQActivationSpec.trace)
       {
-         HornetQActivationSpec.log.trace("setSubscriptionName(" + value + ")");
+         AMQActivationSpec.log.trace("setSubscriptionName(" + value + ")");
       }
 
       subscriptionName = value;
@@ -395,9 +395,9 @@ public class HornetQActivationSpec extends ConnectionFactoryProperties implement
     */
    public String getUser()
    {
-      if (HornetQActivationSpec.trace)
+      if (AMQActivationSpec.trace)
       {
-         HornetQActivationSpec.log.trace("getUser()");
+         AMQActivationSpec.log.trace("getUser()");
       }
 
       if (user == null)
@@ -416,9 +416,9 @@ public class HornetQActivationSpec extends ConnectionFactoryProperties implement
     */
    public void setUser(final String value)
    {
-      if (HornetQActivationSpec.trace)
+      if (AMQActivationSpec.trace)
       {
-         HornetQActivationSpec.log.trace("setUser(" + value + ")");
+         AMQActivationSpec.log.trace("setUser(" + value + ")");
       }
 
       user = value;
@@ -430,9 +430,9 @@ public class HornetQActivationSpec extends ConnectionFactoryProperties implement
     */
    public String getPassword()
    {
-      if (HornetQActivationSpec.trace)
+      if (AMQActivationSpec.trace)
       {
-         HornetQActivationSpec.log.trace("getPassword()");
+         AMQActivationSpec.log.trace("getPassword()");
       }
 
       if (password == null)
@@ -451,9 +451,9 @@ public class HornetQActivationSpec extends ConnectionFactoryProperties implement
     */
    public void setPassword(final String value)
    {
-      if (HornetQActivationSpec.trace)
+      if (AMQActivationSpec.trace)
       {
-         HornetQActivationSpec.log.trace("setPassword(" + value + ")");
+         AMQActivationSpec.log.trace("setPassword(" + value + ")");
       }
 
       password = value;
@@ -465,9 +465,9 @@ public class HornetQActivationSpec extends ConnectionFactoryProperties implement
     */
    public Integer getMaxSession()
    {
-      if (HornetQActivationSpec.trace)
+      if (AMQActivationSpec.trace)
       {
-         HornetQActivationSpec.log.trace("getMaxSession()");
+         AMQActivationSpec.log.trace("getMaxSession()");
       }
 
       if (maxSession == null)
@@ -484,9 +484,9 @@ public class HornetQActivationSpec extends ConnectionFactoryProperties implement
     */
    public void setMaxSession(final Integer value)
    {
-      if (HornetQActivationSpec.trace)
+      if (AMQActivationSpec.trace)
       {
-         HornetQActivationSpec.log.trace("setMaxSession(" + value + ")");
+         AMQActivationSpec.log.trace("setMaxSession(" + value + ")");
       }
 
       maxSession = value;
@@ -498,9 +498,9 @@ public class HornetQActivationSpec extends ConnectionFactoryProperties implement
     */
    public Integer getTransactionTimeout()
    {
-      if (HornetQActivationSpec.trace)
+      if (AMQActivationSpec.trace)
       {
-         HornetQActivationSpec.log.trace("getTransactionTimeout()");
+         AMQActivationSpec.log.trace("getTransactionTimeout()");
       }
 
       return transactionTimeout;
@@ -512,9 +512,9 @@ public class HornetQActivationSpec extends ConnectionFactoryProperties implement
     */
    public void setTransactionTimeout(final Integer value)
    {
-      if (HornetQActivationSpec.trace)
+      if (AMQActivationSpec.trace)
       {
-         HornetQActivationSpec.log.trace("setTransactionTimeout(" + value + ")");
+         AMQActivationSpec.log.trace("setTransactionTimeout(" + value + ")");
       }
 
       transactionTimeout = value;
@@ -539,9 +539,9 @@ public class HornetQActivationSpec extends ConnectionFactoryProperties implement
 
    public int getSetupAttempts()
    {
-      if (HornetQActivationSpec.trace)
+      if (AMQActivationSpec.trace)
       {
-         HornetQActivationSpec.log.trace("getSetupAttempts()");
+         AMQActivationSpec.log.trace("getSetupAttempts()");
       }
 
       if (setupAttempts == null)
@@ -556,9 +556,9 @@ public class HornetQActivationSpec extends ConnectionFactoryProperties implement
 
    public void setSetupAttempts(int setupAttempts)
    {
-      if (HornetQActivationSpec.trace)
+      if (AMQActivationSpec.trace)
       {
-         HornetQActivationSpec.log.trace("setSetupAttempts(" + setupAttempts + ")");
+         AMQActivationSpec.log.trace("setSetupAttempts(" + setupAttempts + ")");
       }
 
       this.setupAttempts = setupAttempts;
@@ -566,9 +566,9 @@ public class HornetQActivationSpec extends ConnectionFactoryProperties implement
 
    public long getSetupInterval()
    {
-      if (HornetQActivationSpec.trace)
+      if (AMQActivationSpec.trace)
       {
-         HornetQActivationSpec.log.trace("getSetupInterval()");
+         AMQActivationSpec.log.trace("getSetupInterval()");
       }
 
       if (setupInterval == null)
@@ -583,9 +583,9 @@ public class HornetQActivationSpec extends ConnectionFactoryProperties implement
 
    public void setSetupInterval(long setupInterval)
    {
-      if (HornetQActivationSpec.trace)
+      if (AMQActivationSpec.trace)
       {
-         HornetQActivationSpec.log.trace("setSetupInterval(" + setupInterval + ")");
+         AMQActivationSpec.log.trace("setSetupInterval(" + setupInterval + ")");
       }
 
       this.setupInterval = setupInterval;
@@ -597,9 +597,9 @@ public class HornetQActivationSpec extends ConnectionFactoryProperties implement
     */
    public void validate() throws InvalidPropertyException
    {
-      if (HornetQActivationSpec.trace)
+      if (AMQActivationSpec.trace)
       {
-         HornetQActivationSpec.log.trace("validate()");
+         AMQActivationSpec.log.trace("validate()");
       }
 
       if (destination == null || destination.trim().equals(""))
@@ -636,7 +636,7 @@ public class HornetQActivationSpec extends ConnectionFactoryProperties implement
    public String toString()
    {
       StringBuffer buffer = new StringBuffer();
-      buffer.append(HornetQActivationSpec.class.getName()).append('(');
+      buffer.append(AMQActivationSpec.class.getName()).append('(');
       buffer.append("ra=").append(ra);
       buffer.append(" destination=").append(destination);
       buffer.append(" destinationType=").append(destinationType);

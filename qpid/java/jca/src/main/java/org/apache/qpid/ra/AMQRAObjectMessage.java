@@ -28,26 +28,26 @@ import org.slf4j.LoggerFactory;
  * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
  * @version $Revision: $
  */
-public class HornetQRAObjectMessage extends HornetQRAMessage implements ObjectMessage
+public class AMQRAObjectMessage extends AMQRAMessage implements ObjectMessage
 {
    /** The logger */
-   private static final Logger log = LoggerFactory.getLogger(HornetQRAObjectMessage.class);
+   private static final Logger log = LoggerFactory.getLogger(AMQRAObjectMessage.class);
 
    /** Whether trace is enabled */
-   private static boolean trace = HornetQRAObjectMessage.log.isTraceEnabled();
+   private static boolean trace = AMQRAObjectMessage.log.isTraceEnabled();
 
    /**
     * Create a new wrapper
     * @param message the message
     * @param session the session
     */
-   public HornetQRAObjectMessage(final ObjectMessage message, final HornetQRASession session)
+   public AMQRAObjectMessage(final ObjectMessage message, final AMQRASession session)
    {
       super(message, session);
 
-      if (HornetQRAObjectMessage.trace)
+      if (AMQRAObjectMessage.trace)
       {
-         HornetQRAObjectMessage.log.trace("constructor(" + message + ", " + session + ")");
+         AMQRAObjectMessage.log.trace("constructor(" + message + ", " + session + ")");
       }
    }
 
@@ -58,9 +58,9 @@ public class HornetQRAObjectMessage extends HornetQRAMessage implements ObjectMe
     */
    public Serializable getObject() throws JMSException
    {
-      if (HornetQRAObjectMessage.trace)
+      if (AMQRAObjectMessage.trace)
       {
-         HornetQRAObjectMessage.log.trace("getObject()");
+         AMQRAObjectMessage.log.trace("getObject()");
       }
 
       return ((ObjectMessage)message).getObject();
@@ -73,9 +73,9 @@ public class HornetQRAObjectMessage extends HornetQRAMessage implements ObjectMe
     */
    public void setObject(final Serializable object) throws JMSException
    {
-      if (HornetQRAObjectMessage.trace)
+      if (AMQRAObjectMessage.trace)
       {
-         HornetQRAObjectMessage.log.trace("setObject(" + object + ")");
+         AMQRAObjectMessage.log.trace("setObject(" + object + ")");
       }
 
       ((ObjectMessage)message).setObject(object);

@@ -28,30 +28,30 @@ import org.slf4j.LoggerFactory;
  * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
  * @version $Revision: $
  */
-public class HornetQRAMessage implements Message
+public class AMQRAMessage implements Message
 {
    /** The logger */
-   private static final Logger log = LoggerFactory.getLogger(HornetQRAMessage.class);
+   private static final Logger log = LoggerFactory.getLogger(AMQRAMessage.class);
 
    /** Whether trace is enabled */
-   private static boolean trace = HornetQRAMessage.log.isTraceEnabled();
+   private static boolean trace = AMQRAMessage.log.isTraceEnabled();
 
    /** The message */
    protected Message message;
 
    /** The session */
-   protected HornetQRASession session;
+   protected AMQRASession session;
 
    /**
     * Create a new wrapper
     * @param message the message
     * @param session the session
     */
-   public HornetQRAMessage(final Message message, final HornetQRASession session)
+   public AMQRAMessage(final Message message, final AMQRASession session)
    {
-      if (HornetQRAMessage.trace)
+      if (AMQRAMessage.trace)
       {
-         HornetQRAMessage.log.trace("constructor(" + message + ", " + session + ")");
+         AMQRAMessage.log.trace("constructor(" + message + ", " + session + ")");
       }
 
       this.message = message;
@@ -64,9 +64,9 @@ public class HornetQRAMessage implements Message
     */
    public void acknowledge() throws JMSException
    {
-      if (HornetQRAMessage.trace)
+      if (AMQRAMessage.trace)
       {
-         HornetQRAMessage.log.trace("acknowledge()");
+         AMQRAMessage.log.trace("acknowledge()");
       }
 
       session.getSession(); // Check for closed
@@ -79,9 +79,9 @@ public class HornetQRAMessage implements Message
     */
    public void clearBody() throws JMSException
    {
-      if (HornetQRAMessage.trace)
+      if (AMQRAMessage.trace)
       {
-         HornetQRAMessage.log.trace("clearBody()");
+         AMQRAMessage.log.trace("clearBody()");
       }
 
       message.clearBody();
@@ -93,9 +93,9 @@ public class HornetQRAMessage implements Message
     */
    public void clearProperties() throws JMSException
    {
-      if (HornetQRAMessage.trace)
+      if (AMQRAMessage.trace)
       {
-         HornetQRAMessage.log.trace("clearProperties()");
+         AMQRAMessage.log.trace("clearProperties()");
       }
 
       message.clearProperties();
@@ -109,9 +109,9 @@ public class HornetQRAMessage implements Message
     */
    public boolean getBooleanProperty(final String name) throws JMSException
    {
-      if (HornetQRAMessage.trace)
+      if (AMQRAMessage.trace)
       {
-         HornetQRAMessage.log.trace("getBooleanProperty(" + name + ")");
+         AMQRAMessage.log.trace("getBooleanProperty(" + name + ")");
       }
 
       return message.getBooleanProperty(name);
@@ -125,9 +125,9 @@ public class HornetQRAMessage implements Message
     */
    public byte getByteProperty(final String name) throws JMSException
    {
-      if (HornetQRAMessage.trace)
+      if (AMQRAMessage.trace)
       {
-         HornetQRAMessage.log.trace("getByteProperty(" + name + ")");
+         AMQRAMessage.log.trace("getByteProperty(" + name + ")");
       }
 
       return message.getByteProperty(name);
@@ -141,9 +141,9 @@ public class HornetQRAMessage implements Message
     */
    public double getDoubleProperty(final String name) throws JMSException
    {
-      if (HornetQRAMessage.trace)
+      if (AMQRAMessage.trace)
       {
-         HornetQRAMessage.log.trace("getDoubleProperty(" + name + ")");
+         AMQRAMessage.log.trace("getDoubleProperty(" + name + ")");
       }
 
       return message.getDoubleProperty(name);
@@ -157,9 +157,9 @@ public class HornetQRAMessage implements Message
     */
    public float getFloatProperty(final String name) throws JMSException
    {
-      if (HornetQRAMessage.trace)
+      if (AMQRAMessage.trace)
       {
-         HornetQRAMessage.log.trace("getFloatProperty(" + name + ")");
+         AMQRAMessage.log.trace("getFloatProperty(" + name + ")");
       }
 
       return message.getFloatProperty(name);
@@ -173,9 +173,9 @@ public class HornetQRAMessage implements Message
     */
    public int getIntProperty(final String name) throws JMSException
    {
-      if (HornetQRAMessage.trace)
+      if (AMQRAMessage.trace)
       {
-         HornetQRAMessage.log.trace("getIntProperty(" + name + ")");
+         AMQRAMessage.log.trace("getIntProperty(" + name + ")");
       }
 
       return message.getIntProperty(name);
@@ -188,9 +188,9 @@ public class HornetQRAMessage implements Message
     */
    public String getJMSCorrelationID() throws JMSException
    {
-      if (HornetQRAMessage.trace)
+      if (AMQRAMessage.trace)
       {
-         HornetQRAMessage.log.trace("getJMSCorrelationID()");
+         AMQRAMessage.log.trace("getJMSCorrelationID()");
       }
 
       return message.getJMSCorrelationID();
@@ -203,9 +203,9 @@ public class HornetQRAMessage implements Message
     */
    public byte[] getJMSCorrelationIDAsBytes() throws JMSException
    {
-      if (HornetQRAMessage.trace)
+      if (AMQRAMessage.trace)
       {
-         HornetQRAMessage.log.trace("getJMSCorrelationIDAsBytes()");
+         AMQRAMessage.log.trace("getJMSCorrelationIDAsBytes()");
       }
 
       return message.getJMSCorrelationIDAsBytes();
@@ -218,9 +218,9 @@ public class HornetQRAMessage implements Message
     */
    public int getJMSDeliveryMode() throws JMSException
    {
-      if (HornetQRAMessage.trace)
+      if (AMQRAMessage.trace)
       {
-         HornetQRAMessage.log.trace("getJMSDeliveryMode()");
+         AMQRAMessage.log.trace("getJMSDeliveryMode()");
       }
 
       return message.getJMSDeliveryMode();
@@ -233,9 +233,9 @@ public class HornetQRAMessage implements Message
     */
    public Destination getJMSDestination() throws JMSException
    {
-      if (HornetQRAMessage.trace)
+      if (AMQRAMessage.trace)
       {
-         HornetQRAMessage.log.trace("getJMSDestination()");
+         AMQRAMessage.log.trace("getJMSDestination()");
       }
 
       return message.getJMSDestination();
@@ -248,9 +248,9 @@ public class HornetQRAMessage implements Message
     */
    public long getJMSExpiration() throws JMSException
    {
-      if (HornetQRAMessage.trace)
+      if (AMQRAMessage.trace)
       {
-         HornetQRAMessage.log.trace("getJMSExpiration()");
+         AMQRAMessage.log.trace("getJMSExpiration()");
       }
 
       return message.getJMSExpiration();
@@ -263,9 +263,9 @@ public class HornetQRAMessage implements Message
     */
    public String getJMSMessageID() throws JMSException
    {
-      if (HornetQRAMessage.trace)
+      if (AMQRAMessage.trace)
       {
-         HornetQRAMessage.log.trace("getJMSMessageID()");
+         AMQRAMessage.log.trace("getJMSMessageID()");
       }
 
       return message.getJMSMessageID();
@@ -278,9 +278,9 @@ public class HornetQRAMessage implements Message
     */
    public int getJMSPriority() throws JMSException
    {
-      if (HornetQRAMessage.trace)
+      if (AMQRAMessage.trace)
       {
-         HornetQRAMessage.log.trace("getJMSPriority()");
+         AMQRAMessage.log.trace("getJMSPriority()");
       }
 
       return message.getJMSPriority();
@@ -293,9 +293,9 @@ public class HornetQRAMessage implements Message
     */
    public boolean getJMSRedelivered() throws JMSException
    {
-      if (HornetQRAMessage.trace)
+      if (AMQRAMessage.trace)
       {
-         HornetQRAMessage.log.trace("getJMSRedelivered()");
+         AMQRAMessage.log.trace("getJMSRedelivered()");
       }
 
       return message.getJMSRedelivered();
@@ -308,9 +308,9 @@ public class HornetQRAMessage implements Message
     */
    public Destination getJMSReplyTo() throws JMSException
    {
-      if (HornetQRAMessage.trace)
+      if (AMQRAMessage.trace)
       {
-         HornetQRAMessage.log.trace("getJMSReplyTo()");
+         AMQRAMessage.log.trace("getJMSReplyTo()");
       }
 
       return message.getJMSReplyTo();
@@ -323,9 +323,9 @@ public class HornetQRAMessage implements Message
     */
    public long getJMSTimestamp() throws JMSException
    {
-      if (HornetQRAMessage.trace)
+      if (AMQRAMessage.trace)
       {
-         HornetQRAMessage.log.trace("getJMSTimestamp()");
+         AMQRAMessage.log.trace("getJMSTimestamp()");
       }
 
       return message.getJMSTimestamp();
@@ -338,9 +338,9 @@ public class HornetQRAMessage implements Message
     */
    public String getJMSType() throws JMSException
    {
-      if (HornetQRAMessage.trace)
+      if (AMQRAMessage.trace)
       {
-         HornetQRAMessage.log.trace("getJMSType()");
+         AMQRAMessage.log.trace("getJMSType()");
       }
 
       return message.getJMSType();
@@ -354,9 +354,9 @@ public class HornetQRAMessage implements Message
     */
    public long getLongProperty(final String name) throws JMSException
    {
-      if (HornetQRAMessage.trace)
+      if (AMQRAMessage.trace)
       {
-         HornetQRAMessage.log.trace("getLongProperty(" + name + ")");
+         AMQRAMessage.log.trace("getLongProperty(" + name + ")");
       }
 
       return message.getLongProperty(name);
@@ -370,9 +370,9 @@ public class HornetQRAMessage implements Message
     */
    public Object getObjectProperty(final String name) throws JMSException
    {
-      if (HornetQRAMessage.trace)
+      if (AMQRAMessage.trace)
       {
-         HornetQRAMessage.log.trace("getObjectProperty(" + name + ")");
+         AMQRAMessage.log.trace("getObjectProperty(" + name + ")");
       }
 
       return message.getObjectProperty(name);
@@ -385,9 +385,9 @@ public class HornetQRAMessage implements Message
     */
    public Enumeration getPropertyNames() throws JMSException
    {
-      if (HornetQRAMessage.trace)
+      if (AMQRAMessage.trace)
       {
-         HornetQRAMessage.log.trace("getPropertyNames()");
+         AMQRAMessage.log.trace("getPropertyNames()");
       }
 
       return message.getPropertyNames();
@@ -401,9 +401,9 @@ public class HornetQRAMessage implements Message
     */
    public short getShortProperty(final String name) throws JMSException
    {
-      if (HornetQRAMessage.trace)
+      if (AMQRAMessage.trace)
       {
-         HornetQRAMessage.log.trace("getShortProperty(" + name + ")");
+         AMQRAMessage.log.trace("getShortProperty(" + name + ")");
       }
 
       return message.getShortProperty(name);
@@ -417,9 +417,9 @@ public class HornetQRAMessage implements Message
     */
    public String getStringProperty(final String name) throws JMSException
    {
-      if (HornetQRAMessage.trace)
+      if (AMQRAMessage.trace)
       {
-         HornetQRAMessage.log.trace("getStringProperty(" + name + ")");
+         AMQRAMessage.log.trace("getStringProperty(" + name + ")");
       }
 
       return message.getStringProperty(name);
@@ -433,9 +433,9 @@ public class HornetQRAMessage implements Message
     */
    public boolean propertyExists(final String name) throws JMSException
    {
-      if (HornetQRAMessage.trace)
+      if (AMQRAMessage.trace)
       {
-         HornetQRAMessage.log.trace("propertyExists(" + name + ")");
+         AMQRAMessage.log.trace("propertyExists(" + name + ")");
       }
 
       return message.propertyExists(name);
@@ -449,9 +449,9 @@ public class HornetQRAMessage implements Message
     */
    public void setBooleanProperty(final String name, final boolean value) throws JMSException
    {
-      if (HornetQRAMessage.trace)
+      if (AMQRAMessage.trace)
       {
-         HornetQRAMessage.log.trace("setBooleanProperty(" + name + ", " + value + ")");
+         AMQRAMessage.log.trace("setBooleanProperty(" + name + ", " + value + ")");
       }
 
       message.setBooleanProperty(name, value);
@@ -465,9 +465,9 @@ public class HornetQRAMessage implements Message
     */
    public void setByteProperty(final String name, final byte value) throws JMSException
    {
-      if (HornetQRAMessage.trace)
+      if (AMQRAMessage.trace)
       {
-         HornetQRAMessage.log.trace("setByteProperty(" + name + ", " + value + ")");
+         AMQRAMessage.log.trace("setByteProperty(" + name + ", " + value + ")");
       }
 
       message.setByteProperty(name, value);
@@ -481,9 +481,9 @@ public class HornetQRAMessage implements Message
     */
    public void setDoubleProperty(final String name, final double value) throws JMSException
    {
-      if (HornetQRAMessage.trace)
+      if (AMQRAMessage.trace)
       {
-         HornetQRAMessage.log.trace("setDoubleProperty(" + name + ", " + value + ")");
+         AMQRAMessage.log.trace("setDoubleProperty(" + name + ", " + value + ")");
       }
 
       message.setDoubleProperty(name, value);
@@ -497,9 +497,9 @@ public class HornetQRAMessage implements Message
     */
    public void setFloatProperty(final String name, final float value) throws JMSException
    {
-      if (HornetQRAMessage.trace)
+      if (AMQRAMessage.trace)
       {
-         HornetQRAMessage.log.trace("setFloatProperty(" + name + ", " + value + ")");
+         AMQRAMessage.log.trace("setFloatProperty(" + name + ", " + value + ")");
       }
 
       message.setFloatProperty(name, value);
@@ -513,9 +513,9 @@ public class HornetQRAMessage implements Message
     */
    public void setIntProperty(final String name, final int value) throws JMSException
    {
-      if (HornetQRAMessage.trace)
+      if (AMQRAMessage.trace)
       {
-         HornetQRAMessage.log.trace("setIntProperty(" + name + ", " + value + ")");
+         AMQRAMessage.log.trace("setIntProperty(" + name + ", " + value + ")");
       }
 
       message.setIntProperty(name, value);
@@ -528,9 +528,9 @@ public class HornetQRAMessage implements Message
     */
    public void setJMSCorrelationID(final String correlationID) throws JMSException
    {
-      if (HornetQRAMessage.trace)
+      if (AMQRAMessage.trace)
       {
-         HornetQRAMessage.log.trace("setJMSCorrelationID(" + correlationID + ")");
+         AMQRAMessage.log.trace("setJMSCorrelationID(" + correlationID + ")");
       }
 
       message.setJMSCorrelationID(correlationID);
@@ -543,9 +543,9 @@ public class HornetQRAMessage implements Message
     */
    public void setJMSCorrelationIDAsBytes(final byte[] correlationID) throws JMSException
    {
-      if (HornetQRAMessage.trace)
+      if (AMQRAMessage.trace)
       {
-         HornetQRAMessage.log.trace("setJMSCorrelationIDAsBytes(" + correlationID + ")");
+         AMQRAMessage.log.trace("setJMSCorrelationIDAsBytes(" + correlationID + ")");
       }
 
       message.setJMSCorrelationIDAsBytes(correlationID);
@@ -558,9 +558,9 @@ public class HornetQRAMessage implements Message
     */
    public void setJMSDeliveryMode(final int deliveryMode) throws JMSException
    {
-      if (HornetQRAMessage.trace)
+      if (AMQRAMessage.trace)
       {
-         HornetQRAMessage.log.trace("setJMSDeliveryMode(" + deliveryMode + ")");
+         AMQRAMessage.log.trace("setJMSDeliveryMode(" + deliveryMode + ")");
       }
 
       message.setJMSDeliveryMode(deliveryMode);
@@ -573,9 +573,9 @@ public class HornetQRAMessage implements Message
     */
    public void setJMSDestination(final Destination destination) throws JMSException
    {
-      if (HornetQRAMessage.trace)
+      if (AMQRAMessage.trace)
       {
-         HornetQRAMessage.log.trace("setJMSDestination(" + destination + ")");
+         AMQRAMessage.log.trace("setJMSDestination(" + destination + ")");
       }
 
       message.setJMSDestination(destination);
@@ -588,9 +588,9 @@ public class HornetQRAMessage implements Message
     */
    public void setJMSExpiration(final long expiration) throws JMSException
    {
-      if (HornetQRAMessage.trace)
+      if (AMQRAMessage.trace)
       {
-         HornetQRAMessage.log.trace("setJMSExpiration(" + expiration + ")");
+         AMQRAMessage.log.trace("setJMSExpiration(" + expiration + ")");
       }
 
       message.setJMSExpiration(expiration);
@@ -603,9 +603,9 @@ public class HornetQRAMessage implements Message
     */
    public void setJMSMessageID(final String id) throws JMSException
    {
-      if (HornetQRAMessage.trace)
+      if (AMQRAMessage.trace)
       {
-         HornetQRAMessage.log.trace("setJMSMessageID(" + id + ")");
+         AMQRAMessage.log.trace("setJMSMessageID(" + id + ")");
       }
 
       message.setJMSMessageID(id);
@@ -618,9 +618,9 @@ public class HornetQRAMessage implements Message
     */
    public void setJMSPriority(final int priority) throws JMSException
    {
-      if (HornetQRAMessage.trace)
+      if (AMQRAMessage.trace)
       {
-         HornetQRAMessage.log.trace("setJMSPriority(" + priority + ")");
+         AMQRAMessage.log.trace("setJMSPriority(" + priority + ")");
       }
 
       message.setJMSPriority(priority);
@@ -633,9 +633,9 @@ public class HornetQRAMessage implements Message
     */
    public void setJMSRedelivered(final boolean redelivered) throws JMSException
    {
-      if (HornetQRAMessage.trace)
+      if (AMQRAMessage.trace)
       {
-         HornetQRAMessage.log.trace("setJMSRedelivered(" + redelivered + ")");
+         AMQRAMessage.log.trace("setJMSRedelivered(" + redelivered + ")");
       }
 
       message.setJMSRedelivered(redelivered);
@@ -648,9 +648,9 @@ public class HornetQRAMessage implements Message
     */
    public void setJMSReplyTo(final Destination replyTo) throws JMSException
    {
-      if (HornetQRAMessage.trace)
+      if (AMQRAMessage.trace)
       {
-         HornetQRAMessage.log.trace("setJMSReplyTo(" + replyTo + ")");
+         AMQRAMessage.log.trace("setJMSReplyTo(" + replyTo + ")");
       }
 
       message.setJMSReplyTo(replyTo);
@@ -663,9 +663,9 @@ public class HornetQRAMessage implements Message
     */
    public void setJMSTimestamp(final long timestamp) throws JMSException
    {
-      if (HornetQRAMessage.trace)
+      if (AMQRAMessage.trace)
       {
-         HornetQRAMessage.log.trace("setJMSTimestamp(" + timestamp + ")");
+         AMQRAMessage.log.trace("setJMSTimestamp(" + timestamp + ")");
       }
 
       message.setJMSTimestamp(timestamp);
@@ -678,9 +678,9 @@ public class HornetQRAMessage implements Message
     */
    public void setJMSType(final String type) throws JMSException
    {
-      if (HornetQRAMessage.trace)
+      if (AMQRAMessage.trace)
       {
-         HornetQRAMessage.log.trace("setJMSType(" + type + ")");
+         AMQRAMessage.log.trace("setJMSType(" + type + ")");
       }
 
       message.setJMSType(type);
@@ -694,9 +694,9 @@ public class HornetQRAMessage implements Message
     */
    public void setLongProperty(final String name, final long value) throws JMSException
    {
-      if (HornetQRAMessage.trace)
+      if (AMQRAMessage.trace)
       {
-         HornetQRAMessage.log.trace("setLongProperty(" + name + ", " + value + ")");
+         AMQRAMessage.log.trace("setLongProperty(" + name + ", " + value + ")");
       }
 
       message.setLongProperty(name, value);
@@ -710,9 +710,9 @@ public class HornetQRAMessage implements Message
     */
    public void setObjectProperty(final String name, final Object value) throws JMSException
    {
-      if (HornetQRAMessage.trace)
+      if (AMQRAMessage.trace)
       {
-         HornetQRAMessage.log.trace("setObjectProperty(" + name + ", " + value + ")");
+         AMQRAMessage.log.trace("setObjectProperty(" + name + ", " + value + ")");
       }
 
       message.setObjectProperty(name, value);
@@ -726,9 +726,9 @@ public class HornetQRAMessage implements Message
     */
    public void setShortProperty(final String name, final short value) throws JMSException
    {
-      if (HornetQRAMessage.trace)
+      if (AMQRAMessage.trace)
       {
-         HornetQRAMessage.log.trace("setShortProperty(" + name + ", " + value + ")");
+         AMQRAMessage.log.trace("setShortProperty(" + name + ", " + value + ")");
       }
 
       message.setShortProperty(name, value);
@@ -742,9 +742,9 @@ public class HornetQRAMessage implements Message
     */
    public void setStringProperty(final String name, final String value) throws JMSException
    {
-      if (HornetQRAMessage.trace)
+      if (AMQRAMessage.trace)
       {
-         HornetQRAMessage.log.trace("setStringProperty(" + name + ", " + value + ")");
+         AMQRAMessage.log.trace("setStringProperty(" + name + ", " + value + ")");
       }
 
       message.setStringProperty(name, value);
@@ -757,9 +757,9 @@ public class HornetQRAMessage implements Message
    @Override
    public int hashCode()
    {
-      if (HornetQRAMessage.trace)
+      if (AMQRAMessage.trace)
       {
-         HornetQRAMessage.log.trace("hashCode()");
+         AMQRAMessage.log.trace("hashCode()");
       }
 
       return message.hashCode();
@@ -773,14 +773,14 @@ public class HornetQRAMessage implements Message
    @Override
    public boolean equals(final Object object)
    {
-      if (HornetQRAMessage.trace)
+      if (AMQRAMessage.trace)
       {
-         HornetQRAMessage.log.trace("equals(" + object + ")");
+         AMQRAMessage.log.trace("equals(" + object + ")");
       }
 
-      if (object != null && object instanceof HornetQRAMessage)
+      if (object != null && object instanceof AMQRAMessage)
       {
-         return message.equals(((HornetQRAMessage)object).message);
+         return message.equals(((AMQRAMessage)object).message);
       }
       else
       {
@@ -795,9 +795,9 @@ public class HornetQRAMessage implements Message
    @Override
    public String toString()
    {
-      if (HornetQRAMessage.trace)
+      if (AMQRAMessage.trace)
       {
-         HornetQRAMessage.log.trace("toString()");
+         AMQRAMessage.log.trace("toString()");
       }
 
       return message.toString();

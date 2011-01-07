@@ -33,6 +33,7 @@ import javax.resource.spi.work.WorkManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.apache.qpid.client.AMQConnection;
 import org.apache.qpid.client.AMQConnectionFactory;
 import org.apache.qpid.client.AMQDestination;
 import org.apache.qpid.client.BasicMessageConsumer;
@@ -348,16 +349,10 @@ public class AMQActivation
 
       try
       {
-         result = ra.createSession(factory.getServerLocator().createSessionFactory(),
+         result = ra.createSession((AMQConnection) factory.createConnection(spec.getUser(), spec.getPassword()),
                                    spec.getAcknowledgeModeInt(),
-                                   spec.getUser(),
-                                   spec.getPassword(),
-                                   ra.getPreAcknowledge(),
-                                   ra.getDupsOKBatchSize(),
-                                   ra.getTransactionBatchSize(),
                                    isDeliveryTransacted,
-                                   spec.isUseLocalTx(),
-                                   spec.getTransactionTimeout());
+                                   spec.isUseLocalTx());
 
          AMQActivation.log.debug("Using queue connection " + result);
 
@@ -386,7 +381,7 @@ public class AMQActivation
 
    public AMQShortString getAddress()
    {
-      return destination.getSimpleAddress();
+      return destination.getEncodedName();
    }
 
    protected void setupDestination() throws Exception
@@ -424,6 +419,7 @@ public class AMQActivation
                                         destinationType.getName());
             try
             {
+               // TODO: Check that AMQDestination deserializes correctly!
                destination = (AMQDestination)Util.lookup(ctx, destinationName, destinationType);
             }
             catch (Exception e)
@@ -433,13 +429,15 @@ public class AMQActivation
                   throw e;
                }
                // If there is no binding on naming, we will just create a new instance
+               // TODO: This is wrong as it needs to differentiate between queues and topics:
+               // either by using a BindingURL or by fiddling with the string that is passed in
                if (isTopic)
                {
-                  destination = (AMQDestination)AMQJMSClient.createTopic(destinationName.substring(destinationName.lastIndexOf('/') + 1));
+                  destination = (AMQDestination)AMQDestination.createDestination(destinationName.substring(destinationName.lastIndexOf('/') + 1));
                }
                else
                {
-                  destination = (AMQDestination)AMQJMSClient.createQueue(destinationName.substring(destinationName.lastIndexOf('/') + 1));
+                  destination = (AMQDestination)AMQDestination.createDestination(destinationName.substring(destinationName.lastIndexOf('/') + 1));
                }
             }
          }
@@ -459,14 +457,16 @@ public class AMQActivation
       }
       else
       {
+         // TODO: This is wrong as it needs to differentiate between queues and topics:
+         // either by using a BindingURL or by fiddling with the string that is passed in
          if (Topic.class.getName().equals(spec.getDestinationType()))
          {
-            destination = (AMQDestination)AMQJMSClient.createTopic(spec.getDestination());
+            destination = (AMQDestination)AMQDestination.createDestination(spec.getDestination());
             isTopic = true;
          }
          else
          {
-            destination = (AMQDestination)AMQJMSClient.createQueue(spec.getDestination());
+            destination = (AMQDestination)AMQDestination.createDestination(spec.getDestination());
          }
       }
 

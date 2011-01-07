@@ -31,6 +31,7 @@ import javax.transaction.xa.XAResource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.apache.qpid.client.AMQConnection;
 import org.apache.qpid.client.AMQConnectionFactory;
 import org.apache.qpid.client.SSLConfiguration;
 import org.apache.qpid.ra.inflow.AMQActivation;
@@ -459,56 +460,29 @@ public class AMQResourceAdapter implements ResourceAdapter, Serializable
       return ctx.getWorkManager();
    }
 
-   public Session createSession(final ClientSessionFactory parameterFactory,
+   // TODO: Need to revisit for prefetch and modes
+   public Session createSession(final AMQConnection connection,
                                       final int ackMode,
-                                      final String user,
-                                      final String pass,
-                                      final Boolean preAck,
-                                      final Integer dupsOkBatchSize,
-                                      final Integer transactionBatchSize,
                                       final boolean deliveryTransacted,
-                                      final boolean useLocalTx,
-                                      final Integer txTimeout) throws Exception
+                                      final boolean useLocalTx) throws Exception
    {
       Session result;
 
       // if we are CMP or BMP using local tx we ignore the ack mode as we are transactional
       if (deliveryTransacted || useLocalTx)
       {
-         int actTxBatchSize = transactionBatchSize != null ? transactionBatchSize
-                                                          : AMQClient.DEFAULT_ACK_BATCH_SIZE;
          if (useLocalTx)
          {
-            result = parameterFactory.createSession(user, pass, false, false, false, false, actTxBatchSize);
+            result = connection.createSession(false, ackMode);
          }
          else
          {
-            result = parameterFactory.createSession(user, pass, true, false, false, false, actTxBatchSize);
+            result = connection.createSession(true, ackMode);
          }
       }
       else
       {
-         if (preAck != null && preAck)
-         {
-            result = parameterFactory.createSession(user, pass, false, true, true, true, -1);
-         }
-         else
-         {
-            // only auto ack and dups ok are supported
-            switch (ackMode)
-            {
-               case Session.AUTO_ACKNOWLEDGE:
-                  result = parameterFactory.createSession(user, pass, false, true, true, false, 0);
-                  break;
-               case Session.DUPS_OK_ACKNOWLEDGE:
-                  int actDupsOkBatchSize = dupsOkBatchSize != null ? dupsOkBatchSize
-                                                                  : AMQClient.DEFAULT_ACK_BATCH_SIZE;
-                  result = parameterFactory.createSession(user, pass, false, true, true, false, actDupsOkBatchSize);
-                  break;
-               default:
-                  throw new IllegalArgumentException("Invalid ackmode: " + ackMode);
-            }
-         }
+         result = connection.createSession(false, ackMode);
       }
 
       AMQResourceAdapter.log.debug("Using queue connection " + result);

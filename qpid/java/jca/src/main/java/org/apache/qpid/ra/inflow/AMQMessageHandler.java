@@ -16,7 +16,10 @@ import java.util.UUID;
 
 import javax.jms.InvalidClientIDException;
 import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.MessageConsumer;
 import javax.jms.MessageListener;
+import javax.jms.Session;
 import javax.resource.ResourceException;
 import javax.resource.spi.endpoint.MessageEndpoint;
 import javax.resource.spi.endpoint.MessageEndpointFactory;
@@ -27,8 +30,8 @@ import org.apache.qpid.client.AMQSession;
 import org.apache.qpid.client.BasicMessageConsumer;
 import org.apache.qpid.client.BasicMessageProducer;
 import org.apache.qpid.framing.AMQShortString;
-import org.apache.qpid.jms.Message;
-import org.apache.qpid.jms.MessageConsumer;
+//import org.apache.qpid.jms.Message;
+//import org.apache.qpid.jms.MessageConsumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,7 +58,7 @@ public class AMQMessageHandler implements MessageListener
    /**
     * The session
     */
-   private final AMQSession<BasicMessageConsumer<?>, BasicMessageProducer> session;
+   private final Session session;
 
    private MessageConsumer consumer;
 
@@ -76,7 +79,7 @@ public class AMQMessageHandler implements MessageListener
 
    public AMQMessageHandler(final AMQActivation activation,
                                 final TransactionManager tm,
-                                final AMQSession<BasicMessageConsumer<?>, BasicMessageProducer> session,
+                                final Session session,
                                 final int sessionNr)
    {
       this.activation = activation;
@@ -173,7 +176,7 @@ public class AMQMessageHandler implements MessageListener
          consumer = session.createConsumer(queueName, selectorString);
       }
 
-      // Create the endpoint, if we are transacted pass the sesion so it is enlisted, unless using Local TX
+      // Create the endpoint, if we are transacted pass the session so it is enlisted, unless using Local TX
       MessageEndpointFactory endpointFactory = activation.getMessageEndpointFactory();
       useLocalTx = !activation.isDeliveryTransacted() && activation.getActivationSpec().isUseLocalTx();
       transacted = activation.isDeliveryTransacted();

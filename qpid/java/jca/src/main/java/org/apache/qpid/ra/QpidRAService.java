@@ -1,0 +1,96 @@
+/*
+ *
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ *
+ */
+
+package org.apache.qpid.ra;
+
+import java.util.Set;
+
+import javax.management.MBeanServer;
+import javax.management.ObjectInstance;
+import javax.management.ObjectName;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * A QpidRAService ensures that AMQ Resource Adapter will be stopped *before* the AMQ server.
+ * https://jira.jboss.org/browse/HORNETQ-339
+ *
+ * @author <a href="mailto:jmesnil@redhat.com">Jeff Mesnil</a>
+ *
+ *
+ */
+public class QpidRAService
+{
+   // Constants -----------------------------------------------------
+
+   private static final Logger log = LoggerFactory.getLogger(QpidRAService.class);
+
+   // Attributes ----------------------------------------------------
+
+   private final MBeanServer mBeanServer;
+
+   private final String resourceAdapterObjectName;
+
+   // Static --------------------------------------------------------
+
+   // Constructors --------------------------------------------------
+
+   public QpidRAService(final MBeanServer mBeanServer, final String resourceAdapterObjectName)
+   {
+      this.mBeanServer = mBeanServer;
+      this.resourceAdapterObjectName = resourceAdapterObjectName;
+   }
+
+   // Public --------------------------------------------------------
+
+   public void stop()
+   {
+      try
+      {
+         ObjectName objectName = new ObjectName(resourceAdapterObjectName);
+         Set<ObjectInstance> mbeanSet = mBeanServer.queryMBeans(objectName, null);
+
+         for (ObjectInstance mbean : mbeanSet)
+         {
+            String stateString = (String)mBeanServer.getAttribute(mbean.getObjectName(), "StateString");
+
+            if ("Started".equalsIgnoreCase(stateString) || "Starting".equalsIgnoreCase(stateString))
+            {
+               mBeanServer.invoke(mbean.getObjectName(), "stop", new Object[0], new String[0]);
+            }
+         }
+      }
+      catch (Exception e)
+      {
+         log.error("Unable to stop AMQ resource adapter.", e);
+      }
+   }
+
+   // Package protected ---------------------------------------------
+
+   // Protected -----------------------------------------------------
+
+   // Private -------------------------------------------------------
+
+   // Inner classes -------------------------------------------------
+
+}

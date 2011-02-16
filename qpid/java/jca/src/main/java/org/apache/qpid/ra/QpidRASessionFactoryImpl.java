@@ -93,13 +93,13 @@ public class QpidRASessionFactoryImpl implements QpidRASessionFactory, Reference
    private ConnectionManager cm;
 
    /** The sessions */
-   private final Set sessions = new HashSet();
+   private final Set<QpidRASession> sessions = new HashSet<QpidRASession>();
 
    /** The temporary queues */
-   private final Set tempQueues = new HashSet();
+   private final Set<TemporaryQueue> tempQueues = new HashSet<TemporaryQueue>();
 
    /** The temporary topics */
-   private final Set tempTopics = new HashSet();
+   private final Set<TemporaryTopic> tempTopics = new HashSet<TemporaryTopic>();
 
    /**
     * Constructor
@@ -571,7 +571,7 @@ public class QpidRASessionFactoryImpl implements QpidRASessionFactory, Reference
             return;
          }
          started = true;
-         for (Iterator i = sessions.iterator(); i.hasNext();)
+         for (Iterator<QpidRASession> i = sessions.iterator(); i.hasNext();)
          {
             QpidRASession session = (QpidRASession)i.next();
             session.start();
@@ -613,7 +613,7 @@ public class QpidRASessionFactoryImpl implements QpidRASessionFactory, Reference
 
       synchronized (sessions)
       {
-         for (Iterator i = sessions.iterator(); i.hasNext();)
+         for (Iterator<QpidRASession> i = sessions.iterator(); i.hasNext();)
          {
             QpidRASession session = (QpidRASession)i.next();
             try
@@ -630,7 +630,7 @@ public class QpidRASessionFactoryImpl implements QpidRASessionFactory, Reference
 
       synchronized (tempQueues)
       {
-         for (Iterator i = tempQueues.iterator(); i.hasNext();)
+         for (Iterator<TemporaryQueue> i = tempQueues.iterator(); i.hasNext();)
          {
             TemporaryQueue temp = (TemporaryQueue)i.next();
             try
@@ -651,7 +651,7 @@ public class QpidRASessionFactoryImpl implements QpidRASessionFactory, Reference
 
       synchronized (tempTopics)
       {
-         for (Iterator i = tempTopics.iterator(); i.hasNext();)
+         for (Iterator<TemporaryTopic> i = tempTopics.iterator(); i.hasNext();)
          {
             TemporaryTopic temp = (TemporaryTopic)i.next();
             try

@@ -193,7 +193,7 @@ public class QpidRAMapMessage extends QpidRAMessage implements MapMessage
     * @return The values 
     * @exception JMSException Thrown if an error occurs
     */
-   public Enumeration getMapNames() throws JMSException
+   public Enumeration<?> getMapNames() throws JMSException
    {
       if (QpidRAMapMessage.trace)
       {

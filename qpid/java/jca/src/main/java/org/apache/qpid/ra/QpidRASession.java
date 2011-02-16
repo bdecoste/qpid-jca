@@ -90,10 +90,10 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
    private QpidRASessionFactory sf;
 
    /** The message consumers */
-   private final Set consumers;
+   private final Set<MessageConsumer> consumers;
 
    /** The message producers */
-   private final Set producers;
+   private final Set<MessageProducer> producers;
 
    /**
     * Constructor
@@ -110,8 +110,8 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
       this.mc = mc;
       this.cri = cri;
       sf = null;
-      consumers = new HashSet();
-      producers = new HashSet();
+      consumers = new HashSet<MessageConsumer>();
+      producers = new HashSet<MessageProducer>();
    }
 
    /**
@@ -1447,7 +1447,7 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
 
          synchronized (consumers)
          {
-            for (Iterator i = consumers.iterator(); i.hasNext();)
+            for (Iterator<MessageConsumer> i = consumers.iterator(); i.hasNext();)
             {
                QpidRAMessageConsumer consumer = (QpidRAMessageConsumer)i.next();
                try
@@ -1464,7 +1464,7 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
 
          synchronized (producers)
          {
-            for (Iterator i = producers.iterator(); i.hasNext();)
+            for (Iterator<MessageProducer> i = producers.iterator(); i.hasNext();)
             {
                QpidRAMessageProducer producer = (QpidRAMessageProducer)i.next();
                try

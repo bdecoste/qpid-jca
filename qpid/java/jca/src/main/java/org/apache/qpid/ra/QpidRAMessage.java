@@ -391,7 +391,7 @@ public class QpidRAMessage implements Message
     * @return The values
     * @exception JMSException Thrown if an error occurs
     */
-   public Enumeration getPropertyNames() throws JMSException
+   public Enumeration<?> getPropertyNames() throws JMSException
    {
       if (QpidRAMessage.trace)
       {

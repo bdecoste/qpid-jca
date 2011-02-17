@@ -23,7 +23,7 @@ package org.apache.qpid.ra;
 
 
 /**
- * AMQ Resource Adapter exception.
+ * Qpid Resource Adapter exception.
  */
 public class QpidRAException extends Exception
 {
@@ -33,7 +33,7 @@ public class QpidRAException extends Exception
    private static final long serialVersionUID = -8428168579371716101L;
 
    /**
-    * Create a default AMQ ra exception.
+    * Create a default Qpid ra exception.
     */
    public QpidRAException()
    {
@@ -41,7 +41,7 @@ public class QpidRAException extends Exception
    }
 
    /**
-    * Create an AMQ ra exception with a specific message.
+    * Create an Qpid ra exception with a specific message.
     * @param message The message associated with this exception.
     */
    public QpidRAException(final String message)
@@ -50,7 +50,7 @@ public class QpidRAException extends Exception
    }
 
    /**
-    * Create an AMQ ra exception with a specific cause.
+    * Create an Qpid ra exception with a specific cause.
     * @param cause The cause associated with this exception.
     */
    public QpidRAException(final Throwable cause)
@@ -59,7 +59,7 @@ public class QpidRAException extends Exception
    }
 
    /**
-    * Create an AMQ ra exception with a specific message and cause.
+    * Create an Qpid ra exception with a specific message and cause.
     * @param message The message associated with this exception.
     * @param cause The cause associated with this exception.
     */

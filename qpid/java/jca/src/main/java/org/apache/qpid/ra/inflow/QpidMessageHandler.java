@@ -20,6 +20,7 @@
  */
 package org.apache.qpid.ra.inflow;
 
+import javax.jms.Connection;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageConsumer;
@@ -58,6 +59,10 @@ public class QpidMessageHandler implements MessageListener
    private static boolean trace = QpidMessageHandler.log.isTraceEnabled();
 
    /**
+    * The connection
+    */
+   private final Connection connection;
+   /**
     * The session
     */
    private final Session session;
@@ -79,9 +84,11 @@ public class QpidMessageHandler implements MessageListener
 
    public QpidMessageHandler(final QpidActivation activation,
                                 final TransactionManager tm,
+                                final Connection connection,
                                 final Session session)
    {
       this.activation = activation;
+      this.connection = connection;
       this.session = session;
       this.tm = tm;
    }
@@ -126,6 +133,7 @@ public class QpidMessageHandler implements MessageListener
          endpoint = endpointFactory.createEndpoint(null);
       }
       consumer.setMessageListener(this);
+      connection.start() ;
    }
 
    /**
@@ -153,23 +161,14 @@ public class QpidMessageHandler implements MessageListener
 
       try
       {
-         consumer.close();
-      }
-      catch (Throwable t)
-      {
-         QpidMessageHandler.log.debug("Error closing core-queue consumer", t);
-      }
-
-      try
-      {
-         if (session != null)
+         if (connection != null)
          {
-            session.close();
+            connection.close();
          }
       }
       catch (Throwable t)
       {
-         QpidMessageHandler.log.debug("Error releasing session " + session, t);
+         QpidMessageHandler.log.debug("Error closing connection " + connection, t);
       }
    }
 

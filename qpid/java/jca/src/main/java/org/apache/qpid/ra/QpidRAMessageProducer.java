@@ -30,7 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * AMQMessageProducer.
+ * QpidRAMessageProducer.
  * 
  * @author <a href="adrian@jboss.com">Adrian Brock</a>
  * @author <a href="jesper.pedersen@jboss.org">Jesper Pedersen</a>
@@ -62,7 +62,7 @@ public class QpidRAMessageProducer implements MessageProducer
 
       if (QpidRAMessageProducer.trace)
       {
-         QpidRAMessageProducer.log.trace("new AMQMessageProducer " + this +
+         QpidRAMessageProducer.log.trace("new QpidRAMessageProducer " + this +
                                             " producer=" +
                                             producer +
                                             " session=" +

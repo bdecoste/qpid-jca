@@ -118,11 +118,11 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
     * Set the session factory
     * @param sf The session factory
     */
-   public void setAMQSessionFactory(final QpidRASessionFactory sf)
+   public void setQpidSessionFactory(final QpidRASessionFactory sf)
    {
       if (QpidRASession.trace)
       {
-         QpidRASession.log.trace("setAMQSessionFactory(" + sf + ")");
+         QpidRASession.log.trace("setQpidSessionFactory(" + sf + ")");
       }
 
       this.sf = sf;
@@ -544,7 +544,7 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
 
          if (QpidRASession.trace)
          {
-            QpidRASession.log.trace("createdSubscriber " + session + " AMQTopicSubscriber=" + result);
+            QpidRASession.log.trace("createdSubscriber " + session + " QpidRATopicSubscriber=" + result);
          }
 
          addConsumer(result);
@@ -588,7 +588,7 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
 
          if (QpidRASession.trace)
          {
-            QpidRASession.log.trace("createdSubscriber " + session + " AMQTopicSubscriber=" + result);
+            QpidRASession.log.trace("createdSubscriber " + session + " QpidRATopicSubscriber=" + result);
          }
 
          addConsumer(result);
@@ -630,7 +630,7 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
 
          if (QpidRASession.trace)
          {
-            QpidRASession.log.trace("createdDurableSubscriber " + session + " AMQTopicSubscriber=" + result);
+            QpidRASession.log.trace("createdDurableSubscriber " + session + " QpidRATopicSubscriber=" + result);
          }
 
          addConsumer(result);
@@ -680,7 +680,7 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
 
          if (QpidRASession.trace)
          {
-            QpidRASession.log.trace("createdDurableSubscriber " + session + " AMQTopicSubscriber=" + result);
+            QpidRASession.log.trace("createdDurableSubscriber " + session + " QpidRATopicSubscriber=" + result);
          }
 
          addConsumer(result);

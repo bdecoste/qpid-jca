@@ -765,7 +765,7 @@ public class QpidRASessionFactoryImpl implements QpidRASessionFactory, Reference
                   QpidRASessionFactoryImpl.log.trace("Allocated  " + this + " session=" + session);
                }
 
-               session.setAMQSessionFactory(this);
+               session.setQpidSessionFactory(this);
 
                if (started)
                {
@@ -862,7 +862,7 @@ public class QpidRASessionFactoryImpl implements QpidRASessionFactory, Reference
                   QpidRASessionFactoryImpl.log.trace("Allocated  " + this + " session=" + session);
                }
 
-               session.setAMQSessionFactory(this);
+               session.setQpidSessionFactory(this);
 
                if (started)
                {

@@ -50,7 +50,7 @@ import org.apache.qpid.ra.inflow.QpidActivationSpec;
 import org.apache.qpid.url.URLSyntaxException;
 
 /**
- * The resource adapter for AMQ
+ * The resource adapter for Qpid
  *
  * @author <a href="adrian@jboss.com">Adrian Brock</a>
  * @author <a href="jesper.pedersen@jboss.org">Jesper Pedersen</a>
@@ -203,7 +203,7 @@ public class QpidResourceAdapter implements ResourceAdapter, Serializable
 
       this.ctx = ctx;
 
-      log.info("AMQ resource adaptor started");
+      log.info("Qpid resource adaptor started");
    }
 
    /**
@@ -230,7 +230,7 @@ public class QpidResourceAdapter implements ResourceAdapter, Serializable
 
       activations.clear();
 
-      log.info("AMQ resource adapter stopped");
+      log.info("Qpid resource adapter stopped");
    }
 
    /**
@@ -581,7 +581,7 @@ public class QpidResourceAdapter implements ResourceAdapter, Serializable
       if (tm == null)
       {
          log.warn("It wasn't possible to lookup for a Transaction Manager through the configured properties TransactionManagerLocatorClass and TransactionManagerLocatorMethod");
-         log.warn("AMQ Resource Adapter won't be able to set and verify transaction timeouts in certain cases.");
+         log.warn("Qpid Resource Adapter won't be able to set and verify transaction timeouts in certain cases.");
       }
       else
       {
@@ -639,6 +639,21 @@ public class QpidResourceAdapter implements ResourceAdapter, Serializable
          {
             cf.setVirtualPath(path) ;
          }
+         
+         if (defaultPassword != null)
+         {
+            cf.setDefaultPassword(defaultPassword) ;
+         }
+         
+         if (defaultUsername != null)
+         {
+            cf.setDefaultUsername(defaultUsername) ;
+         }
+         
+         if (clientID != null)
+         {
+            cf.getConnectionURL().setClientName(clientID) ;
+         }
       }
       else
       {
@@ -647,28 +662,17 @@ public class QpidResourceAdapter implements ResourceAdapter, Serializable
          {
             throw new QpidRAException("Configuration requires host/port/path if connectionURL is not specified") ;
          }
-         final String newurl = AMQConnectionURL.AMQ_PROTOCOL + ":///" + path + '?' + AMQConnectionURL.OPTIONS_BROKERLIST + "='tcp://" + host + ':' + port + '\'' ;
+         final String username = (defaultUsername != null ? defaultUsername : "") ;
+         final String password = (defaultPassword != null ? defaultPassword : "") ;
+         final String client = (clientID != null ? clientID : "") ;
+         
+         final String newurl = AMQConnectionURL.AMQ_PROTOCOL + "://" + username +":" + password + "@" + client + "/" + path + '?' + AMQConnectionURL.OPTIONS_BROKERLIST + "='tcp://" + host + ':' + port + '\'' ;
          if (log.isDebugEnabled())
          {
             log.debug("Initialising connectionURL to " + newurl) ;
          }
          
          cf = new AMQConnectionFactory(newurl) ;
-      }
-      
-      if (defaultPassword != null)
-      {
-         cf.setDefaultPassword(defaultPassword) ;
-      }
-      
-      if (defaultUsername != null)
-      {
-         cf.setDefaultUsername(defaultUsername) ;
-      }
-      
-      if (clientID != null)
-      {
-         cf.getConnectionURL().setClientName(clientID) ;
       }
       
       if (sslConfig != null)

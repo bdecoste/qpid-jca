@@ -297,7 +297,7 @@ public class QpidActivation
             }
 
             QpidActivation.log.debug("Using queue connection " + session);
-            QpidMessageHandler handler = new QpidMessageHandler(this, ra.getTM(), session);
+            QpidMessageHandler handler = new QpidMessageHandler(this, ra.getTM(), connection, session);
             handler.setup();
             handlers.add(handler);
          }
@@ -447,7 +447,7 @@ public class QpidActivation
       }
       else
       {
-         log.warn("Failure in AMQ activation " + spec, failure);
+         log.warn("Failure in Qpid activation " + spec, failure);
       }
       int reconnectCount = 0;
       int setupAttempts = spec.getSetupAttempts();
@@ -476,7 +476,7 @@ public class QpidActivation
             try
             {
                setup();
-               log.info("Reconnected with AMQ");            
+               log.info("Reconnected with Qpid");            
                break;
             }
             catch (Throwable t)

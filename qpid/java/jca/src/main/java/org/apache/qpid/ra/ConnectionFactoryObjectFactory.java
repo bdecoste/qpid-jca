@@ -45,7 +45,7 @@ public class ConnectionFactoryObjectFactory implements ObjectFactory
    {
       Reference r = (Reference)ref;
 
-      byte[] bytes = (byte[])r.get("AMQ-CF").getContent();
+      byte[] bytes = (byte[])r.get("QPID-CF").getContent();
 
       return Util.deserialize(bytes);
    }

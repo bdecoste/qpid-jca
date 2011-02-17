@@ -127,7 +127,7 @@ public class QpidRAConnectionFactoryImpl implements QpidRAConnectionFactory
          try
          {
             reference = new Reference(this.getClass().getCanonicalName(),
-                                      new BinaryRefAddr("AMQ-CF", Util.serialize(this)),
+                                      new BinaryRefAddr("QPID-CF", Util.serialize(this)),
                                       ConnectionFactoryObjectFactory.class.getCanonicalName(),
                                       null);
          }

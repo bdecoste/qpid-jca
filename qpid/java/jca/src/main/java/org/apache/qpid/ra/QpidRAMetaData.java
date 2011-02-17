@@ -71,7 +71,7 @@ public class QpidRAMetaData implements ManagedConnectionMetaData
          QpidRAMetaData.log.trace("getEISProductName()");
       }
 
-      return "AMQ";
+      return "Qpid";
    }
 
    /**

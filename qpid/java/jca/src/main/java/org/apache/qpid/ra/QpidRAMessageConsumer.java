@@ -71,7 +71,7 @@ public class QpidRAMessageConsumer implements MessageConsumer
 
       if (QpidRAMessageConsumer.trace)
       {
-         QpidRAMessageConsumer.log.trace("new AMQMessageConsumer " + this +
+         QpidRAMessageConsumer.log.trace("new QpidRAMessageConsumer " + this +
                                             " consumer=" +
                                             consumer +
                                             " session=" +

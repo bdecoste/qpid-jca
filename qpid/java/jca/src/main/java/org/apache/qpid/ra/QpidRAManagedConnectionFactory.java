@@ -41,7 +41,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * AMQ ManagedConectionFactory
+ * Qpid ManagedConectionFactory
  *
  * @author <a href="mailto:adrian@jboss.com">Adrian Brock</a>
  * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>.
@@ -634,9 +634,9 @@ public class QpidRAManagedConnectionFactory implements ManagedConnectionFactory,
          {
             connectionFactory = ra.createAMQConnectionFactory(mcfProperties);
          }
-         catch (final QpidRAException amqrae)
+         catch (final QpidRAException qpidrae)
          {
-            throw new ResourceException("Unexpected exception crating the connection factory", amqrae) ;
+            throw new ResourceException("Unexpected exception creating the connection factory", qpidrae) ;
          }
       }
       return connectionFactory;
@@ -653,9 +653,9 @@ public class QpidRAManagedConnectionFactory implements ManagedConnectionFactory,
       {
          return ra.createAMQConnectionFactory(mcfProperties);
       }
-      catch (final QpidRAException amqrae)
+      catch (final QpidRAException qpidrae)
       {
-         throw new ResourceException("Unexpected exception crating the connection factory", amqrae) ;
+         throw new ResourceException("Unexpected exception creating the connection factory", qpidrae) ;
       }
    }
 

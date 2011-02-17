@@ -318,7 +318,7 @@ public class QpidRAManagedConnection implements ManagedConnection, ExceptionList
 
    /**
     * Move a handler from one mc to this one.
-    * @param obj An object of type AMQSession.
+    * @param obj An object of type QpidRASession.
     * @throws ResourceException Failed to associate connection.
     * @throws IllegalStateException ManagedConnection in an illegal state.
     */

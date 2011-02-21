@@ -324,6 +324,186 @@ public class QpidResourceAdapter implements ResourceAdapter, Serializable
    }
 
    /**
+    * Get the host
+    *
+    * @return The value
+    */
+   public String getHost()
+   {
+      if (trace)
+      {
+         log.trace("getHost()");
+      }
+
+      return raProperties.getHost();
+   }
+
+   /**
+    * Set the host
+    *
+    * @param host The host
+    */
+   public void setHost(final String host)
+   {
+      if (trace)
+      {
+         log.trace("setHost(" + host + ")");
+      }
+
+      raProperties.setHost(host);
+   }
+
+   /**
+    * Get the port
+    *
+    * @return The value
+    */
+   public Integer getPort()
+   {
+      if (trace)
+      {
+         log.trace("getPort()");
+      }
+
+      return raProperties.getPort();
+   }
+
+   /**
+    * Set the client ID
+    *
+    * @param port The port
+    */
+   public void setPort(final Integer port)
+   {
+      if (trace)
+      {
+         log.trace("setPort(" + port + ")");
+      }
+
+      raProperties.setPort(port);
+   }
+
+   /**
+    * Get the connection url
+    *
+    * @return The value
+    */
+   public String getPath()
+   {
+      if (trace)
+      {
+         log.trace("getPath()");
+      }
+
+      return raProperties.getPath();
+   }
+
+   /**
+    * Set the client ID
+    *
+    * @param path The path
+    */
+   public void setPath(final String path)
+   {
+      if (trace)
+      {
+         log.trace("setPath(" + path + ")");
+      }
+
+      raProperties.setPath(path);
+   }
+
+   /**
+    * Get the connection url
+    *
+    * @return The value
+    */
+   public String getConnectionURL()
+   {
+      if (trace)
+      {
+         log.trace("getConnectionURL()");
+      }
+
+      return raProperties.getConnectionURL();
+   }
+
+   /**
+    * Set the client ID
+    *
+    * @param connectionURL The connection url
+    */
+   public void setConnectionURL(final String connectionURL)
+   {
+      if (trace)
+      {
+         log.trace("setConnectionURL(" + connectionURL + ")");
+      }
+
+      raProperties.setConnectionURL(connectionURL);
+   }
+
+   /**
+    * Get the transaction manager locator class
+    *
+    * @return The value
+    */
+   public String getTransactionManagerLocatorClass()
+   {
+      if (trace)
+      {
+         log.trace("getTransactionManagerLocatorClass()");
+      }
+
+      return raProperties.getTransactionManagerLocatorClass();
+   }
+
+   /**
+    * Set the transaction manager locator class
+    *
+    * @param locator The transaction manager locator class
+    */
+   public void setTransactionManagerLocatorClass(final String locator)
+   {
+      if (trace)
+      {
+         log.trace("setTransactionManagerLocatorClass(" + locator + ")");
+      }
+
+      raProperties.setTransactionManagerLocatorClass(locator);
+   }
+
+   /**
+    * Get the transaction manager locator method
+    *
+    * @return The value
+    */
+   public String getTransactionManagerLocatorMethod()
+   {
+      if (trace)
+      {
+         log.trace("getTransactionManagerLocatorMethod()");
+      }
+
+      return raProperties.getTransactionManagerLocatorMethod();
+   }
+
+   /**
+    * Set the transaction manager locator method
+    *
+    * @param method The transaction manager locator method
+    */
+   public void setTransactionManagerLocatorMethod(final String method)
+   {
+      if (trace)
+      {
+         log.trace("setTransactionManagerLocatorMethod(" + method + ")");
+      }
+
+      raProperties.setTransactionManagerLocatorMethod(method);
+   }
+
+   /**
     * Get the use XA flag
     *
     * @return The value

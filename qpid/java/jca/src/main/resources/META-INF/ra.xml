@@ -76,6 +76,48 @@
       <config-property-type>java.lang.String</config-property-type>
       <config-property-value></config-property-value>
     </config-property>
+
+    <config-property>
+      <description>Broker host</description>
+      <config-property-name>Host</config-property-name>
+      <config-property-type>java.lang.String</config-property-type>
+      <config-property-value></config-property-value>
+    </config-property>
+
+    <config-property>
+      <description>Broker port</description>
+      <config-property-name>Port</config-property-name>
+      <config-property-type>java.lang.Integer</config-property-type>
+      <config-property-value></config-property-value>
+    </config-property>
+
+    <config-property>
+      <description>Virtual Path for Connection Factory</description>
+      <config-property-name>Path</config-property-name>
+      <config-property-type>java.lang.String</config-property-type>
+      <config-property-value></config-property-value>
+    </config-property>
+
+    <config-property>
+      <description>connection URL</description>
+      <config-property-name>ConnectionURL</config-property-name>
+      <config-property-type>java.lang.String</config-property-type>
+      <config-property-value></config-property-value>
+    </config-property>
+
+    <config-property>
+      <description>Transaction Manager locator class</description>
+      <config-property-name>TransactionManagerLocatorClass</config-property-name>
+      <config-property-type>java.lang.String</config-property-type>
+      <config-property-value></config-property-value>
+    </config-property>
+
+    <config-property>
+      <description>Transaction Manager locator method</description>
+      <config-property-name>TransactionManagerLocatorMethod</config-property-name>
+      <config-property-type>java.lang.String</config-property-type>
+      <config-property-value></config-property-value>
+    </config-property>
     -->
 
     <outbound-resourceadapter>

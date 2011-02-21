@@ -476,7 +476,7 @@ public class QpidRAManagedConnection implements ManagedConnection, ExceptionList
       //
       if (xaResource == null)
       {
-            xaResource = xaSession.getXAResource();
+            xaResource = new QpidRAXAResource(this, xaSession.getXAResource());
       }
 
       if (QpidRAManagedConnection.trace)
@@ -484,7 +484,7 @@ public class QpidRAManagedConnection implements ManagedConnection, ExceptionList
          QpidRAManagedConnection.log.trace("XAResource=" + xaResource);
       }
 
-      return new QpidRAXAResource(this, xaResource);
+      return xaResource;
    }
 
    /**
@@ -604,10 +604,10 @@ public class QpidRAManagedConnection implements ManagedConnection, ExceptionList
       {
          if (QpidRAManagedConnection.trace)
          {
-            QpidRAManagedConnection.log.trace("getSession() -> XA session " + xaSession.getSession());
+            QpidRAManagedConnection.log.trace("getSession() -> XA session " + xaSession);
          }
 
-         return xaSession.getSession();
+         return xaSession;
       } 
       else
       {

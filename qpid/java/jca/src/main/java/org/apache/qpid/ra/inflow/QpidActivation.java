@@ -25,9 +25,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import javax.jms.Connection;
 import javax.jms.Destination;
+import javax.jms.ExceptionListener;
+import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
+import javax.jms.Queue;
 import javax.jms.Session;
 import javax.jms.Topic;
 import javax.naming.Context;
@@ -44,8 +48,6 @@ import org.apache.qpid.AMQException;
 import org.apache.qpid.client.AMQConnection;
 import org.apache.qpid.client.AMQConnectionFactory;
 import org.apache.qpid.client.AMQDestination;
-import org.apache.qpid.client.AMQQueue;
-import org.apache.qpid.client.AMQTopic;
 import org.apache.qpid.client.XAConnectionImpl;
 import org.apache.qpid.protocol.AMQConstant;
 import org.apache.qpid.ra.QpidResourceAdapter;
@@ -59,7 +61,7 @@ import org.apache.qpid.ra.Util;
  * @author <a href="mailto:andy.taylor@jboss.org">Andy Taylor</a>
  * @version $Revision: $
  */
-public class QpidActivation
+public class QpidActivation implements ExceptionListener
 {
    /**
     * The logger
@@ -106,7 +108,12 @@ public class QpidActivation
     */
    private boolean isDeliveryTransacted;
 
-   private AMQDestination destination;
+   private Destination destination;
+
+   /**
+    * The connection
+    */
+   private Connection connection;
 
    private final List<QpidMessageHandler> handlers = new ArrayList<QpidMessageHandler>();
 
@@ -272,52 +279,61 @@ public class QpidActivation
       setupCF();
 
       setupDestination();
+      final AMQConnection amqConnection ;
+      final boolean useLocalTx = spec.isUseLocalTx() ;
+      final boolean isXA = isDeliveryTransacted && !useLocalTx ;
+      
+      if (isXA)
+      {
+         amqConnection = (XAConnectionImpl)factory.createXAConnection() ;
+      }
+      else
+      {
+         amqConnection = (AMQConnection)factory.createConnection() ;
+      }
+
+      amqConnection.setExceptionListener(this) ;
+      
       for (int i = 0; i < spec.getMaxSession(); i++)
       {
          Session session = null;
 
          try
          {
-            final boolean useLocalTx = spec.isUseLocalTx() ;
-            final AMQConnection connection ;
             if (isDeliveryTransacted && !useLocalTx)
             {
-               final XAConnectionImpl xaConnection = (XAConnectionImpl)factory.createXAConnection() ;
-               session = ra.createXASession(xaConnection) ;
-               connection = xaConnection ;
+               session = ra.createXASession((XAConnectionImpl)amqConnection) ;
             }
             else
             {
-               connection = (AMQConnection)factory.createConnection() ;
-               session = ra.createSession(connection,
+               session = ra.createSession((AMQConnection)amqConnection,
                      spec.getAcknowledgeModeInt(),
                      useLocalTx,
                      spec.getPrefetchLow(),
                      spec.getPrefetchHigh());
             }
 
-            QpidActivation.log.debug("Using queue connection " + session);
-            QpidMessageHandler handler = new QpidMessageHandler(this, ra.getTM(), connection, session);
+            QpidActivation.log.debug("Using session " + session);
+            QpidMessageHandler handler = new QpidMessageHandler(this, ra.getTM(), session);
             handler.setup();
             handlers.add(handler);
          }
          catch (Exception e)
          {
-            if (session != null)
+            try
             {
-               try
-               {
-                  session.close();
-               }
-               catch (Exception e2)
-               {
-                  QpidActivation.log.trace("Ignored error closing session", e2);
-               }
+               amqConnection.close() ;
+            }
+            catch (Exception e2)
+            {
+               QpidActivation.log.trace("Ignored error closing connection", e2);
             }
             
             throw e;
          }
       }
+      amqConnection.start() ;
+      this.connection = amqConnection ;
 
       QpidActivation.log.debug("Setup complete " + this);
    }
@@ -329,9 +345,33 @@ public class QpidActivation
    {
       QpidActivation.log.debug("Tearing down " + spec);
 
+      try
+      {
+         if (connection != null)
+         {
+            connection.stop();
+         }
+      }
+      catch (Throwable t)
+      {
+         QpidActivation.log.debug("Error stopping connection " + connection, t);
+      }
+
       for (QpidMessageHandler handler : handlers)
       {
          handler.teardown();
+      }
+      
+      try
+      {
+         if (connection != null)
+         {
+            connection.close();
+         }
+      }
+      catch (Throwable t)
+      {
+         QpidActivation.log.debug("Error closing connection " + connection, t);
       }
       if (spec.isHasBeenUpdated())
       {
@@ -361,6 +401,7 @@ public class QpidActivation
    {
 
       String destinationName = spec.getDestination();
+      String destinationTypeString = spec.getDestinationType();
 
       if (spec.isUseJNDI())
       {
@@ -371,20 +412,19 @@ public class QpidActivation
             QpidActivation.log.trace("setupDestination(" + ctx + ")");
          }
 
-         String destinationTypeString = spec.getDestinationType();
          if (destinationTypeString != null && !destinationTypeString.trim().equals(""))
          {
             QpidActivation.log.debug("Destination type defined as " + destinationTypeString);
 
-            Class<? extends AMQDestination> destinationType;
+            Class<? extends Destination> destinationType;
             if (Topic.class.getName().equals(destinationTypeString))
             {
-               destinationType = AMQTopic.class;
+               destinationType = Topic.class;
                isTopic = true;
             }
             else
             {
-               destinationType = AMQQueue.class;
+               destinationType = Queue.class;
             }
 
             QpidActivation.log.debug("Retrieving destination " + destinationName +
@@ -400,13 +440,34 @@ public class QpidActivation
                                         Destination.class.getName());
 
             destination = Util.lookup(ctx, destinationName, AMQDestination.class);
-            isTopic = (destination instanceof Topic) ;
+            isTopic = !(destination instanceof Queue) ;
          }
       }
       else
       {
          destination = (AMQDestination)AMQDestination.createDestination(spec.getDestination());
-         isTopic = (destination instanceof Topic) ;
+         if (destinationTypeString != null && !destinationTypeString.trim().equals(""))
+         {
+            QpidActivation.log.debug("Destination type defined as " + destinationTypeString);
+            final boolean match ;
+            if (Topic.class.getName().equals(destinationTypeString))
+            {
+               match = (destination instanceof Topic) ;
+               isTopic = true;
+            }
+            else
+            {
+               match = (destination instanceof Queue) ;
+            }
+            if (!match)
+            {
+               throw new ClassCastException("Expected destination of type " + destinationTypeString + " but created destination " + destination) ;
+            }
+         }
+         else
+         {
+            isTopic = !(destination instanceof Queue) ;
+         }
       }
 
       QpidActivation.log.debug("Got destination " + destination + " from " + destinationName);
@@ -434,6 +495,11 @@ public class QpidActivation
       return buffer.toString();
    }
 
+   public void onException(final JMSException jmse)
+   {
+      handleFailure(jmse) ;
+   }
+   
    /**
     * Handles any failure by trying to reconnect
     * 

@@ -48,12 +48,11 @@ public class QpidRAProperties extends ConnectionFactoryProperties implements Ser
    private Boolean localTx = false;
    
    
-   /** Class used to locate the Transaction Manager.
-    *  Using JBoss as the default locator */
-   private String transactionManagerLocatorClass = "org.apache.qpid.ra.tm.JBossTransactionManagerLocator";
+   /** Class used to locate the Transaction Manager. */
+   private String transactionManagerLocatorClass ;
    
    /** Method used to locate the TM */
-   private String transactionManagerLocatorMethod = "getTm";
+   private String transactionManagerLocatorMethod ;
 
    private static final int DEFAULT_SETUP_ATTEMPTS = 10;
 

@@ -32,6 +32,8 @@ commons-pool=lib/commons-pool-1.4.jar
 derby-db=lib/derby-10.6.1.0.jar
 
 geronimo-jms=lib/geronimo-jms_1.1_spec-1.0.jar
+geronimo-j2ee=lib/geronimo-j2ee-connector_1.5_spec-2.0.0.jar
+geronimo-jta=lib/geronimo-jta_1.1_spec-1.1.1.jar
 
 junit=lib/junit-3.8.1.jar
 junit4=lib/junit-4.4.jar
@@ -195,3 +197,5 @@ management-agent.test.libs=${junit}
 management-eclipse-plugin.test.libs=${systests.libs}
 management-tools-qpid-cli.test.libs=${junit4} ${slf4j-log4j} ${log4j}
 management-common.test.libs=${test.libs}
+
+jca.libs=${geronimo-j2ee} ${geronimo-jta} ${geronimo-jms} ${slf4j-api}

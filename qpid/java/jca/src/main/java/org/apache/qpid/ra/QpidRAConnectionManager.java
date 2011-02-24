@@ -43,19 +43,16 @@ public class QpidRAConnectionManager implements ConnectionManager
    static final long serialVersionUID = 4409118162975011014L;
 
    /** The logger */
-   private static final Logger log = LoggerFactory.getLogger(QpidRAConnectionManager.class);
-
-   /** Trace enabled */
-   private static boolean trace = QpidRAConnectionManager.log.isTraceEnabled();
+   private static final Logger _log = LoggerFactory.getLogger(QpidRAConnectionManager.class);
 
    /**
     * Constructor
     */
    public QpidRAConnectionManager()
    {
-      if (QpidRAConnectionManager.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAConnectionManager.log.trace("constructor()");
+         _log.trace("constructor()");
       }
    }
 
@@ -68,17 +65,17 @@ public class QpidRAConnectionManager implements ConnectionManager
     */
    public Object allocateConnection(final ManagedConnectionFactory mcf, final ConnectionRequestInfo cxRequestInfo) throws ResourceException
    {
-      if (QpidRAConnectionManager.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAConnectionManager.log.trace("allocateConnection(" + mcf + ", " + cxRequestInfo + ")");
+         _log.trace("allocateConnection(" + mcf + ", " + cxRequestInfo + ")");
       }
 
       ManagedConnection mc = mcf.createManagedConnection(null, cxRequestInfo);
       Object c = mc.getConnection(null, cxRequestInfo);
 
-      if (QpidRAConnectionManager.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAConnectionManager.log.trace("Allocated connection: " + c + ", with managed connection: " + mc);
+         _log.trace("Allocated connection: " + c + ", with managed connection: " + mc);
       }
 
       return c;

@@ -34,6 +34,7 @@ import javax.resource.spi.endpoint.MessageEndpointFactory;
 import javax.transaction.TransactionManager;
 import javax.transaction.xa.XAResource;
 
+import org.apache.qpid.ra.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,12 +51,8 @@ public class QpidMessageHandler implements MessageListener
    /**
     * The logger
     */
-   private static final Logger log = LoggerFactory.getLogger(QpidMessageHandler.class);
+   private static final Logger _log = LoggerFactory.getLogger(QpidMessageHandler.class);
 
-   /**
-    * Trace enabled
-    */
-   private static boolean trace = QpidMessageHandler.log.isTraceEnabled();
    /**
     * The session
     */
@@ -87,9 +84,9 @@ public class QpidMessageHandler implements MessageListener
 
    public void setup() throws Exception
    {
-      if (QpidMessageHandler.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidMessageHandler.log.trace("setup()");
+         _log.trace("setup()");
       }
 
       QpidActivationSpec spec = activation.getActivationSpec();
@@ -132,9 +129,9 @@ public class QpidMessageHandler implements MessageListener
     */
    public void teardown()
    {
-      if (QpidMessageHandler.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidMessageHandler.log.trace("teardown()");
+         _log.trace("teardown()");
       }
 
       try
@@ -147,15 +144,15 @@ public class QpidMessageHandler implements MessageListener
       }
       catch (Throwable t)
       {
-         QpidMessageHandler.log.debug("Error releasing endpoint " + endpoint, t);
+         _log.debug("Error releasing endpoint " + endpoint, t);
       }
    }
 
    public void onMessage(final Message message)
    {
-      if (QpidMessageHandler.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidMessageHandler.log.trace("onMessage(" + message + ")");
+         _log.trace("onMessage(" + Util.asString(message) + ")");
       }
 
       boolean beforeDelivery = false;
@@ -189,7 +186,7 @@ public class QpidMessageHandler implements MessageListener
          }
          catch (ResourceException e)
          {
-            QpidMessageHandler.log.warn("Unable to call after delivery", e);
+            _log.warn("Unable to call after delivery", e);
             return;
          }
          if (useLocalTx)
@@ -199,7 +196,7 @@ public class QpidMessageHandler implements MessageListener
       }
       catch (Throwable e)
       {
-         QpidMessageHandler.log.error("Failed to deliver message", e);
+         _log.error("Failed to deliver message", e);
          // we need to call before/afterDelivery as a pair
          if (beforeDelivery)
          {
@@ -209,7 +206,7 @@ public class QpidMessageHandler implements MessageListener
             }
             catch (ResourceException e1)
             {
-               QpidMessageHandler.log.warn("Unable to call after delivery", e);
+               _log.warn("Unable to call after delivery", e);
             }
          }
          if (useLocalTx || !activation.isDeliveryTransacted())
@@ -220,7 +217,7 @@ public class QpidMessageHandler implements MessageListener
             }
             catch (JMSException e1)
             {
-               QpidMessageHandler.log.warn("Unable to roll local transaction back", e1);
+               _log.warn("Unable to roll local transaction back", e1);
             }
          }
       }

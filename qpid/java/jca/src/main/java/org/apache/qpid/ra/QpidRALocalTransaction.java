@@ -38,10 +38,7 @@ import org.slf4j.LoggerFactory;
 public class QpidRALocalTransaction implements LocalTransaction
 {
    /** The logger */
-   private static final Logger log = LoggerFactory.getLogger(QpidRALocalTransaction.class);
-
-   /** Trace enabled */
-   private static boolean trace = QpidRALocalTransaction.log.isTraceEnabled();
+   private static final Logger _log = LoggerFactory.getLogger(QpidRALocalTransaction.class);
 
    /** The managed connection */
    private final QpidRAManagedConnection mc;
@@ -52,9 +49,9 @@ public class QpidRALocalTransaction implements LocalTransaction
     */
    public QpidRALocalTransaction(final QpidRAManagedConnection mc)
    {
-      if (QpidRALocalTransaction.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRALocalTransaction.log.trace("constructor(" + mc + ")");
+         _log.trace("constructor(" + mc + ")");
       }
 
       this.mc = mc;
@@ -66,9 +63,9 @@ public class QpidRALocalTransaction implements LocalTransaction
     */
    public void begin() throws ResourceException
    {
-      if (QpidRALocalTransaction.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRALocalTransaction.log.trace("begin()");
+         _log.trace("begin()");
       }
    }
 
@@ -78,9 +75,9 @@ public class QpidRALocalTransaction implements LocalTransaction
     */
    public void commit() throws ResourceException
    {
-      if (QpidRALocalTransaction.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRALocalTransaction.log.trace("commit()");
+         _log.trace("commit()");
       }
       
       mc.lock();
@@ -107,9 +104,9 @@ public class QpidRALocalTransaction implements LocalTransaction
     */
    public void rollback() throws ResourceException
    {
-      if (QpidRALocalTransaction.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRALocalTransaction.log.trace("rollback()");
+         _log.trace("rollback()");
       }
       
       mc.lock();

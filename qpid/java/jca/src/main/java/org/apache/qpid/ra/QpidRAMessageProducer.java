@@ -39,10 +39,7 @@ import org.slf4j.LoggerFactory;
 public class QpidRAMessageProducer implements MessageProducer
 {
    /** The logger */
-   private static final Logger log = LoggerFactory.getLogger(QpidRAMessageProducer.class);
-
-   /** Whether trace is enabled */
-   private static boolean trace = QpidRAMessageProducer.log.isTraceEnabled();
+   private static final Logger _log = LoggerFactory.getLogger(QpidRAMessageProducer.class);
 
    /** The wrapped message producer */
    protected MessageProducer producer;
@@ -60,11 +57,11 @@ public class QpidRAMessageProducer implements MessageProducer
       this.producer = producer;
       this.session = session;
 
-      if (QpidRAMessageProducer.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessageProducer.log.trace("new QpidRAMessageProducer " + this +
+         _log.trace("new QpidRAMessageProducer " + this +
                                             " producer=" +
-                                            producer +
+                                            Util.asString(producer) +
                                             " session=" +
                                             session);
       }
@@ -76,9 +73,9 @@ public class QpidRAMessageProducer implements MessageProducer
     */
    public void close() throws JMSException
    {
-      if (QpidRAMessageProducer.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessageProducer.log.trace("close " + this);
+         _log.trace("close " + this);
       }
       try
       {
@@ -108,13 +105,13 @@ public class QpidRAMessageProducer implements MessageProducer
       session.lock();
       try
       {
-         if (QpidRAMessageProducer.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRAMessageProducer.log.trace("send " + this +
+            _log.trace("send " + this +
                                                " destination=" +
                                                destination +
                                                " message=" +
-                                               message +
+                                               Util.asString(message) +
                                                " deliveryMode=" +
                                                deliveryMode +
                                                " priority=" +
@@ -127,9 +124,9 @@ public class QpidRAMessageProducer implements MessageProducer
 
          producer.send(destination, message, deliveryMode, priority, timeToLive);
 
-         if (QpidRAMessageProducer.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRAMessageProducer.log.trace("sent " + this + " result=" + message);
+            _log.trace("sent " + this + " result=" + Util.asString(message));
          }
       }
       finally
@@ -149,18 +146,18 @@ public class QpidRAMessageProducer implements MessageProducer
       session.lock();
       try
       {
-         if (QpidRAMessageProducer.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRAMessageProducer.log.trace("send " + this + " destination=" + destination + " message=" + message);
+            _log.trace("send " + this + " destination=" + destination + " message=" + Util.asString(message));
          }
 
          checkState();
 
          producer.send(destination, message);
 
-         if (QpidRAMessageProducer.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRAMessageProducer.log.trace("sent " + this + " result=" + message);
+            _log.trace("sent " + this + " result=" + Util.asString(message));
          }
       }
       finally
@@ -182,11 +179,11 @@ public class QpidRAMessageProducer implements MessageProducer
       session.lock();
       try
       {
-         if (QpidRAMessageProducer.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRAMessageProducer.log.trace("send " + this +
+            _log.trace("send " + this +
                                                " message=" +
-                                               message +
+                                               Util.asString(message) +
                                                " deliveryMode=" +
                                                deliveryMode +
                                                " priority=" +
@@ -199,9 +196,9 @@ public class QpidRAMessageProducer implements MessageProducer
 
          producer.send(message, deliveryMode, priority, timeToLive);
 
-         if (QpidRAMessageProducer.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRAMessageProducer.log.trace("sent " + this + " result=" + message);
+            _log.trace("sent " + this + " result=" + Util.asString(message));
          }
       }
       finally
@@ -220,18 +217,18 @@ public class QpidRAMessageProducer implements MessageProducer
       session.lock();
       try
       {
-         if (QpidRAMessageProducer.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRAMessageProducer.log.trace("send " + this + " message=" + message);
+            _log.trace("send " + this + " message=" + Util.asString(message));
          }
 
          checkState();
 
          producer.send(message);
 
-         if (QpidRAMessageProducer.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRAMessageProducer.log.trace("sent " + this + " result=" + message);
+            _log.trace("sent " + this + " result=" + Util.asString(message));
          }
       }
       finally
@@ -247,9 +244,9 @@ public class QpidRAMessageProducer implements MessageProducer
     */
    public int getDeliveryMode() throws JMSException
    {
-      if (QpidRAMessageProducer.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessageProducer.log.trace("getDeliveryMode()");
+         _log.trace("getDeliveryMode()");
       }
 
       return producer.getDeliveryMode();
@@ -262,9 +259,9 @@ public class QpidRAMessageProducer implements MessageProducer
     */
    public Destination getDestination() throws JMSException
    {
-      if (QpidRAMessageProducer.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessageProducer.log.trace("getDestination()");
+         _log.trace("getDestination()");
       }
 
       return producer.getDestination();
@@ -277,9 +274,9 @@ public class QpidRAMessageProducer implements MessageProducer
     */
    public boolean getDisableMessageID() throws JMSException
    {
-      if (QpidRAMessageProducer.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessageProducer.log.trace("getDisableMessageID()");
+         _log.trace("getDisableMessageID()");
       }
 
       return producer.getDisableMessageID();
@@ -292,9 +289,9 @@ public class QpidRAMessageProducer implements MessageProducer
     */
    public boolean getDisableMessageTimestamp() throws JMSException
    {
-      if (QpidRAMessageProducer.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessageProducer.log.trace("getDisableMessageTimestamp()");
+         _log.trace("getDisableMessageTimestamp()");
       }
 
       return producer.getDisableMessageTimestamp();
@@ -307,9 +304,9 @@ public class QpidRAMessageProducer implements MessageProducer
     */
    public int getPriority() throws JMSException
    {
-      if (QpidRAMessageProducer.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessageProducer.log.trace("getPriority()");
+         _log.trace("getPriority()");
       }
 
       return producer.getPriority();
@@ -322,9 +319,9 @@ public class QpidRAMessageProducer implements MessageProducer
     */
    public long getTimeToLive() throws JMSException
    {
-      if (QpidRAMessageProducer.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessageProducer.log.trace("getTimeToLive()");
+         _log.trace("getTimeToLive()");
       }
 
       return producer.getTimeToLive();
@@ -337,9 +334,9 @@ public class QpidRAMessageProducer implements MessageProducer
     */
    public void setDeliveryMode(final int deliveryMode) throws JMSException
    {
-      if (QpidRAMessageProducer.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessageProducer.log.trace("setDeliveryMode(" + deliveryMode + ")");
+         _log.trace("setDeliveryMode(" + deliveryMode + ")");
       }
 
       producer.setDeliveryMode(deliveryMode);
@@ -352,9 +349,9 @@ public class QpidRAMessageProducer implements MessageProducer
     */
    public void setDisableMessageID(final boolean value) throws JMSException
    {
-      if (QpidRAMessageProducer.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessageProducer.log.trace("setDisableMessageID(" + value + ")");
+         _log.trace("setDisableMessageID(" + value + ")");
       }
 
       producer.setDisableMessageID(value);
@@ -367,9 +364,9 @@ public class QpidRAMessageProducer implements MessageProducer
     */
    public void setDisableMessageTimestamp(final boolean value) throws JMSException
    {
-      if (QpidRAMessageProducer.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessageProducer.log.trace("setDisableMessageTimestamp(" + value + ")");
+         _log.trace("setDisableMessageTimestamp(" + value + ")");
       }
 
       producer.setDisableMessageTimestamp(value);
@@ -382,9 +379,9 @@ public class QpidRAMessageProducer implements MessageProducer
     */
    public void setPriority(final int defaultPriority) throws JMSException
    {
-      if (QpidRAMessageProducer.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessageProducer.log.trace("setPriority(" + defaultPriority + ")");
+         _log.trace("setPriority(" + defaultPriority + ")");
       }
 
       producer.setPriority(defaultPriority);
@@ -397,9 +394,9 @@ public class QpidRAMessageProducer implements MessageProducer
     */
    public void setTimeToLive(final long timeToLive) throws JMSException
    {
-      if (QpidRAMessageProducer.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessageProducer.log.trace("setTimeToLive(" + timeToLive + ")");
+         _log.trace("setTimeToLive(" + timeToLive + ")");
       }
 
       producer.setTimeToLive(timeToLive);

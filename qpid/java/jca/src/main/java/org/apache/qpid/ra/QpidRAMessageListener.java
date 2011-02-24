@@ -36,10 +36,7 @@ import org.slf4j.LoggerFactory;
 public class QpidRAMessageListener implements MessageListener
 {
    /** The logger */
-   private static final Logger log = LoggerFactory.getLogger(QpidRAMessageListener.class);
-
-   /** Whether trace is enabled */
-   private static boolean trace = QpidRAMessageListener.log.isTraceEnabled();
+   private static final Logger _log = LoggerFactory.getLogger(QpidRAMessageListener.class);
 
    /** The message listener */
    private final MessageListener listener;
@@ -54,9 +51,9 @@ public class QpidRAMessageListener implements MessageListener
     */
    public QpidRAMessageListener(final MessageListener listener, final QpidRAMessageConsumer consumer)
    {
-      if (QpidRAMessageListener.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessageListener.log.trace("constructor(" + listener + ", " + consumer + ")");
+         _log.trace("constructor(" + listener + ", " + consumer + ")");
       }
 
       this.listener = listener;
@@ -69,9 +66,9 @@ public class QpidRAMessageListener implements MessageListener
     */
    public void onMessage(Message message)
    {
-      if (QpidRAMessageListener.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessageListener.log.trace("onMessage(" + message + ")");
+         _log.trace("onMessage(" + Util.asString(message) + ")");
       }
 
       message = consumer.wrapMessage(message);

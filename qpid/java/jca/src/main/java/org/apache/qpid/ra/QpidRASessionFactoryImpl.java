@@ -60,10 +60,7 @@ import org.slf4j.LoggerFactory;
 public class QpidRASessionFactoryImpl implements QpidRASessionFactory, Referenceable
 {
    /** The logger */
-   private static final Logger log = LoggerFactory.getLogger(QpidRASessionFactoryImpl.class);
-
-   /** Trace enabled */
-   private static boolean trace = QpidRASessionFactoryImpl.log.isTraceEnabled();
+   private static final Logger _log = LoggerFactory.getLogger(QpidRASessionFactoryImpl.class);
 
    /** Are we closed? */
    private boolean closed = false;
@@ -124,9 +121,9 @@ public class QpidRASessionFactoryImpl implements QpidRASessionFactory, Reference
 
       this.type = type;
 
-      if (QpidRASessionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASessionFactoryImpl.log.trace("constructor(" + mcf + ", " + cm + ", " + type);
+         _log.trace("constructor(" + mcf + ", " + cm + ", " + type);
       }
    }
 
@@ -136,9 +133,9 @@ public class QpidRASessionFactoryImpl implements QpidRASessionFactory, Reference
     */
    public void setReference(final Reference reference)
    {
-      if (QpidRASessionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASessionFactoryImpl.log.trace("setReference(" + reference + ")");
+         _log.trace("setReference(" + reference + ")");
       }
 
       this.reference = reference;
@@ -150,9 +147,9 @@ public class QpidRASessionFactoryImpl implements QpidRASessionFactory, Reference
     */
    public Reference getReference()
    {
-      if (QpidRASessionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASessionFactoryImpl.log.trace("getReference()");
+         _log.trace("getReference()");
       }
 
       return reference;
@@ -164,9 +161,9 @@ public class QpidRASessionFactoryImpl implements QpidRASessionFactory, Reference
     */
    public void setUserName(final String name)
    {
-      if (QpidRASessionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASessionFactoryImpl.log.trace("setUserName(" + name + ")");
+         _log.trace("setUserName(" + name + ")");
       }
 
       userName = name;
@@ -178,9 +175,9 @@ public class QpidRASessionFactoryImpl implements QpidRASessionFactory, Reference
     */
    public void setPassword(final String password)
    {
-      if (QpidRASessionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASessionFactoryImpl.log.trace("setPassword(****)");
+         _log.trace("setPassword(****)");
       }
 
       this.password = password;
@@ -193,9 +190,9 @@ public class QpidRASessionFactoryImpl implements QpidRASessionFactory, Reference
     */
    public String getClientID() throws JMSException
    {
-      if (QpidRASessionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASessionFactoryImpl.log.trace("getClientID()");
+         _log.trace("getClientID()");
       }
 
       checkClosed();
@@ -224,9 +221,9 @@ public class QpidRASessionFactoryImpl implements QpidRASessionFactory, Reference
     */
    public void setClientID(final String cID) throws JMSException
    {
-      if (QpidRASessionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASessionFactoryImpl.log.trace("setClientID(" + cID + ")");
+         _log.trace("setClientID(" + cID + ")");
       }
 
       throw new IllegalStateException(QpidRASessionFactory.ISE);
@@ -241,9 +238,9 @@ public class QpidRASessionFactoryImpl implements QpidRASessionFactory, Reference
     */
    public QueueSession createQueueSession(final boolean transacted, final int acknowledgeMode) throws JMSException
    {
-      if (QpidRASessionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASessionFactoryImpl.log.trace("createQueueSession(" + transacted + ", " + acknowledgeMode + ")");
+         _log.trace("createQueueSession(" + transacted + ", " + acknowledgeMode + ")");
       }
 
       checkClosed();
@@ -263,9 +260,9 @@ public class QpidRASessionFactoryImpl implements QpidRASessionFactory, Reference
     */
    public XAQueueSession createXAQueueSession() throws JMSException
    {
-      if (QpidRASessionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASessionFactoryImpl.log.trace("createXAQueueSession()");
+         _log.trace("createXAQueueSession()");
       }
 
       checkClosed();
@@ -293,9 +290,9 @@ public class QpidRASessionFactoryImpl implements QpidRASessionFactory, Reference
                                                       final ServerSessionPool sessionPool,
                                                       final int maxMessages) throws JMSException
    {
-      if (QpidRASessionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASessionFactoryImpl.log.trace("createConnectionConsumer(" + queue +
+         _log.trace("createConnectionConsumer(" + queue +
                                                ", " +
                                                messageSelector +
                                                ", " +
@@ -317,9 +314,9 @@ public class QpidRASessionFactoryImpl implements QpidRASessionFactory, Reference
     */
    public TopicSession createTopicSession(final boolean transacted, final int acknowledgeMode) throws JMSException
    {
-      if (QpidRASessionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASessionFactoryImpl.log.trace("createTopicSession(" + transacted + ", " + acknowledgeMode + ")");
+         _log.trace("createTopicSession(" + transacted + ", " + acknowledgeMode + ")");
       }
 
       checkClosed();
@@ -339,9 +336,9 @@ public class QpidRASessionFactoryImpl implements QpidRASessionFactory, Reference
     */
    public XATopicSession createXATopicSession() throws JMSException
    {
-      if (QpidRASessionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASessionFactoryImpl.log.trace("createXATopicSession()");
+         _log.trace("createXATopicSession()");
       }
 
       checkClosed();
@@ -369,9 +366,9 @@ public class QpidRASessionFactoryImpl implements QpidRASessionFactory, Reference
                                                       final ServerSessionPool sessionPool,
                                                       final int maxMessages) throws JMSException
    {
-      if (QpidRASessionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASessionFactoryImpl.log.trace("createConnectionConsumer(" + topic +
+         _log.trace("createConnectionConsumer(" + topic +
                                                ", " +
                                                messageSelector +
                                                ", " +
@@ -400,9 +397,9 @@ public class QpidRASessionFactoryImpl implements QpidRASessionFactory, Reference
                                                              final ServerSessionPool sessionPool,
                                                              final int maxMessages) throws JMSException
    {
-      if (QpidRASessionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASessionFactoryImpl.log.trace("createConnectionConsumer(" + topic +
+         _log.trace("createConnectionConsumer(" + topic +
                                                ", " +
                                                subscriptionName +
                                                ", " +
@@ -429,9 +426,9 @@ public class QpidRASessionFactoryImpl implements QpidRASessionFactory, Reference
                                                       final ServerSessionPool pool,
                                                       final int maxMessages) throws JMSException
    {
-      if (QpidRASessionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASessionFactoryImpl.log.trace("createConnectionConsumer(" + destination +
+         _log.trace("createConnectionConsumer(" + destination +
                                                ", " +
                                                pool +
                                                ", " +
@@ -456,9 +453,9 @@ public class QpidRASessionFactoryImpl implements QpidRASessionFactory, Reference
                                                       final ServerSessionPool pool,
                                                       final int maxMessages) throws JMSException
    {
-      if (QpidRASessionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASessionFactoryImpl.log.trace("createConnectionConsumer(" + destination +
+         _log.trace("createConnectionConsumer(" + destination +
                                                ", " +
                                                name +
                                                ", " +
@@ -480,9 +477,9 @@ public class QpidRASessionFactoryImpl implements QpidRASessionFactory, Reference
     */
    public Session createSession(final boolean transacted, final int acknowledgeMode) throws JMSException
    {
-      if (QpidRASessionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASessionFactoryImpl.log.trace("createSession(" + transacted + ", " + acknowledgeMode + ")");
+         _log.trace("createSession(" + transacted + ", " + acknowledgeMode + ")");
       }
 
       checkClosed();
@@ -496,9 +493,9 @@ public class QpidRASessionFactoryImpl implements QpidRASessionFactory, Reference
     */
    public XASession createXASession() throws JMSException
    {
-      if (QpidRASessionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASessionFactoryImpl.log.trace("createXASession()");
+         _log.trace("createXASession()");
       }
 
       checkClosed();
@@ -512,9 +509,9 @@ public class QpidRASessionFactoryImpl implements QpidRASessionFactory, Reference
     */
    public ConnectionMetaData getMetaData() throws JMSException
    {
-      if (QpidRASessionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASessionFactoryImpl.log.trace("getMetaData()");
+         _log.trace("getMetaData()");
       }
 
       checkClosed();
@@ -528,9 +525,9 @@ public class QpidRASessionFactoryImpl implements QpidRASessionFactory, Reference
     */
    public ExceptionListener getExceptionListener() throws JMSException
    {
-      if (QpidRASessionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASessionFactoryImpl.log.trace("getExceptionListener()");
+         _log.trace("getExceptionListener()");
       }
 
       throw new IllegalStateException(QpidRASessionFactory.ISE);
@@ -543,9 +540,9 @@ public class QpidRASessionFactoryImpl implements QpidRASessionFactory, Reference
     */
    public void setExceptionListener(final ExceptionListener listener) throws JMSException
    {
-      if (QpidRASessionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASessionFactoryImpl.log.trace("setExceptionListener(" + listener + ")");
+         _log.trace("setExceptionListener(" + listener + ")");
       }
 
       throw new IllegalStateException(QpidRASessionFactory.ISE);
@@ -559,9 +556,9 @@ public class QpidRASessionFactoryImpl implements QpidRASessionFactory, Reference
    {
       checkClosed();
 
-      if (QpidRASessionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASessionFactoryImpl.log.trace("start() " + this);
+         _log.trace("start() " + this);
       }
 
       synchronized (sessions)
@@ -585,9 +582,9 @@ public class QpidRASessionFactoryImpl implements QpidRASessionFactory, Reference
     */
    public void stop() throws JMSException
    {
-      if (QpidRASessionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASessionFactoryImpl.log.trace("stop() " + this);
+         _log.trace("stop() " + this);
       }
 
       throw new IllegalStateException(QpidRASessionFactory.ISE);
@@ -599,9 +596,9 @@ public class QpidRASessionFactoryImpl implements QpidRASessionFactory, Reference
     */
    public void close() throws JMSException
    {
-      if (QpidRASessionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASessionFactoryImpl.log.trace("close() " + this);
+         _log.trace("close() " + this);
       }
 
       if (closed)
@@ -622,7 +619,7 @@ public class QpidRASessionFactoryImpl implements QpidRASessionFactory, Reference
             }
             catch (Throwable t)
             {
-               QpidRASessionFactoryImpl.log.trace("Error closing session", t);
+               _log.trace("Error closing session", t);
             }
             i.remove();
          }
@@ -635,15 +632,15 @@ public class QpidRASessionFactoryImpl implements QpidRASessionFactory, Reference
             TemporaryQueue temp = (TemporaryQueue)i.next();
             try
             {
-               if (QpidRASessionFactoryImpl.trace)
+               if (_log.isTraceEnabled())
                {
-                  QpidRASessionFactoryImpl.log.trace("Closing temporary queue " + temp + " for " + this);
+                  _log.trace("Closing temporary queue " + temp + " for " + this);
                }
                temp.delete();
             }
             catch (Throwable t)
             {
-               QpidRASessionFactoryImpl.log.trace("Error deleting temporary queue", t);
+               _log.trace("Error deleting temporary queue", t);
             }
             i.remove();
          }
@@ -656,15 +653,15 @@ public class QpidRASessionFactoryImpl implements QpidRASessionFactory, Reference
             TemporaryTopic temp = (TemporaryTopic)i.next();
             try
             {
-               if (QpidRASessionFactoryImpl.trace)
+               if (_log.isTraceEnabled())
                {
-                  QpidRASessionFactoryImpl.log.trace("Closing temporary topic " + temp + " for " + this);
+                  _log.trace("Closing temporary topic " + temp + " for " + this);
                }
                temp.delete();
             }
             catch (Throwable t)
             {
-               QpidRASessionFactoryImpl.log.trace("Error deleting temporary queue", t);
+               _log.trace("Error deleting temporary queue", t);
             }
             i.remove();
          }
@@ -678,9 +675,9 @@ public class QpidRASessionFactoryImpl implements QpidRASessionFactory, Reference
     */
    public void closeSession(final QpidRASession session) throws JMSException
    {
-      if (QpidRASessionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASessionFactoryImpl.log.trace("closeSession(" + session + ")");
+         _log.trace("closeSession(" + session + ")");
       }
 
       synchronized (sessions)
@@ -695,9 +692,9 @@ public class QpidRASessionFactoryImpl implements QpidRASessionFactory, Reference
     */
    public void addTemporaryQueue(final TemporaryQueue temp)
    {
-      if (QpidRASessionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASessionFactoryImpl.log.trace("addTemporaryQueue(" + temp + ")");
+         _log.trace("addTemporaryQueue(" + temp + ")");
       }
 
       synchronized (tempQueues)
@@ -712,9 +709,9 @@ public class QpidRASessionFactoryImpl implements QpidRASessionFactory, Reference
     */
    public void addTemporaryTopic(final TemporaryTopic temp)
    {
-      if (QpidRASessionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASessionFactoryImpl.log.trace("addTemporaryTopic(" + temp + ")");
+         _log.trace("addTemporaryTopic(" + temp + ")");
       }
 
       synchronized (tempTopics)
@@ -731,9 +728,9 @@ public class QpidRASessionFactoryImpl implements QpidRASessionFactory, Reference
     */
    protected QpidRASession allocateConnection(final int sessionType) throws JMSException
    {
-      if (QpidRASessionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASessionFactoryImpl.log.trace("allocateConnection(" + sessionType + ")");
+         _log.trace("allocateConnection(" + sessionType + ")");
       }
 
       try
@@ -751,18 +748,18 @@ public class QpidRASessionFactoryImpl implements QpidRASessionFactory, Reference
             info.setClientID(clientID);
             info.setDefaults(mcf.getDefaultAMQConnectionFactory().getConnectionURL());
 
-            if (QpidRASessionFactoryImpl.trace)
+            if (_log.isTraceEnabled())
             {
-               QpidRASessionFactoryImpl.log.trace("Allocating session for " + this + " with request info=" + info);
+               _log.trace("Allocating session for " + this + " with request info=" + info);
             }
 
             QpidRASession session = (QpidRASession)cm.allocateConnection(mcf, info);
 
             try
             {
-               if (QpidRASessionFactoryImpl.trace)
+               if (_log.isTraceEnabled())
                {
-                  QpidRASessionFactoryImpl.log.trace("Allocated  " + this + " session=" + session);
+                  _log.trace("Allocated  " + this + " session=" + session);
                }
 
                session.setQpidSessionFactory(this);
@@ -798,7 +795,7 @@ public class QpidRASessionFactoryImpl implements QpidRASessionFactory, Reference
       }
       catch (Exception e)
       {
-         QpidRASessionFactoryImpl.log.error("Could not create session", e);
+         _log.error("Could not create session", e);
 
          JMSException je = new JMSException("Could not create a session: " + e.getMessage());
          je.setLinkedException(e);
@@ -816,9 +813,9 @@ public class QpidRASessionFactoryImpl implements QpidRASessionFactory, Reference
     */
    protected QpidRASession allocateConnection(final boolean transacted, int acknowledgeMode, final int sessionType) throws JMSException
    {
-      if (QpidRASessionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASessionFactoryImpl.log.trace("allocateConnection(" + transacted +
+         _log.trace("allocateConnection(" + transacted +
                                                ", " +
                                                acknowledgeMode +
                                                ", " +
@@ -848,18 +845,18 @@ public class QpidRASessionFactoryImpl implements QpidRASessionFactory, Reference
             info.setClientID(clientID);
             info.setDefaults(mcf.getDefaultAMQConnectionFactory().getConnectionURL());
 
-            if (QpidRASessionFactoryImpl.trace)
+            if (_log.isTraceEnabled())
             {
-               QpidRASessionFactoryImpl.log.trace("Allocating session for " + this + " with request info=" + info);
+               _log.trace("Allocating session for " + this + " with request info=" + info);
             }
 
             QpidRASession session = (QpidRASession)cm.allocateConnection(mcf, info);
 
             try
             {
-               if (QpidRASessionFactoryImpl.trace)
+               if (_log.isTraceEnabled())
                {
-                  QpidRASessionFactoryImpl.log.trace("Allocated  " + this + " session=" + session);
+                  _log.trace("Allocated  " + this + " session=" + session);
                }
 
                session.setQpidSessionFactory(this);
@@ -895,7 +892,7 @@ public class QpidRASessionFactoryImpl implements QpidRASessionFactory, Reference
       }
       catch (Exception e)
       {
-         QpidRASessionFactoryImpl.log.error("Could not create session", e);
+         _log.error("Could not create session", e);
 
          JMSException je = new JMSException("Could not create a session: " + e.getMessage());
          je.setLinkedException(e);
@@ -909,11 +906,6 @@ public class QpidRASessionFactoryImpl implements QpidRASessionFactory, Reference
     */
    protected void checkClosed() throws IllegalStateException
    {
-      if (QpidRASessionFactoryImpl.trace)
-      {
-         QpidRASessionFactoryImpl.log.trace("checkClosed()" + this);
-      }
-
       if (closed)
       {
          throw new IllegalStateException("The connection is closed");

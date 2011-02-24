@@ -37,10 +37,7 @@ import org.slf4j.LoggerFactory;
 public class QpidRABytesMessage extends QpidRAMessage implements BytesMessage
 {
    /** The logger */
-   private static final Logger log = LoggerFactory.getLogger(QpidRABytesMessage.class);
-
-   /** Whether trace is enabled */
-   private static boolean trace = QpidRABytesMessage.log.isTraceEnabled();
+   private static final Logger _log = LoggerFactory.getLogger(QpidRABytesMessage.class);
 
    /**
     * Create a new wrapper
@@ -51,9 +48,9 @@ public class QpidRABytesMessage extends QpidRAMessage implements BytesMessage
    {
       super(message, session);
 
-      if (QpidRABytesMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRABytesMessage.log.trace("constructor(" + message + ", " + session + ")");
+         _log.trace("constructor(" + Util.asString(message) + ", " + session + ")");
       }
    }
 
@@ -64,9 +61,9 @@ public class QpidRABytesMessage extends QpidRAMessage implements BytesMessage
     */
    public long getBodyLength() throws JMSException
    {
-      if (QpidRABytesMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRABytesMessage.log.trace("getBodyLength()");
+         _log.trace("getBodyLength()");
       }
 
       return ((BytesMessage)message).getBodyLength();
@@ -79,9 +76,9 @@ public class QpidRABytesMessage extends QpidRAMessage implements BytesMessage
     */
    public boolean readBoolean() throws JMSException
    {
-      if (QpidRABytesMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRABytesMessage.log.trace("readBoolean()");
+         _log.trace("readBoolean()");
       }
 
       return ((BytesMessage)message).readBoolean();
@@ -94,9 +91,9 @@ public class QpidRABytesMessage extends QpidRAMessage implements BytesMessage
     */
    public byte readByte() throws JMSException
    {
-      if (QpidRABytesMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRABytesMessage.log.trace("readByte()");
+         _log.trace("readByte()");
       }
 
       return ((BytesMessage)message).readByte();
@@ -111,9 +108,9 @@ public class QpidRABytesMessage extends QpidRAMessage implements BytesMessage
     */
    public int readBytes(final byte[] value, final int length) throws JMSException
    {
-      if (QpidRABytesMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRABytesMessage.log.trace("readBytes(" + value + ", " + length + ")");
+         _log.trace("readBytes(" + value + ", " + length + ")");
       }
 
       return ((BytesMessage)message).readBytes(value, length);
@@ -127,9 +124,9 @@ public class QpidRABytesMessage extends QpidRAMessage implements BytesMessage
     */
    public int readBytes(final byte[] value) throws JMSException
    {
-      if (QpidRABytesMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRABytesMessage.log.trace("readBytes(" + value + ")");
+         _log.trace("readBytes(" + value + ")");
       }
 
       return ((BytesMessage)message).readBytes(value);
@@ -142,9 +139,9 @@ public class QpidRABytesMessage extends QpidRAMessage implements BytesMessage
     */
    public char readChar() throws JMSException
    {
-      if (QpidRABytesMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRABytesMessage.log.trace("readChar()");
+         _log.trace("readChar()");
       }
 
       return ((BytesMessage)message).readChar();
@@ -157,9 +154,9 @@ public class QpidRABytesMessage extends QpidRAMessage implements BytesMessage
     */
    public double readDouble() throws JMSException
    {
-      if (QpidRABytesMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRABytesMessage.log.trace("readDouble()");
+         _log.trace("readDouble()");
       }
 
       return ((BytesMessage)message).readDouble();
@@ -172,9 +169,9 @@ public class QpidRABytesMessage extends QpidRAMessage implements BytesMessage
     */
    public float readFloat() throws JMSException
    {
-      if (QpidRABytesMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRABytesMessage.log.trace("readFloat()");
+         _log.trace("readFloat()");
       }
 
       return ((BytesMessage)message).readFloat();
@@ -187,9 +184,9 @@ public class QpidRABytesMessage extends QpidRAMessage implements BytesMessage
     */
    public int readInt() throws JMSException
    {
-      if (QpidRABytesMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRABytesMessage.log.trace("readInt()");
+         _log.trace("readInt()");
       }
 
       return ((BytesMessage)message).readInt();
@@ -202,9 +199,9 @@ public class QpidRABytesMessage extends QpidRAMessage implements BytesMessage
     */
    public long readLong() throws JMSException
    {
-      if (QpidRABytesMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRABytesMessage.log.trace("readLong()");
+         _log.trace("readLong()");
       }
 
       return ((BytesMessage)message).readLong();
@@ -217,9 +214,9 @@ public class QpidRABytesMessage extends QpidRAMessage implements BytesMessage
     */
    public short readShort() throws JMSException
    {
-      if (QpidRABytesMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRABytesMessage.log.trace("readShort()");
+         _log.trace("readShort()");
       }
 
       return ((BytesMessage)message).readShort();
@@ -232,9 +229,9 @@ public class QpidRABytesMessage extends QpidRAMessage implements BytesMessage
     */
    public int readUnsignedByte() throws JMSException
    {
-      if (QpidRABytesMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRABytesMessage.log.trace("readUnsignedByte()");
+         _log.trace("readUnsignedByte()");
       }
 
       return ((BytesMessage)message).readUnsignedByte();
@@ -247,9 +244,9 @@ public class QpidRABytesMessage extends QpidRAMessage implements BytesMessage
     */
    public int readUnsignedShort() throws JMSException
    {
-      if (QpidRABytesMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRABytesMessage.log.trace("readUnsignedShort()");
+         _log.trace("readUnsignedShort()");
       }
 
       return ((BytesMessage)message).readUnsignedShort();
@@ -262,9 +259,9 @@ public class QpidRABytesMessage extends QpidRAMessage implements BytesMessage
     */
    public String readUTF() throws JMSException
    {
-      if (QpidRABytesMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRABytesMessage.log.trace("readUTF()");
+         _log.trace("readUTF()");
       }
 
       return ((BytesMessage)message).readUTF();
@@ -276,9 +273,9 @@ public class QpidRABytesMessage extends QpidRAMessage implements BytesMessage
     */
    public void reset() throws JMSException
    {
-      if (QpidRABytesMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRABytesMessage.log.trace("reset()");
+         _log.trace("reset()");
       }
 
       ((BytesMessage)message).reset();
@@ -291,9 +288,9 @@ public class QpidRABytesMessage extends QpidRAMessage implements BytesMessage
     */
    public void writeBoolean(final boolean value) throws JMSException
    {
-      if (QpidRABytesMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRABytesMessage.log.trace("writeBoolean(" + value + ")");
+         _log.trace("writeBoolean(" + value + ")");
       }
 
       ((BytesMessage)message).writeBoolean(value);
@@ -306,9 +303,9 @@ public class QpidRABytesMessage extends QpidRAMessage implements BytesMessage
     */
    public void writeByte(final byte value) throws JMSException
    {
-      if (QpidRABytesMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRABytesMessage.log.trace("writeByte(" + value + ")");
+         _log.trace("writeByte(" + value + ")");
       }
 
       ((BytesMessage)message).writeByte(value);
@@ -323,9 +320,9 @@ public class QpidRABytesMessage extends QpidRAMessage implements BytesMessage
     */
    public void writeBytes(final byte[] value, final int offset, final int length) throws JMSException
    {
-      if (QpidRABytesMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRABytesMessage.log.trace("writeBytes(" + value + ", " + offset + ", " + length + ")");
+         _log.trace("writeBytes(" + value + ", " + offset + ", " + length + ")");
       }
 
       ((BytesMessage)message).writeBytes(value, offset, length);
@@ -338,9 +335,9 @@ public class QpidRABytesMessage extends QpidRAMessage implements BytesMessage
     */
    public void writeBytes(final byte[] value) throws JMSException
    {
-      if (QpidRABytesMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRABytesMessage.log.trace("writeBytes(" + value + ")");
+         _log.trace("writeBytes(" + value + ")");
       }
 
       ((BytesMessage)message).writeBytes(value);
@@ -353,9 +350,9 @@ public class QpidRABytesMessage extends QpidRAMessage implements BytesMessage
     */
    public void writeChar(final char value) throws JMSException
    {
-      if (QpidRABytesMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRABytesMessage.log.trace("writeChar(" + value + ")");
+         _log.trace("writeChar(" + value + ")");
       }
 
       ((BytesMessage)message).writeChar(value);
@@ -368,9 +365,9 @@ public class QpidRABytesMessage extends QpidRAMessage implements BytesMessage
     */
    public void writeDouble(final double value) throws JMSException
    {
-      if (QpidRABytesMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRABytesMessage.log.trace("writeDouble(" + value + ")");
+         _log.trace("writeDouble(" + value + ")");
       }
 
       ((BytesMessage)message).writeDouble(value);
@@ -383,9 +380,9 @@ public class QpidRABytesMessage extends QpidRAMessage implements BytesMessage
     */
    public void writeFloat(final float value) throws JMSException
    {
-      if (QpidRABytesMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRABytesMessage.log.trace("writeFloat(" + value + ")");
+         _log.trace("writeFloat(" + value + ")");
       }
 
       ((BytesMessage)message).writeFloat(value);
@@ -398,9 +395,9 @@ public class QpidRABytesMessage extends QpidRAMessage implements BytesMessage
     */
    public void writeInt(final int value) throws JMSException
    {
-      if (QpidRABytesMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRABytesMessage.log.trace("writeInt(" + value + ")");
+         _log.trace("writeInt(" + value + ")");
       }
 
       ((BytesMessage)message).writeInt(value);
@@ -413,9 +410,9 @@ public class QpidRABytesMessage extends QpidRAMessage implements BytesMessage
     */
    public void writeLong(final long value) throws JMSException
    {
-      if (QpidRABytesMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRABytesMessage.log.trace("writeLong(" + value + ")");
+         _log.trace("writeLong(" + value + ")");
       }
 
       ((BytesMessage)message).writeLong(value);
@@ -428,9 +425,9 @@ public class QpidRABytesMessage extends QpidRAMessage implements BytesMessage
     */
    public void writeObject(final Object value) throws JMSException
    {
-      if (QpidRABytesMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRABytesMessage.log.trace("writeObject(" + value + ")");
+         _log.trace("writeObject(" + Util.asString(value) + ")");
       }
 
       ((BytesMessage)message).writeObject(value);
@@ -443,9 +440,9 @@ public class QpidRABytesMessage extends QpidRAMessage implements BytesMessage
     */
    public void writeShort(final short value) throws JMSException
    {
-      if (QpidRABytesMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRABytesMessage.log.trace("writeShort(" + value + ")");
+         _log.trace("writeShort(" + value + ")");
       }
 
       ((BytesMessage)message).writeShort(value);
@@ -458,9 +455,9 @@ public class QpidRABytesMessage extends QpidRAMessage implements BytesMessage
     */
    public void writeUTF(final String value) throws JMSException
    {
-      if (QpidRABytesMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRABytesMessage.log.trace("writeUTF(" + value + ")");
+         _log.trace("writeUTF(" + value + ")");
       }
 
       ((BytesMessage)message).writeUTF(value);

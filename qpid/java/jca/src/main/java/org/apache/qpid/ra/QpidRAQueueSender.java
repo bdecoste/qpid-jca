@@ -39,10 +39,7 @@ import org.slf4j.LoggerFactory;
 public class QpidRAQueueSender extends QpidRAMessageProducer implements QueueSender
 {
    /** The logger */
-   private static final Logger log = LoggerFactory.getLogger(QpidRAQueueSender.class);
-
-   /** Whether trace is enabled */
-   private static boolean trace = QpidRAQueueSender.log.isTraceEnabled();
+   private static final Logger _log = LoggerFactory.getLogger(QpidRAQueueSender.class);
 
    /**
     * Create a new wrapper
@@ -53,9 +50,9 @@ public class QpidRAQueueSender extends QpidRAMessageProducer implements QueueSen
    {
       super(producer, session);
 
-      if (QpidRAQueueSender.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAQueueSender.log.trace("constructor(" + producer + ", " + session + ")");
+         _log.trace("constructor(" + Util.asString(producer) + ", " + session + ")");
       }
    }
 
@@ -66,9 +63,9 @@ public class QpidRAQueueSender extends QpidRAMessageProducer implements QueueSen
     */
    public Queue getQueue() throws JMSException
    {
-      if (QpidRAQueueSender.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAQueueSender.log.trace("getQueue()");
+         _log.trace("getQueue()");
       }
 
       return ((QueueSender)producer).getQueue();
@@ -92,13 +89,13 @@ public class QpidRAQueueSender extends QpidRAMessageProducer implements QueueSen
       session.lock();
       try
       {
-         if (QpidRAQueueSender.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRAQueueSender.log.trace("send " + this +
+            _log.trace("send " + this +
                                            " destination=" +
                                            destination +
                                            " message=" +
-                                           message +
+                                           Util.asString(message) +
                                            " deliveryMode=" +
                                            deliveryMode +
                                            " priority=" +
@@ -110,9 +107,9 @@ public class QpidRAQueueSender extends QpidRAMessageProducer implements QueueSen
          checkState();
          producer.send(destination, message, deliveryMode, priority, timeToLive);
 
-         if (QpidRAQueueSender.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRAQueueSender.log.trace("sent " + this + " result=" + message);
+            _log.trace("sent " + this + " result=" + Util.asString(message));
          }
       }
       finally
@@ -132,17 +129,17 @@ public class QpidRAQueueSender extends QpidRAMessageProducer implements QueueSen
       session.lock();
       try
       {
-         if (QpidRAQueueSender.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRAQueueSender.log.trace("send " + this + " destination=" + destination + " message=" + message);
+            _log.trace("send " + this + " destination=" + destination + " message=" + Util.asString(message));
          }
 
          checkState();
          producer.send(destination, message);
 
-         if (QpidRAQueueSender.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRAQueueSender.log.trace("sent " + this + " result=" + message);
+            _log.trace("sent " + this + " result=" + Util.asString(message));
          }
       }
       finally

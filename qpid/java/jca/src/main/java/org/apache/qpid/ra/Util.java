@@ -44,7 +44,7 @@ import org.slf4j.LoggerFactory;
 public class Util
 {
    
-   private static final Logger log = LoggerFactory.getLogger(Util.class);
+   private static final Logger _log = LoggerFactory.getLogger(Util.class);
 
    /**
     * Compare two strings.
@@ -103,7 +103,7 @@ public class Util
       }
       catch (Throwable e)
       {
-         log.debug(e.getMessage(), e);
+         _log.debug(e.getMessage(), e);
          return null;
       }
    }
@@ -137,5 +137,15 @@ public class Util
       final ByteArrayInputStream bais = new ByteArrayInputStream(data) ;
       final ObjectInputStream ois = new ObjectInputStream(bais) ;
       return ois.readObject() ;
+   }
+
+   /**
+    * Return a string identification for the specified object.
+    * @param object The object value.
+    * @return The string identification.
+    */
+   public static String asString(final Object object)
+   {
+      return (object == null ? "null" : object.getClass().getName() + "@" + Integer.toHexString(System.identityHashCode(object))) ;
    }
 }

@@ -39,10 +39,7 @@ import org.slf4j.LoggerFactory;
 public class QpidRAMapMessage extends QpidRAMessage implements MapMessage
 {
    /** The logger */
-   private static final Logger log = LoggerFactory.getLogger(QpidRAMapMessage.class);
-
-   /** Whether trace is enabled */
-   private static boolean trace = QpidRAMapMessage.log.isTraceEnabled();
+   private static final Logger _log = LoggerFactory.getLogger(QpidRAMapMessage.class);
 
    /**
     * Create a new wrapper
@@ -54,9 +51,9 @@ public class QpidRAMapMessage extends QpidRAMessage implements MapMessage
    {
       super(message, session);
 
-      if (QpidRAMapMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMapMessage.log.trace("constructor(" + message + ", " + session + ")");
+         _log.trace("constructor(" + message + ", " + session + ")");
       }
    }
 
@@ -68,9 +65,9 @@ public class QpidRAMapMessage extends QpidRAMessage implements MapMessage
     */
    public boolean getBoolean(final String name) throws JMSException
    {
-      if (QpidRAMapMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMapMessage.log.trace("getBoolean(" + name + ")");
+         _log.trace("getBoolean(" + name + ")");
       }
 
       return ((MapMessage)message).getBoolean(name);
@@ -84,9 +81,9 @@ public class QpidRAMapMessage extends QpidRAMessage implements MapMessage
     */
    public byte getByte(final String name) throws JMSException
    {
-      if (QpidRAMapMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMapMessage.log.trace("getByte(" + name + ")");
+         _log.trace("getByte(" + name + ")");
       }
 
       return ((MapMessage)message).getByte(name);
@@ -100,9 +97,9 @@ public class QpidRAMapMessage extends QpidRAMessage implements MapMessage
     */
    public byte[] getBytes(final String name) throws JMSException
    {
-      if (QpidRAMapMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMapMessage.log.trace("getBytes(" + name + ")");
+         _log.trace("getBytes(" + name + ")");
       }
 
       return ((MapMessage)message).getBytes(name);
@@ -116,9 +113,9 @@ public class QpidRAMapMessage extends QpidRAMessage implements MapMessage
     */
    public char getChar(final String name) throws JMSException
    {
-      if (QpidRAMapMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMapMessage.log.trace("getChar(" + name + ")");
+         _log.trace("getChar(" + name + ")");
       }
 
       return ((MapMessage)message).getChar(name);
@@ -132,9 +129,9 @@ public class QpidRAMapMessage extends QpidRAMessage implements MapMessage
     */
    public double getDouble(final String name) throws JMSException
    {
-      if (QpidRAMapMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMapMessage.log.trace("getDouble(" + name + ")");
+         _log.trace("getDouble(" + name + ")");
       }
 
       return ((MapMessage)message).getDouble(name);
@@ -148,9 +145,9 @@ public class QpidRAMapMessage extends QpidRAMessage implements MapMessage
     */
    public float getFloat(final String name) throws JMSException
    {
-      if (QpidRAMapMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMapMessage.log.trace("getFloat(" + name + ")");
+         _log.trace("getFloat(" + name + ")");
       }
 
       return ((MapMessage)message).getFloat(name);
@@ -164,9 +161,9 @@ public class QpidRAMapMessage extends QpidRAMessage implements MapMessage
     */
    public int getInt(final String name) throws JMSException
    {
-      if (QpidRAMapMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMapMessage.log.trace("getInt(" + name + ")");
+         _log.trace("getInt(" + name + ")");
       }
 
       return ((MapMessage)message).getInt(name);
@@ -180,9 +177,9 @@ public class QpidRAMapMessage extends QpidRAMessage implements MapMessage
     */
    public long getLong(final String name) throws JMSException
    {
-      if (QpidRAMapMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMapMessage.log.trace("getLong(" + name + ")");
+         _log.trace("getLong(" + name + ")");
       }
 
       return ((MapMessage)message).getLong(name);
@@ -195,9 +192,9 @@ public class QpidRAMapMessage extends QpidRAMessage implements MapMessage
     */
    public Enumeration<?> getMapNames() throws JMSException
    {
-      if (QpidRAMapMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMapMessage.log.trace("getMapNames()");
+         _log.trace("getMapNames()");
       }
 
       return ((MapMessage)message).getMapNames();
@@ -211,9 +208,9 @@ public class QpidRAMapMessage extends QpidRAMessage implements MapMessage
     */
    public Object getObject(final String name) throws JMSException
    {
-      if (QpidRAMapMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMapMessage.log.trace("getObject(" + name + ")");
+         _log.trace("getObject(" + name + ")");
       }
 
       return ((MapMessage)message).getObject(name);
@@ -227,9 +224,9 @@ public class QpidRAMapMessage extends QpidRAMessage implements MapMessage
     */
    public short getShort(final String name) throws JMSException
    {
-      if (QpidRAMapMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMapMessage.log.trace("getShort(" + name + ")");
+         _log.trace("getShort(" + name + ")");
       }
 
       return ((MapMessage)message).getShort(name);
@@ -243,9 +240,9 @@ public class QpidRAMapMessage extends QpidRAMessage implements MapMessage
     */
    public String getString(final String name) throws JMSException
    {
-      if (QpidRAMapMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMapMessage.log.trace("getString(" + name + ")");
+         _log.trace("getString(" + name + ")");
       }
 
       return ((MapMessage)message).getString(name);
@@ -259,9 +256,9 @@ public class QpidRAMapMessage extends QpidRAMessage implements MapMessage
     */
    public boolean itemExists(final String name) throws JMSException
    {
-      if (QpidRAMapMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMapMessage.log.trace("itemExists(" + name + ")");
+         _log.trace("itemExists(" + name + ")");
       }
 
       return ((MapMessage)message).itemExists(name);
@@ -275,9 +272,9 @@ public class QpidRAMapMessage extends QpidRAMessage implements MapMessage
     */
    public void setBoolean(final String name, final boolean value) throws JMSException
    {
-      if (QpidRAMapMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMapMessage.log.trace("setBoolean(" + name + ", " + value + ")");
+         _log.trace("setBoolean(" + name + ", " + value + ")");
       }
 
       ((MapMessage)message).setBoolean(name, value);
@@ -291,9 +288,9 @@ public class QpidRAMapMessage extends QpidRAMessage implements MapMessage
     */
    public void setByte(final String name, final byte value) throws JMSException
    {
-      if (QpidRAMapMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMapMessage.log.trace("setByte(" + name + ", " + value + ")");
+         _log.trace("setByte(" + name + ", " + value + ")");
       }
 
       ((MapMessage)message).setByte(name, value);
@@ -309,9 +306,9 @@ public class QpidRAMapMessage extends QpidRAMessage implements MapMessage
     */
    public void setBytes(final String name, final byte[] value, final int offset, final int length) throws JMSException
    {
-      if (QpidRAMapMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMapMessage.log.trace("setBytes(" + name + ", " + value + ", " + offset + ", " + length + ")");
+         _log.trace("setBytes(" + name + ", " + value + ", " + offset + ", " + length + ")");
       }
 
       ((MapMessage)message).setBytes(name, value, offset, length);
@@ -325,9 +322,9 @@ public class QpidRAMapMessage extends QpidRAMessage implements MapMessage
     */
    public void setBytes(final String name, final byte[] value) throws JMSException
    {
-      if (QpidRAMapMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMapMessage.log.trace("setBytes(" + name + ", " + value + ")");
+         _log.trace("setBytes(" + name + ", " + value + ")");
       }
 
       ((MapMessage)message).setBytes(name, value);
@@ -341,9 +338,9 @@ public class QpidRAMapMessage extends QpidRAMessage implements MapMessage
     */
    public void setChar(final String name, final char value) throws JMSException
    {
-      if (QpidRAMapMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMapMessage.log.trace("setChar(" + name + ", " + value + ")");
+         _log.trace("setChar(" + name + ", " + value + ")");
       }
 
       ((MapMessage)message).setChar(name, value);
@@ -357,9 +354,9 @@ public class QpidRAMapMessage extends QpidRAMessage implements MapMessage
     */
    public void setDouble(final String name, final double value) throws JMSException
    {
-      if (QpidRAMapMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMapMessage.log.trace("setDouble(" + name + ", " + value + ")");
+         _log.trace("setDouble(" + name + ", " + value + ")");
       }
 
       ((MapMessage)message).setDouble(name, value);
@@ -373,9 +370,9 @@ public class QpidRAMapMessage extends QpidRAMessage implements MapMessage
     */
    public void setFloat(final String name, final float value) throws JMSException
    {
-      if (QpidRAMapMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMapMessage.log.trace("setFloat(" + name + ", " + value + ")");
+         _log.trace("setFloat(" + name + ", " + value + ")");
       }
 
       ((MapMessage)message).setFloat(name, value);
@@ -389,9 +386,9 @@ public class QpidRAMapMessage extends QpidRAMessage implements MapMessage
     */
    public void setInt(final String name, final int value) throws JMSException
    {
-      if (QpidRAMapMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMapMessage.log.trace("setInt(" + name + ", " + value + ")");
+         _log.trace("setInt(" + name + ", " + value + ")");
       }
 
       ((MapMessage)message).setInt(name, value);
@@ -405,9 +402,9 @@ public class QpidRAMapMessage extends QpidRAMessage implements MapMessage
     */
    public void setLong(final String name, final long value) throws JMSException
    {
-      if (QpidRAMapMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMapMessage.log.trace("setLong(" + name + ", " + value + ")");
+         _log.trace("setLong(" + name + ", " + value + ")");
       }
 
       ((MapMessage)message).setLong(name, value);
@@ -421,9 +418,9 @@ public class QpidRAMapMessage extends QpidRAMessage implements MapMessage
     */
    public void setObject(final String name, final Object value) throws JMSException
    {
-      if (QpidRAMapMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMapMessage.log.trace("setObject(" + name + ", " + value + ")");
+         _log.trace("setObject(" + name + ", " + value + ")");
       }
 
       ((MapMessage)message).setObject(name, value);
@@ -437,9 +434,9 @@ public class QpidRAMapMessage extends QpidRAMessage implements MapMessage
     */
    public void setShort(final String name, final short value) throws JMSException
    {
-      if (QpidRAMapMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMapMessage.log.trace("setShort(" + name + ", " + value + ")");
+         _log.trace("setShort(" + name + ", " + value + ")");
       }
 
       ((MapMessage)message).setShort(name, value);
@@ -453,9 +450,9 @@ public class QpidRAMapMessage extends QpidRAMessage implements MapMessage
     */
    public void setString(final String name, final String value) throws JMSException
    {
-      if (QpidRAMapMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMapMessage.log.trace("setString(" + name + ", " + value + ")");
+         _log.trace("setString(" + name + ", " + value + ")");
       }
 
       ((MapMessage)message).setString(name, value);

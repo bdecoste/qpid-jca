@@ -50,10 +50,7 @@ public class QpidRAConnectionFactoryImpl implements QpidRAConnectionFactory
    static final long serialVersionUID = 7981708919479859360L;
 
    /** The logger */
-   private static final Logger log = LoggerFactory.getLogger(QpidRAConnectionFactoryImpl.class);
-
-   /** Trace enabled */
-   private static boolean trace = QpidRAConnectionFactoryImpl.log.isTraceEnabled();
+   private static final Logger _log = LoggerFactory.getLogger(QpidRAConnectionFactoryImpl.class);
 
    /** The managed connection factory */
    private final QpidRAManagedConnectionFactory mcf;
@@ -71,9 +68,9 @@ public class QpidRAConnectionFactoryImpl implements QpidRAConnectionFactory
     */
    public QpidRAConnectionFactoryImpl(final QpidRAManagedConnectionFactory mcf, final ConnectionManager cm)
    {
-      if (QpidRAConnectionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAConnectionFactoryImpl.log.trace("constructor(" + mcf + ", " + cm + ")");
+         _log.trace("constructor(" + mcf + ", " + cm + ")");
       }
 
       this.mcf = mcf;
@@ -82,9 +79,9 @@ public class QpidRAConnectionFactoryImpl implements QpidRAConnectionFactory
       {
          // This is standalone usage, no appserver
          this.cm = new QpidRAConnectionManager();
-         if (QpidRAConnectionFactoryImpl.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRAConnectionFactoryImpl.log.trace("Created new ConnectionManager=" + this.cm);
+            _log.trace("Created new ConnectionManager=" + this.cm);
          }
       }
       else
@@ -92,9 +89,9 @@ public class QpidRAConnectionFactoryImpl implements QpidRAConnectionFactory
          this.cm = cm;
       }
 
-      if (QpidRAConnectionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAConnectionFactoryImpl.log.trace("Using ManagedConnectionFactory=" + mcf + ", ConnectionManager=" + cm);
+         _log.trace("Using ManagedConnectionFactory=" + mcf + ", ConnectionManager=" + this.cm);
       }
    }
 
@@ -104,9 +101,9 @@ public class QpidRAConnectionFactoryImpl implements QpidRAConnectionFactory
     */
    public void setReference(final Reference reference)
    {
-      if (QpidRAConnectionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAConnectionFactoryImpl.log.trace("setReference(" + reference + ")");
+         _log.trace("setReference(" + reference + ")");
       }
 
       this.reference = reference;
@@ -118,9 +115,9 @@ public class QpidRAConnectionFactoryImpl implements QpidRAConnectionFactory
     */
    public Reference getReference()
    {
-      if (QpidRAConnectionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAConnectionFactoryImpl.log.trace("getReference()");
+         _log.trace("getReference()");
       }
       if (reference == null)
       {
@@ -133,7 +130,7 @@ public class QpidRAConnectionFactoryImpl implements QpidRAConnectionFactory
          }
          catch (final IOException ioe)
          {
-            QpidRAConnectionFactoryImpl.log.error("Error while giving object Reference.", ioe);
+            _log.error("Error while giving object Reference.", ioe);
          }
       }
 
@@ -148,18 +145,18 @@ public class QpidRAConnectionFactoryImpl implements QpidRAConnectionFactory
     */
    public QueueConnection createQueueConnection() throws JMSException
    {
-      if (QpidRAConnectionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAConnectionFactoryImpl.log.trace("createQueueConnection()");
+         _log.trace("createQueueConnection()");
       }
 
       QpidRASessionFactoryImpl s = new QpidRASessionFactoryImpl(mcf,
                                                                       cm,
                                                                       QpidRAConnectionFactory.QUEUE_CONNECTION);
 
-      if (QpidRAConnectionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAConnectionFactoryImpl.log.trace("Created queue connection: " + s);
+         _log.trace("Created queue connection: " + s);
       }
 
       return s;
@@ -174,9 +171,9 @@ public class QpidRAConnectionFactoryImpl implements QpidRAConnectionFactory
     */
    public QueueConnection createQueueConnection(final String userName, final String password) throws JMSException
    {
-      if (QpidRAConnectionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAConnectionFactoryImpl.log.trace("createQueueConnection(" + userName + ", ****)");
+         _log.trace("createQueueConnection(" + userName + ", ****)");
       }
 
       QpidRASessionFactoryImpl s = new QpidRASessionFactoryImpl(mcf,
@@ -185,9 +182,9 @@ public class QpidRAConnectionFactoryImpl implements QpidRAConnectionFactory
       s.setUserName(userName);
       s.setPassword(password);
 
-      if (QpidRAConnectionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAConnectionFactoryImpl.log.trace("Created queue connection: " + s);
+         _log.trace("Created queue connection: " + s);
       }
 
       return s;
@@ -200,18 +197,18 @@ public class QpidRAConnectionFactoryImpl implements QpidRAConnectionFactory
     */
    public TopicConnection createTopicConnection() throws JMSException
    {
-      if (QpidRAConnectionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAConnectionFactoryImpl.log.trace("createTopicConnection()");
+         _log.trace("createTopicConnection()");
       }
 
       QpidRASessionFactoryImpl s = new QpidRASessionFactoryImpl(mcf,
                                                                       cm,
                                                                       QpidRAConnectionFactory.TOPIC_CONNECTION);
 
-      if (QpidRAConnectionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAConnectionFactoryImpl.log.trace("Created topic connection: " + s);
+         _log.trace("Created topic connection: " + s);
       }
 
       return s;
@@ -226,9 +223,9 @@ public class QpidRAConnectionFactoryImpl implements QpidRAConnectionFactory
     */
    public TopicConnection createTopicConnection(final String userName, final String password) throws JMSException
    {
-      if (QpidRAConnectionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAConnectionFactoryImpl.log.trace("createTopicConnection(" + userName + ", ****)");
+         _log.trace("createTopicConnection(" + userName + ", ****)");
       }
 
       QpidRASessionFactoryImpl s = new QpidRASessionFactoryImpl(mcf,
@@ -237,9 +234,9 @@ public class QpidRAConnectionFactoryImpl implements QpidRAConnectionFactory
       s.setUserName(userName);
       s.setPassword(password);
 
-      if (QpidRAConnectionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAConnectionFactoryImpl.log.trace("Created topic connection: " + s);
+         _log.trace("Created topic connection: " + s);
       }
 
       return s;
@@ -252,16 +249,16 @@ public class QpidRAConnectionFactoryImpl implements QpidRAConnectionFactory
     */
    public Connection createConnection() throws JMSException
    {
-      if (QpidRAConnectionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAConnectionFactoryImpl.log.trace("createConnection()");
+         _log.trace("createConnection()");
       }
 
       QpidRASessionFactoryImpl s = new QpidRASessionFactoryImpl(mcf, cm, QpidRAConnectionFactory.CONNECTION);
 
-      if (QpidRAConnectionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAConnectionFactoryImpl.log.trace("Created connection: " + s);
+         _log.trace("Created connection: " + s);
       }
 
       return s;
@@ -276,18 +273,18 @@ public class QpidRAConnectionFactoryImpl implements QpidRAConnectionFactory
     */
    public Connection createConnection(final String userName, final String password) throws JMSException
    {
-      if (QpidRAConnectionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAConnectionFactoryImpl.log.trace("createConnection(" + userName + ", ****)");
+         _log.trace("createConnection(" + userName + ", ****)");
       }
 
       QpidRASessionFactoryImpl s = new QpidRASessionFactoryImpl(mcf, cm, QpidRAConnectionFactory.CONNECTION);
       s.setUserName(userName);
       s.setPassword(password);
 
-      if (QpidRAConnectionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAConnectionFactoryImpl.log.trace("Created connection: " + s);
+         _log.trace("Created connection: " + s);
       }
 
       return s;
@@ -300,18 +297,18 @@ public class QpidRAConnectionFactoryImpl implements QpidRAConnectionFactory
     */
    public XAQueueConnection createXAQueueConnection() throws JMSException
    {
-      if (QpidRAConnectionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAConnectionFactoryImpl.log.trace("createXAQueueConnection()");
+         _log.trace("createXAQueueConnection()");
       }
 
       QpidRASessionFactoryImpl s = new QpidRASessionFactoryImpl(mcf,
                                                                       cm,
                                                                       QpidRAConnectionFactory.XA_QUEUE_CONNECTION);
 
-      if (QpidRAConnectionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAConnectionFactoryImpl.log.trace("Created queue connection: " + s);
+         _log.trace("Created XA queue connection: " + s);
       }
 
       return s;
@@ -326,9 +323,9 @@ public class QpidRAConnectionFactoryImpl implements QpidRAConnectionFactory
     */
    public XAQueueConnection createXAQueueConnection(final String userName, final String password) throws JMSException
    {
-      if (QpidRAConnectionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAConnectionFactoryImpl.log.trace("createXAQueueConnection(" + userName + ", ****)");
+         _log.trace("createXAQueueConnection(" + userName + ", ****)");
       }
 
       QpidRASessionFactoryImpl s = new QpidRASessionFactoryImpl(mcf,
@@ -337,9 +334,9 @@ public class QpidRAConnectionFactoryImpl implements QpidRAConnectionFactory
       s.setUserName(userName);
       s.setPassword(password);
 
-      if (QpidRAConnectionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAConnectionFactoryImpl.log.trace("Created queue connection: " + s);
+         _log.trace("Created XA queue connection: " + s);
       }
 
       return s;
@@ -352,18 +349,18 @@ public class QpidRAConnectionFactoryImpl implements QpidRAConnectionFactory
     */
    public XATopicConnection createXATopicConnection() throws JMSException
    {
-      if (QpidRAConnectionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAConnectionFactoryImpl.log.trace("createXATopicConnection()");
+         _log.trace("createXATopicConnection()");
       }
 
       QpidRASessionFactoryImpl s = new QpidRASessionFactoryImpl(mcf,
                                                                       cm,
                                                                       QpidRAConnectionFactory.XA_TOPIC_CONNECTION);
 
-      if (QpidRAConnectionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAConnectionFactoryImpl.log.trace("Created topic connection: " + s);
+         _log.trace("Created XA topic connection: " + s);
       }
 
       return s;
@@ -378,9 +375,9 @@ public class QpidRAConnectionFactoryImpl implements QpidRAConnectionFactory
     */
    public XATopicConnection createXATopicConnection(final String userName, final String password) throws JMSException
    {
-      if (QpidRAConnectionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAConnectionFactoryImpl.log.trace("createXATopicConnection(" + userName + ", ****)");
+         _log.trace("createXATopicConnection(" + userName + ", ****)");
       }
 
       QpidRASessionFactoryImpl s = new QpidRASessionFactoryImpl(mcf,
@@ -389,9 +386,9 @@ public class QpidRAConnectionFactoryImpl implements QpidRAConnectionFactory
       s.setUserName(userName);
       s.setPassword(password);
 
-      if (QpidRAConnectionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAConnectionFactoryImpl.log.trace("Created topic connection: " + s);
+         _log.trace("Created XA topic connection: " + s);
       }
 
       return s;
@@ -404,16 +401,16 @@ public class QpidRAConnectionFactoryImpl implements QpidRAConnectionFactory
     */
    public XAConnection createXAConnection() throws JMSException
    {
-      if (QpidRAConnectionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAConnectionFactoryImpl.log.trace("createXAConnection()");
+         _log.trace("createXAConnection()");
       }
 
       QpidRASessionFactoryImpl s = new QpidRASessionFactoryImpl(mcf, cm, QpidRAConnectionFactory.XA_CONNECTION);
 
-      if (QpidRAConnectionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAConnectionFactoryImpl.log.trace("Created connection: " + s);
+         _log.trace("Created XA connection: " + s);
       }
 
       return s;
@@ -428,18 +425,18 @@ public class QpidRAConnectionFactoryImpl implements QpidRAConnectionFactory
     */
    public XAConnection createXAConnection(final String userName, final String password) throws JMSException
    {
-      if (QpidRAConnectionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAConnectionFactoryImpl.log.trace("createXAConnection(" + userName + ", ****)");
+         _log.trace("createXAConnection(" + userName + ", ****)");
       }
 
       QpidRASessionFactoryImpl s = new QpidRASessionFactoryImpl(mcf, cm, QpidRAConnectionFactory.XA_CONNECTION);
       s.setUserName(userName);
       s.setPassword(password);
 
-      if (QpidRAConnectionFactoryImpl.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAConnectionFactoryImpl.log.trace("Created connection: " + s);
+         _log.trace("Created XA connection: " + s);
       }
 
       return s;

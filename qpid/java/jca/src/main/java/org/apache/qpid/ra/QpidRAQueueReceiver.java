@@ -38,10 +38,7 @@ import org.slf4j.LoggerFactory;
 public class QpidRAQueueReceiver extends QpidRAMessageConsumer implements QueueReceiver
 {
    /** The logger */
-   private static final Logger log = LoggerFactory.getLogger(QpidRAQueueReceiver.class);
-
-   /** Whether trace is enabled */
-   private static boolean trace = QpidRAQueueReceiver.log.isTraceEnabled();
+   private static final Logger _log = LoggerFactory.getLogger(QpidRAQueueReceiver.class);
 
    /**
     * Create a new wrapper
@@ -52,9 +49,9 @@ public class QpidRAQueueReceiver extends QpidRAMessageConsumer implements QueueR
    {
       super(consumer, session);
 
-      if (QpidRAQueueReceiver.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAQueueReceiver.log.trace("constructor(" + consumer + ", " + session + ")");
+         _log.trace("constructor(" + Util.asString(consumer) + ", " + session + ")");
       }
    }
 
@@ -65,9 +62,9 @@ public class QpidRAQueueReceiver extends QpidRAMessageConsumer implements QueueR
     */
    public Queue getQueue() throws JMSException
    {
-      if (QpidRAQueueReceiver.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAQueueReceiver.log.trace("getQueue()");
+         _log.trace("getQueue()");
       }
 
       checkState();

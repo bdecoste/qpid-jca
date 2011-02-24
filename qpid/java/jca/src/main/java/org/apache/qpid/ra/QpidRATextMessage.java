@@ -37,10 +37,7 @@ import org.slf4j.LoggerFactory;
 public class QpidRATextMessage extends QpidRAMessage implements TextMessage
 {
    /** The logger */
-   private static final Logger log = LoggerFactory.getLogger(QpidRATextMessage.class);
-
-   /** Whether trace is enabled */
-   private static boolean trace = QpidRATextMessage.log.isTraceEnabled();
+   private static final Logger _log = LoggerFactory.getLogger(QpidRATextMessage.class);
 
    /**
     * Create a new wrapper
@@ -51,9 +48,9 @@ public class QpidRATextMessage extends QpidRAMessage implements TextMessage
    {
       super(message, session);
 
-      if (QpidRATextMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRATextMessage.log.trace("constructor(" + message + ", " + session + ")");
+         _log.trace("constructor(" + Util.asString(message) + ", " + session + ")");
       }
    }
 
@@ -64,9 +61,9 @@ public class QpidRATextMessage extends QpidRAMessage implements TextMessage
     */
    public String getText() throws JMSException
    {
-      if (QpidRATextMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRATextMessage.log.trace("getText()");
+         _log.trace("getText()");
       }
 
       return ((TextMessage)message).getText();
@@ -79,9 +76,9 @@ public class QpidRATextMessage extends QpidRAMessage implements TextMessage
     */
    public void setText(final String string) throws JMSException
    {
-      if (QpidRATextMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRATextMessage.log.trace("setText(" + string + ")");
+         _log.trace("setText(" + string + ")");
       }
 
       ((TextMessage)message).setText(string);

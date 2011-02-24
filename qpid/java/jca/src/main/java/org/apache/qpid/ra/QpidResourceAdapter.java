@@ -67,12 +67,7 @@ public class QpidResourceAdapter implements ResourceAdapter, Serializable
    /**
     * The logger
     */
-   private static final Logger log = LoggerFactory.getLogger(QpidResourceAdapter.class);
-
-   /**
-    * Trace enabled
-    */
-   private static boolean trace = log.isTraceEnabled();
+   private static final Logger _log = LoggerFactory.getLogger(QpidResourceAdapter.class);
 
    /**
     * The bootstrap context
@@ -103,9 +98,9 @@ public class QpidResourceAdapter implements ResourceAdapter, Serializable
     */
    public QpidResourceAdapter()
    {
-      if (trace)
+      if (_log.isTraceEnabled())
       {
-         log.trace("constructor()");
+         _log.trace("constructor()");
       }
 
       raProperties = new QpidRAProperties();
@@ -138,9 +133,9 @@ public class QpidResourceAdapter implements ResourceAdapter, Serializable
             throw new ResourceException("Unable to create activation", e);
          }
       }
-      if (trace)
+      if (_log.isTraceEnabled())
       {
-         log.trace("endpointActivation(" + endpointFactory + ", " + spec + ")");
+         _log.trace("endpointActivation(" + endpointFactory + ", " + spec + ")");
       }
 
       QpidActivation activation = new QpidActivation(this, endpointFactory, (QpidActivationSpec)spec);
@@ -156,9 +151,9 @@ public class QpidResourceAdapter implements ResourceAdapter, Serializable
     */
    public void endpointDeactivation(final MessageEndpointFactory endpointFactory, final ActivationSpec spec)
    {
-      if (trace)
+      if (_log.isTraceEnabled())
       {
-         log.trace("endpointDeactivation(" + endpointFactory + ", " + spec + ")");
+         _log.trace("endpointDeactivation(" + endpointFactory + ", " + spec + ")");
       }
 
       QpidActivation activation = activations.remove(spec);
@@ -177,9 +172,9 @@ public class QpidResourceAdapter implements ResourceAdapter, Serializable
     */
    public XAResource[] getXAResources(final ActivationSpec[] specs) throws ResourceException
    {
-      if (trace)
+      if (_log.isTraceEnabled())
       {
-         log.trace("getXAResources(" + specs + ")");
+         _log.trace("getXAResources(" + specs + ")");
       }
 
       throw new ResourceException("Unsupported");
@@ -194,16 +189,16 @@ public class QpidResourceAdapter implements ResourceAdapter, Serializable
     */
    public void start(final BootstrapContext ctx) throws ResourceAdapterInternalException
    {
-      if (trace)
+      if (_log.isTraceEnabled())
       {
-         log.trace("start(" + ctx + ")");
+         _log.trace("start(" + ctx + ")");
       }
       
       locateTM();
 
       this.ctx = ctx;
 
-      log.info("Qpid resource adaptor started");
+      _log.info("Qpid resource adaptor started");
    }
 
    /**
@@ -211,9 +206,9 @@ public class QpidResourceAdapter implements ResourceAdapter, Serializable
     */
    public void stop()
    {
-      if (trace)
+      if (_log.isTraceEnabled())
       {
-         log.trace("stop()");
+         _log.trace("stop()");
       }
 
       for (Map.Entry<ActivationSpec, QpidActivation> entry : activations.entrySet())
@@ -224,13 +219,13 @@ public class QpidResourceAdapter implements ResourceAdapter, Serializable
          }
          catch (Exception ignored)
          {
-            log.debug("Ignored", ignored);
+            _log.debug("Ignored", ignored);
          }
       }
 
       activations.clear();
 
-      log.info("Qpid resource adapter stopped");
+      _log.info("Qpid resource adapter stopped");
    }
 
    /**
@@ -240,9 +235,9 @@ public class QpidResourceAdapter implements ResourceAdapter, Serializable
     */
    public String getDefaultUserName()
    {
-      if (trace)
+      if (_log.isTraceEnabled())
       {
-         log.trace("getUserName()");
+         _log.trace("getUserName()");
       }
 
       return raProperties.getDefaultUsername();
@@ -255,9 +250,9 @@ public class QpidResourceAdapter implements ResourceAdapter, Serializable
     */
    public void setUserName(final String userName)
    {
-      if (trace)
+      if (_log.isTraceEnabled())
       {
-         log.trace("setUserName(" + userName + ")");
+         _log.trace("setUserName(" + userName + ")");
       }
 
       raProperties.setDefaultUsername(userName);
@@ -270,9 +265,9 @@ public class QpidResourceAdapter implements ResourceAdapter, Serializable
     */
    public String getDefaultPassword()
    {
-      if (trace)
+      if (_log.isTraceEnabled())
       {
-         log.trace("getPassword()");
+         _log.trace("getPassword()");
       }
 
       return raProperties.getDefaultPassword();
@@ -285,9 +280,9 @@ public class QpidResourceAdapter implements ResourceAdapter, Serializable
     */
    public void setDefaultPassword(final String password)
    {
-      if (trace)
+      if (_log.isTraceEnabled())
       {
-         log.trace("setPassword(****)");
+         _log.trace("setPassword(****)");
       }
 
       raProperties.setDefaultPassword(password);
@@ -300,9 +295,9 @@ public class QpidResourceAdapter implements ResourceAdapter, Serializable
     */
    public String getClientID()
    {
-      if (trace)
+      if (_log.isTraceEnabled())
       {
-         log.trace("getClientID()");
+         _log.trace("getClientID()");
       }
 
       return raProperties.getClientID();
@@ -315,9 +310,9 @@ public class QpidResourceAdapter implements ResourceAdapter, Serializable
     */
    public void setClientID(final String clientID)
    {
-      if (trace)
+      if (_log.isTraceEnabled())
       {
-         log.trace("setClientID(" + clientID + ")");
+         _log.trace("setClientID(" + clientID + ")");
       }
 
       raProperties.setClientID(clientID);
@@ -330,9 +325,9 @@ public class QpidResourceAdapter implements ResourceAdapter, Serializable
     */
    public String getHost()
    {
-      if (trace)
+      if (_log.isTraceEnabled())
       {
-         log.trace("getHost()");
+         _log.trace("getHost()");
       }
 
       return raProperties.getHost();
@@ -345,9 +340,9 @@ public class QpidResourceAdapter implements ResourceAdapter, Serializable
     */
    public void setHost(final String host)
    {
-      if (trace)
+      if (_log.isTraceEnabled())
       {
-         log.trace("setHost(" + host + ")");
+         _log.trace("setHost(" + host + ")");
       }
 
       raProperties.setHost(host);
@@ -360,9 +355,9 @@ public class QpidResourceAdapter implements ResourceAdapter, Serializable
     */
    public Integer getPort()
    {
-      if (trace)
+      if (_log.isTraceEnabled())
       {
-         log.trace("getPort()");
+         _log.trace("getPort()");
       }
 
       return raProperties.getPort();
@@ -375,9 +370,9 @@ public class QpidResourceAdapter implements ResourceAdapter, Serializable
     */
    public void setPort(final Integer port)
    {
-      if (trace)
+      if (_log.isTraceEnabled())
       {
-         log.trace("setPort(" + port + ")");
+         _log.trace("setPort(" + port + ")");
       }
 
       raProperties.setPort(port);
@@ -390,9 +385,9 @@ public class QpidResourceAdapter implements ResourceAdapter, Serializable
     */
    public String getPath()
    {
-      if (trace)
+      if (_log.isTraceEnabled())
       {
-         log.trace("getPath()");
+         _log.trace("getPath()");
       }
 
       return raProperties.getPath();
@@ -405,9 +400,9 @@ public class QpidResourceAdapter implements ResourceAdapter, Serializable
     */
    public void setPath(final String path)
    {
-      if (trace)
+      if (_log.isTraceEnabled())
       {
-         log.trace("setPath(" + path + ")");
+         _log.trace("setPath(" + path + ")");
       }
 
       raProperties.setPath(path);
@@ -420,9 +415,9 @@ public class QpidResourceAdapter implements ResourceAdapter, Serializable
     */
    public String getConnectionURL()
    {
-      if (trace)
+      if (_log.isTraceEnabled())
       {
-         log.trace("getConnectionURL()");
+         _log.trace("getConnectionURL()");
       }
 
       return raProperties.getConnectionURL();
@@ -435,9 +430,9 @@ public class QpidResourceAdapter implements ResourceAdapter, Serializable
     */
    public void setConnectionURL(final String connectionURL)
    {
-      if (trace)
+      if (_log.isTraceEnabled())
       {
-         log.trace("setConnectionURL(" + connectionURL + ")");
+         _log.trace("setConnectionURL(" + connectionURL + ")");
       }
 
       raProperties.setConnectionURL(connectionURL);
@@ -450,9 +445,9 @@ public class QpidResourceAdapter implements ResourceAdapter, Serializable
     */
    public String getTransactionManagerLocatorClass()
    {
-      if (trace)
+      if (_log.isTraceEnabled())
       {
-         log.trace("getTransactionManagerLocatorClass()");
+         _log.trace("getTransactionManagerLocatorClass()");
       }
 
       return raProperties.getTransactionManagerLocatorClass();
@@ -465,9 +460,9 @@ public class QpidResourceAdapter implements ResourceAdapter, Serializable
     */
    public void setTransactionManagerLocatorClass(final String locator)
    {
-      if (trace)
+      if (_log.isTraceEnabled())
       {
-         log.trace("setTransactionManagerLocatorClass(" + locator + ")");
+         _log.trace("setTransactionManagerLocatorClass(" + locator + ")");
       }
 
       raProperties.setTransactionManagerLocatorClass(locator);
@@ -480,9 +475,9 @@ public class QpidResourceAdapter implements ResourceAdapter, Serializable
     */
    public String getTransactionManagerLocatorMethod()
    {
-      if (trace)
+      if (_log.isTraceEnabled())
       {
-         log.trace("getTransactionManagerLocatorMethod()");
+         _log.trace("getTransactionManagerLocatorMethod()");
       }
 
       return raProperties.getTransactionManagerLocatorMethod();
@@ -495,9 +490,9 @@ public class QpidResourceAdapter implements ResourceAdapter, Serializable
     */
    public void setTransactionManagerLocatorMethod(final String method)
    {
-      if (trace)
+      if (_log.isTraceEnabled())
       {
-         log.trace("setTransactionManagerLocatorMethod(" + method + ")");
+         _log.trace("setTransactionManagerLocatorMethod(" + method + ")");
       }
 
       raProperties.setTransactionManagerLocatorMethod(method);
@@ -510,9 +505,9 @@ public class QpidResourceAdapter implements ResourceAdapter, Serializable
     */
    public Boolean getUseLocalTx()
    {
-      if (trace)
+      if (_log.isTraceEnabled())
       {
-         log.trace("getUseLocalTx()");
+         _log.trace("getUseLocalTx()");
       }
 
       return raProperties.getUseLocalTx();
@@ -525,9 +520,9 @@ public class QpidResourceAdapter implements ResourceAdapter, Serializable
     */
    public void setUseLocalTx(final Boolean localTx)
    {
-      if (trace)
+      if (_log.isTraceEnabled())
       {
-         log.trace("setUseXA(" + localTx + ")");
+         _log.trace("setUseLocalTx(" + localTx + ")");
       }
 
       raProperties.setUseLocalTx(localTx);
@@ -535,36 +530,36 @@ public class QpidResourceAdapter implements ResourceAdapter, Serializable
 
    public int getSetupAttempts()
    {
-      if (trace)
+      if (_log.isTraceEnabled())
       {
-         log.trace("getSetupAttempts()");
+         _log.trace("getSetupAttempts()");
       }
       return raProperties.getSetupAttempts();
    }
 
    public void setSetupAttempts(int setupAttempts)
    {
-      if (trace)
+      if (_log.isTraceEnabled())
       {
-         log.trace("setSetupAttempts(" + setupAttempts + ")");
+         _log.trace("setSetupAttempts(" + setupAttempts + ")");
       }
       raProperties.setSetupAttempts(setupAttempts);
    }
 
    public long getSetupInterval()
    {
-      if (trace)
+      if (_log.isTraceEnabled())
       {
-         log.trace("getSetupInterval()");
+         _log.trace("getSetupInterval()");
       }
       return raProperties.getSetupInterval();
    }
 
    public void setSetupInterval(long interval)
    {
-      if (trace)
+      if (_log.isTraceEnabled())
       {
-         log.trace("setSetupInterval(" + interval + ")");
+         _log.trace("setSetupInterval(" + interval + ")");
       }
       raProperties.setSetupInterval(interval);
    }
@@ -577,11 +572,6 @@ public class QpidResourceAdapter implements ResourceAdapter, Serializable
     */
    public boolean equals(final Object obj)
    {
-      if (trace)
-      {
-         log.trace("equals(" + obj + ")");
-      }
-
       if (obj == null)
       {
          return false;
@@ -604,11 +594,6 @@ public class QpidResourceAdapter implements ResourceAdapter, Serializable
     */
    public int hashCode()
    {
-      if (trace)
-      {
-         log.trace("hashCode()");
-      }
-
       return raProperties.hashCode();
    }
 
@@ -619,9 +604,9 @@ public class QpidResourceAdapter implements ResourceAdapter, Serializable
     */
    public WorkManager getWorkManager()
    {
-      if (trace)
+      if (_log.isTraceEnabled())
       {
-         log.trace("getWorkManager()");
+         _log.trace("getWorkManager()");
       }
 
       if (ctx == null)
@@ -636,9 +621,9 @@ public class QpidResourceAdapter implements ResourceAdapter, Serializable
       throws Exception
    {
       final XASession result = connection.createXASession() ;
-      if (log.isDebugEnabled())
+      if (_log.isDebugEnabled())
       {
-         log.debug("Using session " + result);
+         _log.debug("Using session " + Util.asString(result));
       }
       return result ;
    }
@@ -664,9 +649,9 @@ public class QpidResourceAdapter implements ResourceAdapter, Serializable
          result = connection.createSession(useLocalTx, ackMode, prefetchHigh, prefetchLow) ;
       }
 
-      if (log.isDebugEnabled())
+      if (_log.isDebugEnabled())
       {
-         log.debug("Using session " + result);
+         _log.debug("Using session " + Util.asString(result));
       }
 
       return result;
@@ -680,9 +665,9 @@ public class QpidResourceAdapter implements ResourceAdapter, Serializable
     */
    protected QpidRAProperties getProperties()
    {
-      if (trace)
+      if (_log.isTraceEnabled())
       {
-         log.trace("getProperties()");
+         _log.trace("getProperties()");
       }
 
       return raProperties;
@@ -760,14 +745,14 @@ public class QpidResourceAdapter implements ResourceAdapter, Serializable
       
       if (tm == null)
       {
-         log.warn("It wasn't possible to lookup for a Transaction Manager through the configured properties TransactionManagerLocatorClass and TransactionManagerLocatorMethod");
-         log.warn("Qpid Resource Adapter won't be able to set and verify transaction timeouts in certain cases.");
+         _log.warn("It wasn't possible to lookup for a Transaction Manager through the configured properties TransactionManagerLocatorClass and TransactionManagerLocatorMethod");
+         _log.warn("Qpid Resource Adapter won't be able to set and verify transaction timeouts in certain cases.");
       }
       else
       {
-         if (log.isDebugEnabled())
+         if (_log.isDebugEnabled())
          {
-            log.debug("TM located = " + tm);
+            _log.debug("TM located = " + tm);
          }
       }
    }
@@ -847,9 +832,9 @@ public class QpidResourceAdapter implements ResourceAdapter, Serializable
          final String client = (clientID != null ? clientID : "") ;
          
          final String newurl = AMQConnectionURL.AMQ_PROTOCOL + "://" + username +":" + password + "@" + client + "/" + path + '?' + AMQConnectionURL.OPTIONS_BROKERLIST + "='tcp://" + host + ':' + port + '\'' ;
-         if (log.isDebugEnabled())
+         if (_log.isDebugEnabled())
          {
-            log.debug("Initialising connectionURL to " + newurl) ;
+            _log.debug("Initialising connectionURL to " + newurl) ;
          }
          
          cf = new AMQConnectionFactory(newurl) ;

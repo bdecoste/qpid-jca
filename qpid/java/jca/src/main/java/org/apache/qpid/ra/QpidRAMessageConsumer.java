@@ -185,7 +185,8 @@ public class QpidRAMessageConsumer implements MessageConsumer
          }
 
          checkState();
-         Message message = consumer.receive();
+         // Make an explicit start check otherwise qpid starts the dispatcher
+         Message message = (session.isStarted() ? consumer.receive() : null);
 
          if (_log.isTraceEnabled())
          {
@@ -224,7 +225,8 @@ public class QpidRAMessageConsumer implements MessageConsumer
          }
 
          checkState();
-         Message message = consumer.receive(timeout);
+         // Make an explicit start check otherwise qpid starts the dispatcher
+         Message message = (session.isStarted() ? consumer.receive(timeout) : null);
 
          if (_log.isTraceEnabled())
          {
@@ -262,7 +264,8 @@ public class QpidRAMessageConsumer implements MessageConsumer
          }
 
          checkState();
-         Message message = consumer.receiveNoWait();
+         // Make an explicit start check otherwise qpid starts the dispatcher
+         Message message = (session.isStarted() ? consumer.receiveNoWait() : null);
 
          if (_log.isTraceEnabled())
          {

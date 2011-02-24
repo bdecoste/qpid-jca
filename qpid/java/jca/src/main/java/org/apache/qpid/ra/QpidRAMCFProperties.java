@@ -48,12 +48,7 @@ public class QpidRAMCFProperties extends ConnectionFactoryProperties implements 
    /**
     * The logger
     */
-   private static final Logger log = LoggerFactory.getLogger(QpidRAMCFProperties.class);
-
-   /**
-    * Trace enabled
-    */
-   private static boolean trace = QpidRAMCFProperties.log.isTraceEnabled();
+   private static final Logger _log = LoggerFactory.getLogger(QpidRAMCFProperties.class);
 
    /**
     * The queue type
@@ -80,9 +75,9 @@ public class QpidRAMCFProperties extends ConnectionFactoryProperties implements 
     */
    public QpidRAMCFProperties()
    {
-      if (QpidRAMCFProperties.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMCFProperties.log.trace("constructor()");
+         _log.trace("constructor()");
       }
 
       useTryLock = null;
@@ -95,9 +90,9 @@ public class QpidRAMCFProperties extends ConnectionFactoryProperties implements 
     */
    public int getType()
    {
-      if (QpidRAMCFProperties.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMCFProperties.log.trace("getType()");
+         _log.trace("getType()");
       }
 
       return type;
@@ -110,9 +105,9 @@ public class QpidRAMCFProperties extends ConnectionFactoryProperties implements 
     */
    public void setSessionDefaultType(final String defaultType)
    {
-      if (QpidRAMCFProperties.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMCFProperties.log.trace("setSessionDefaultType(" + type + ")");
+         _log.trace("setSessionDefaultType(" + type + ")");
       }
 
       if (defaultType.equals(QpidRAMCFProperties.QUEUE_TYPE))
@@ -136,9 +131,9 @@ public class QpidRAMCFProperties extends ConnectionFactoryProperties implements 
     */
    public String getSessionDefaultType()
    {
-      if (QpidRAMCFProperties.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMCFProperties.log.trace("getSessionDefaultType()");
+         _log.trace("getSessionDefaultType()");
       }
 
       if (type == QpidRAConnectionFactory.CONNECTION)
@@ -162,9 +157,9 @@ public class QpidRAMCFProperties extends ConnectionFactoryProperties implements 
     */
    public Integer getUseTryLock()
    {
-      if (QpidRAMCFProperties.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMCFProperties.log.trace("getUseTryLock()");
+         _log.trace("getUseTryLock()");
       }
 
       return useTryLock;
@@ -177,9 +172,9 @@ public class QpidRAMCFProperties extends ConnectionFactoryProperties implements 
     */
    public void setUseTryLock(final Integer useTryLock)
    {
-      if (QpidRAMCFProperties.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMCFProperties.log.trace("setUseTryLock(" + useTryLock + ")");
+         _log.trace("setUseTryLock(" + useTryLock + ")");
       }
 
       this.useTryLock = useTryLock;

@@ -73,10 +73,7 @@ import org.slf4j.LoggerFactory;
 public class QpidRASession implements Session, QueueSession, TopicSession, XASession, XAQueueSession, XATopicSession
 {
    /** The logger */
-   private static final Logger log = LoggerFactory.getLogger(QpidRASession.class);
-
-   /** Trace enabled */
-   private static boolean trace = QpidRASession.log.isTraceEnabled();
+   private static final Logger _log = LoggerFactory.getLogger(QpidRASession.class);
 
    /** The managed connection */
    private volatile QpidRAManagedConnection mc;
@@ -102,9 +99,9 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
     */
    public QpidRASession(final QpidRAManagedConnection mc, final QpidRAConnectionRequestInfo cri)
    {
-      if (QpidRASession.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASession.log.trace("constructor(" + mc + ", " + cri + ")");
+         _log.trace("constructor(" + mc + ", " + cri + ")");
       }
 
       this.mc = mc;
@@ -120,9 +117,9 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
     */
    public void setQpidSessionFactory(final QpidRASessionFactory sf)
    {
-      if (QpidRASession.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASession.log.trace("setQpidSessionFactory(" + sf + ")");
+         _log.trace("setQpidSessionFactory(" + sf + ")");
       }
 
       this.sf = sf;
@@ -135,9 +132,9 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
     */
    protected void lock() throws JMSException
    {
-      if (QpidRASession.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASession.log.trace("lock()");
+         _log.trace("lock()");
       }
 
       final QpidRAManagedConnection mc = this.mc;
@@ -157,9 +154,9 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
     */
    protected void unlock()
    {
-      if (QpidRASession.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASession.log.trace("unlock()");
+         _log.trace("unlock()");
       }
 
       if (lockedMC != null)
@@ -187,9 +184,9 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
    {
       Session session = getSessionInternal();
 
-      if (QpidRASession.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASession.log.trace("createBytesMessage" + session);
+         _log.trace("createBytesMessage" + Util.asString(session));
       }
 
       return session.createBytesMessage();
@@ -204,9 +201,9 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
    {
       Session session = getSessionInternal();
 
-      if (QpidRASession.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASession.log.trace("createMapMessage" + session);
+         _log.trace("createMapMessage" + Util.asString(session));
       }
 
       return session.createMapMessage();
@@ -221,9 +218,9 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
    {
       Session session = getSessionInternal();
 
-      if (QpidRASession.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASession.log.trace("createMessage" + session);
+         _log.trace("createMessage" + Util.asString(session));
       }
 
       return session.createMessage();
@@ -238,9 +235,9 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
    {
       Session session = getSessionInternal();
 
-      if (QpidRASession.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASession.log.trace("createObjectMessage" + session);
+         _log.trace("createObjectMessage" + Util.asString(session));
       }
 
       return session.createObjectMessage();
@@ -256,9 +253,9 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
    {
       Session session = getSessionInternal();
 
-      if (QpidRASession.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASession.log.trace("createObjectMessage(" + object + ")" + session);
+         _log.trace("createObjectMessage(" + object + ")" + Util.asString(session));
       }
 
       return session.createObjectMessage(object);
@@ -273,9 +270,9 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
    {
       Session session = getSessionInternal();
 
-      if (QpidRASession.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASession.log.trace("createStreamMessage" + session);
+         _log.trace("createStreamMessage" + Util.asString(session));
       }
 
       return session.createStreamMessage();
@@ -290,9 +287,9 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
    {
       Session session = getSessionInternal();
 
-      if (QpidRASession.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASession.log.trace("createTextMessage" + session);
+         _log.trace("createTextMessage" + Util.asString(session));
       }
 
       return session.createTextMessage();
@@ -308,9 +305,9 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
    {
       Session session = getSessionInternal();
 
-      if (QpidRASession.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASession.log.trace("createTextMessage(" + string + ")" + session);
+         _log.trace("createTextMessage(" + string + ")" + Util.asString(session));
       }
 
       return session.createTextMessage(string);
@@ -323,9 +320,9 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
     */
    public boolean getTransacted() throws JMSException
    {
-      if (QpidRASession.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASession.log.trace("getTransacted()");
+         _log.trace("getTransacted()");
       }
 
       getSessionInternal();
@@ -339,9 +336,9 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
     */
    public MessageListener getMessageListener() throws JMSException
    {
-      if (QpidRASession.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASession.log.trace("getMessageListener()");
+         _log.trace("getMessageListener()");
       }
 
       throw new IllegalStateException("Method not allowed");
@@ -354,9 +351,9 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
     */
    public void setMessageListener(final MessageListener listener) throws JMSException
    {
-      if (QpidRASession.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASession.log.trace("setMessageListener(" + listener + ")");
+         _log.trace("setMessageListener(" + listener + ")");
       }
 
       throw new IllegalStateException("Method not allowed");
@@ -368,9 +365,9 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
     */
    public void run()
    {
-      if (QpidRASession.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASession.log.trace("run()");
+         _log.trace("run()");
       }
 
       throw new Error("Method not allowed");
@@ -383,9 +380,9 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
     */
    public void close() throws JMSException
    {
-      if (QpidRASession.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASession.log.trace("close()");
+         _log.trace("close()");
       }
 
       sf.closeSession(this);
@@ -414,9 +411,9 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
             throw new IllegalStateException("Session is not transacted");
          }
 
-         if (QpidRASession.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRASession.log.trace("Commit session " + this);
+            _log.trace("Commit session " + this);
          }
 
          session.commit();
@@ -449,9 +446,9 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
             throw new IllegalStateException("Session is not transacted");
          }
 
-         if (QpidRASession.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRASession.log.trace("Rollback session " + this);
+            _log.trace("Rollback session " + this);
          }
 
          session.rollback();
@@ -478,9 +475,9 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
             throw new IllegalStateException("Session is transacted");
          }
 
-         if (QpidRASession.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRASession.log.trace("Recover session " + this);
+            _log.trace("Recover session " + this);
          }
 
          session.recover();
@@ -506,16 +503,16 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
 
       Session session = getSessionInternal();
 
-      if (QpidRASession.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASession.log.trace("createTopic " + session + " topicName=" + topicName);
+         _log.trace("createTopic " + Util.asString(session) + " topicName=" + topicName);
       }
 
       Topic result = session.createTopic(topicName);
 
-      if (QpidRASession.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASession.log.trace("createdTopic " + session + " topic=" + result);
+         _log.trace("createdTopic " + Util.asString(session) + " topic=" + result);
       }
 
       return result;
@@ -534,17 +531,17 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
       {
          TopicSession session = getTopicSessionInternal();
 
-         if (QpidRASession.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRASession.log.trace("createSubscriber " + session + " topic=" + topic);
+            _log.trace("createSubscriber " + Util.asString(session) + " topic=" + topic);
          }
 
          TopicSubscriber result = session.createSubscriber(topic);
          result = new QpidRATopicSubscriber(result, this);
 
-         if (QpidRASession.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRASession.log.trace("createdSubscriber " + session + " QpidRATopicSubscriber=" + result);
+            _log.trace("createdSubscriber " + Util.asString(session) + " QpidRATopicSubscriber=" + result);
          }
 
          addConsumer(result);
@@ -572,9 +569,9 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
       {
          TopicSession session = getTopicSessionInternal();
 
-         if (QpidRASession.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRASession.log.trace("createSubscriber " + session +
+            _log.trace("createSubscriber " + Util.asString(session) +
                                        " topic=" +
                                        topic +
                                        " selector=" +
@@ -586,9 +583,9 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
          TopicSubscriber result = session.createSubscriber(topic, messageSelector, noLocal);
          result = new QpidRATopicSubscriber(result, this);
 
-         if (QpidRASession.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRASession.log.trace("createdSubscriber " + session + " QpidRATopicSubscriber=" + result);
+            _log.trace("createdSubscriber " + Util.asString(session) + " QpidRATopicSubscriber=" + result);
          }
 
          addConsumer(result);
@@ -620,17 +617,17 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
       {
          Session session = getSessionInternal();
 
-         if (QpidRASession.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRASession.log.trace("createDurableSubscriber " + session + " topic=" + topic + " name=" + name);
+            _log.trace("createDurableSubscriber " + Util.asString(session) + " topic=" + topic + " name=" + name);
          }
 
          TopicSubscriber result = session.createDurableSubscriber(topic, name);
          result = new QpidRATopicSubscriber(result, this);
 
-         if (QpidRASession.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRASession.log.trace("createdDurableSubscriber " + session + " QpidRATopicSubscriber=" + result);
+            _log.trace("createdDurableSubscriber " + Util.asString(session) + " QpidRATopicSubscriber=" + result);
          }
 
          addConsumer(result);
@@ -662,9 +659,9 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
       {
          Session session = getSessionInternal();
 
-         if (QpidRASession.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRASession.log.trace("createDurableSubscriber " + session +
+            _log.trace("createDurableSubscriber " + Util.asString(session) +
                                        " topic=" +
                                        topic +
                                        " name=" +
@@ -678,9 +675,9 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
          TopicSubscriber result = session.createDurableSubscriber(topic, name, messageSelector, noLocal);
          result = new QpidRATopicSubscriber(result, this);
 
-         if (QpidRASession.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRASession.log.trace("createdDurableSubscriber " + session + " QpidRATopicSubscriber=" + result);
+            _log.trace("createdDurableSubscriber " + Util.asString(session) + " QpidRATopicSubscriber=" + result);
          }
 
          addConsumer(result);
@@ -706,17 +703,17 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
       {
          TopicSession session = getTopicSessionInternal();
 
-         if (QpidRASession.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRASession.log.trace("createPublisher " + session + " topic=" + topic);
+            _log.trace("createPublisher " + Util.asString(session) + " topic=" + topic);
          }
 
          TopicPublisher result = session.createPublisher(topic);
          result = new QpidRATopicPublisher(result, this);
 
-         if (QpidRASession.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRASession.log.trace("createdPublisher " + session + " publisher=" + result);
+            _log.trace("createdPublisher " + Util.asString(session) + " publisher=" + result);
          }
 
          addProducer(result);
@@ -746,16 +743,16 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
       {
          Session session = getSessionInternal();
 
-         if (QpidRASession.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRASession.log.trace("createTemporaryTopic " + session);
+            _log.trace("createTemporaryTopic " + Util.asString(session));
          }
 
          TemporaryTopic temp = session.createTemporaryTopic();
 
-         if (QpidRASession.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRASession.log.trace("createdTemporaryTopic " + session + " temp=" + temp);
+            _log.trace("createdTemporaryTopic " + Util.asString(session) + " temp=" + temp);
          }
 
          sf.addTemporaryTopic(temp);
@@ -785,9 +782,9 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
       {
          Session session = getSessionInternal();
 
-         if (QpidRASession.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRASession.log.trace("unsubscribe " + session + " name=" + name);
+            _log.trace("unsubscribe " + Util.asString(session) + " name=" + name);
          }
 
          session.unsubscribe(name);
@@ -813,16 +810,16 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
 
       Session session = getSessionInternal();
 
-      if (QpidRASession.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASession.log.trace("createBrowser " + session + " queue=" + queue);
+         _log.trace("createBrowser " + Util.asString(session) + " queue=" + queue);
       }
 
       QueueBrowser result = session.createBrowser(queue);
 
-      if (QpidRASession.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASession.log.trace("createdBrowser " + session + " browser=" + result);
+         _log.trace("createdBrowser " + Util.asString(session) + " browser=" + result);
       }
 
       return result;
@@ -844,16 +841,16 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
 
       Session session = getSessionInternal();
 
-      if (QpidRASession.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASession.log.trace("createBrowser " + session + " queue=" + queue + " selector=" + messageSelector);
+         _log.trace("createBrowser " + Util.asString(session) + " queue=" + queue + " selector=" + messageSelector);
       }
 
       QueueBrowser result = session.createBrowser(queue, messageSelector);
 
-      if (QpidRASession.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASession.log.trace("createdBrowser " + session + " browser=" + result);
+         _log.trace("createdBrowser " + Util.asString(session) + " browser=" + result);
       }
 
       return result;
@@ -874,16 +871,16 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
 
       Session session = getSessionInternal();
 
-      if (QpidRASession.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASession.log.trace("createQueue " + session + " queueName=" + queueName);
+         _log.trace("createQueue " + Util.asString(session) + " queueName=" + queueName);
       }
 
       Queue result = session.createQueue(queueName);
 
-      if (QpidRASession.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASession.log.trace("createdQueue " + session + " queue=" + result);
+         _log.trace("createdQueue " + Util.asString(session) + " queue=" + result);
       }
 
       return result;
@@ -902,17 +899,17 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
       {
          QueueSession session = getQueueSessionInternal();
 
-         if (QpidRASession.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRASession.log.trace("createReceiver " + session + " queue=" + queue);
+            _log.trace("createReceiver " + Util.asString(session) + " queue=" + queue);
          }
 
          QueueReceiver result = session.createReceiver(queue);
          result = new QpidRAQueueReceiver(result, this);
 
-         if (QpidRASession.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRASession.log.trace("createdReceiver " + session + " receiver=" + result);
+            _log.trace("createdReceiver " + Util.asString(session) + " receiver=" + result);
          }
 
          addConsumer(result);
@@ -939,17 +936,17 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
       {
          QueueSession session = getQueueSessionInternal();
 
-         if (QpidRASession.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRASession.log.trace("createReceiver " + session + " queue=" + queue + " selector=" + messageSelector);
+            _log.trace("createReceiver " + Util.asString(session) + " queue=" + queue + " selector=" + messageSelector);
          }
 
          QueueReceiver result = session.createReceiver(queue, messageSelector);
          result = new QpidRAQueueReceiver(result, this);
 
-         if (QpidRASession.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRASession.log.trace("createdReceiver " + session + " receiver=" + result);
+            _log.trace("createdReceiver " + Util.asString(session) + " receiver=" + result);
          }
 
          addConsumer(result);
@@ -975,17 +972,17 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
       {
          QueueSession session = getQueueSessionInternal();
 
-         if (QpidRASession.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRASession.log.trace("createSender " + session + " queue=" + queue);
+            _log.trace("createSender " + Util.asString(session) + " queue=" + queue);
          }
 
          QueueSender result = session.createSender(queue);
          result = new QpidRAQueueSender(result, this);
 
-         if (QpidRASession.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRASession.log.trace("createdSender " + session + " sender=" + result);
+            _log.trace("createdSender " + Util.asString(session) + " sender=" + result);
          }
 
          addProducer(result);
@@ -1015,16 +1012,16 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
       {
          Session session = getSessionInternal();
 
-         if (QpidRASession.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRASession.log.trace("createTemporaryQueue " + session);
+            _log.trace("createTemporaryQueue " + Util.asString(session));
          }
 
          TemporaryQueue temp = session.createTemporaryQueue();
 
-         if (QpidRASession.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRASession.log.trace("createdTemporaryQueue " + session + " temp=" + temp);
+            _log.trace("createdTemporaryQueue " + Util.asString(session) + " temp=" + temp);
          }
 
          sf.addTemporaryQueue(temp);
@@ -1050,17 +1047,17 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
       {
          Session session = getSessionInternal();
 
-         if (QpidRASession.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRASession.log.trace("createConsumer " + session + " dest=" + destination);
+            _log.trace("createConsumer " + Util.asString(session) + " dest=" + destination);
          }
 
          MessageConsumer result = session.createConsumer(destination);
          result = new QpidRAMessageConsumer(result, this);
 
-         if (QpidRASession.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRASession.log.trace("createdConsumer " + session + " consumer=" + result);
+            _log.trace("createdConsumer " + Util.asString(session) + " consumer=" + result);
          }
 
          addConsumer(result);
@@ -1087,9 +1084,9 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
       {
          Session session = getSessionInternal();
 
-         if (QpidRASession.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRASession.log.trace("createConsumer " + session +
+            _log.trace("createConsumer " + Util.asString(session) +
                                        " dest=" +
                                        destination +
                                        " messageSelector=" +
@@ -1099,9 +1096,9 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
          MessageConsumer result = session.createConsumer(destination, messageSelector);
          result = new QpidRAMessageConsumer(result, this);
 
-         if (QpidRASession.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRASession.log.trace("createdConsumer " + session + " consumer=" + result);
+            _log.trace("createdConsumer " + Util.asString(session) + " consumer=" + result);
          }
 
          addConsumer(result);
@@ -1131,9 +1128,9 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
       {
          Session session = getSessionInternal();
 
-         if (QpidRASession.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRASession.log.trace("createConsumer " + session +
+            _log.trace("createConsumer " + Util.asString(session) +
                                        " dest=" +
                                        destination +
                                        " messageSelector=" +
@@ -1145,9 +1142,9 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
          MessageConsumer result = session.createConsumer(destination, messageSelector, noLocal);
          result = new QpidRAMessageConsumer(result, this);
 
-         if (QpidRASession.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRASession.log.trace("createdConsumer " + session + " consumer=" + result);
+            _log.trace("createdConsumer " + Util.asString(session) + " consumer=" + result);
          }
 
          addConsumer(result);
@@ -1173,17 +1170,17 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
       {
          Session session = getSessionInternal();
 
-         if (QpidRASession.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRASession.log.trace("createProducer " + session + " dest=" + destination);
+            _log.trace("createProducer " + Util.asString(session) + " dest=" + destination);
          }
 
          MessageProducer result = session.createProducer(destination);
          result = new QpidRAMessageProducer(result, this);
 
-         if (QpidRASession.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRASession.log.trace("createdProducer " + session + " producer=" + result);
+            _log.trace("createdProducer " + Util.asString(session) + " producer=" + result);
          }
 
          addProducer(result);
@@ -1203,9 +1200,9 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
     */
    public int getAcknowledgeMode() throws JMSException
    {
-      if (QpidRASession.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASession.log.trace("getAcknowledgeMode()");
+         _log.trace("getAcknowledgeMode()");
       }
 
       getSessionInternal();
@@ -1219,9 +1216,9 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
     */
    public XAResource getXAResource()
    {
-      if (QpidRASession.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASession.log.trace("getXAResource()");
+         _log.trace("getXAResource()");
       }
 
       if (cri.getType() == QpidRAConnectionFactory.CONNECTION || cri.getType() == QpidRAConnectionFactory.QUEUE_CONNECTION ||
@@ -1253,9 +1250,9 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
     */
    public Session getSession() throws JMSException
    {
-      if (QpidRASession.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASession.log.trace("getSession()");
+         _log.trace("getSession()");
       }
 
       if (cri.getType() == QpidRAConnectionFactory.CONNECTION || cri.getType() == QpidRAConnectionFactory.QUEUE_CONNECTION ||
@@ -1282,9 +1279,9 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
     */
    public QueueSession getQueueSession() throws JMSException
    {
-      if (QpidRASession.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASession.log.trace("getQueueSession()");
+         _log.trace("getQueueSession()");
       }
 
       if (cri.getType() == QpidRAConnectionFactory.CONNECTION || cri.getType() == QpidRAConnectionFactory.QUEUE_CONNECTION ||
@@ -1311,9 +1308,9 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
     */
    public TopicSession getTopicSession() throws JMSException
    {
-      if (QpidRASession.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASession.log.trace("getTopicSession()");
+         _log.trace("getTopicSession()");
       }
 
       if (cri.getType() == QpidRAConnectionFactory.CONNECTION || cri.getType() == QpidRAConnectionFactory.QUEUE_CONNECTION ||
@@ -1339,9 +1336,9 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
     */
    void setManagedConnection(final QpidRAManagedConnection managedConnection)
    {
-      if (QpidRASession.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASession.log.trace("setManagedConnection(" + managedConnection + ")");
+         _log.trace("setManagedConnection(" + managedConnection + ")");
       }
 
       final QpidRAManagedConnection mc = this.mc;
@@ -1364,9 +1361,9 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
     */
    void destroy()
    {
-      if (QpidRASession.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASession.log.trace("destroy()");
+         _log.trace("destroy()");
       }
 
       mc = null;
@@ -1378,9 +1375,9 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
     */
    void start() throws JMSException
    {
-      if (QpidRASession.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASession.log.trace("start()");
+         _log.trace("start()");
       }
 
       final QpidRAManagedConnection mc = this.mc;
@@ -1396,9 +1393,9 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
     */
    void stop() throws JMSException
    {
-      if (QpidRASession.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASession.log.trace("stop()");
+         _log.trace("stop()");
       }
 
       final QpidRAManagedConnection mc = this.mc;
@@ -1414,9 +1411,9 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
     */
    void checkStrict() throws JMSException
    {
-      if (QpidRASession.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASession.log.trace("checkStrict()");
+         _log.trace("checkStrict()");
       }
 
       if (mc != null)
@@ -1434,7 +1431,7 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
       final QpidRAManagedConnection mc = this.mc;
       if (mc != null)
       {
-         QpidRASession.log.trace("Closing session");
+         _log.trace("Closing session");
 
          try
          {
@@ -1442,7 +1439,7 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
          }
          catch (Throwable t)
          {
-            QpidRASession.log.trace("Error stopping managed connection", t);
+            _log.trace("Error stopping managed connection", t);
          }
 
          synchronized (consumers)
@@ -1456,7 +1453,7 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
                }
                catch (Throwable t)
                {
-                  QpidRASession.log.trace("Error closing consumer", t);
+                  _log.trace("Error closing consumer", t);
                }
                i.remove();
             }
@@ -1473,7 +1470,7 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
                }
                catch (Throwable t)
                {
-                  QpidRASession.log.trace("Error closing producer", t);
+                  _log.trace("Error closing producer", t);
                }
                i.remove();
             }
@@ -1493,9 +1490,9 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
     */
    void addConsumer(final MessageConsumer consumer)
    {
-      if (QpidRASession.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASession.log.trace("addConsumer(" + consumer + ")");
+         _log.trace("addConsumer(" + consumer + ")");
       }
 
       synchronized (consumers)
@@ -1510,9 +1507,9 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
     */
    void removeConsumer(final MessageConsumer consumer)
    {
-      if (QpidRASession.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASession.log.trace("removeConsumer(" + consumer + ")");
+         _log.trace("removeConsumer(" + consumer + ")");
       }
 
       synchronized (consumers)
@@ -1527,9 +1524,9 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
     */
    void addProducer(final MessageProducer producer)
    {
-      if (QpidRASession.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASession.log.trace("addProducer(" + producer + ")");
+         _log.trace("addProducer(" + producer + ")");
       }
 
       synchronized (producers)
@@ -1544,9 +1541,9 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
     */
    void removeProducer(final MessageProducer producer)
    {
-      if (QpidRASession.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASession.log.trace("removeProducer(" + producer + ")");
+         _log.trace("removeProducer(" + producer + ")");
       }
 
       synchronized (producers)
@@ -1571,9 +1568,9 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
 
       Session session = mc.getSession();
 
-      if (QpidRASession.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRASession.log.trace("getSessionInternal " + session + " for " + this);
+         _log.trace("getSessionInternal " + Util.asString(session) + " for " + this);
       }
 
       return session;
@@ -1597,9 +1594,9 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
       {
          XAResource xares = mc.getXAResource();
 
-         if (QpidRASession.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRASession.log.trace("getXAResourceInternal " + xares + " for " + this);
+            _log.trace("getXAResourceInternal " + xares + " for " + this);
          }
 
          return xares;

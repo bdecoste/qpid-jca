@@ -37,10 +37,7 @@ import org.slf4j.LoggerFactory;
 public class QpidRAStreamMessage extends QpidRAMessage implements StreamMessage
 {
    /** The logger */
-   private static final Logger log = LoggerFactory.getLogger(QpidRAStreamMessage.class);
-
-   /** Whether trace is enabled */
-   private static boolean trace = QpidRAStreamMessage.log.isTraceEnabled();
+   private static final Logger _log = LoggerFactory.getLogger(QpidRAStreamMessage.class);
 
    /**
     * Create a new wrapper
@@ -51,9 +48,9 @@ public class QpidRAStreamMessage extends QpidRAMessage implements StreamMessage
    {
       super(message, session);
 
-      if (QpidRAStreamMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAStreamMessage.log.trace("constructor(" + message + ", " + session + ")");
+         _log.trace("constructor(" + Util.asString(message) + ", " + session + ")");
       }
    }
 
@@ -64,9 +61,9 @@ public class QpidRAStreamMessage extends QpidRAMessage implements StreamMessage
     */
    public boolean readBoolean() throws JMSException
    {
-      if (QpidRAStreamMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAStreamMessage.log.trace("readBoolean()");
+         _log.trace("readBoolean()");
       }
 
       return ((StreamMessage)message).readBoolean();
@@ -79,9 +76,9 @@ public class QpidRAStreamMessage extends QpidRAMessage implements StreamMessage
     */
    public byte readByte() throws JMSException
    {
-      if (QpidRAStreamMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAStreamMessage.log.trace("readByte()");
+         _log.trace("readByte()");
       }
 
       return ((StreamMessage)message).readByte();
@@ -95,9 +92,9 @@ public class QpidRAStreamMessage extends QpidRAMessage implements StreamMessage
     */
    public int readBytes(final byte[] value) throws JMSException
    {
-      if (QpidRAStreamMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAStreamMessage.log.trace("readBytes(" + value + ")");
+         _log.trace("readBytes(" + value + ")");
       }
 
       return ((StreamMessage)message).readBytes(value);
@@ -110,9 +107,9 @@ public class QpidRAStreamMessage extends QpidRAMessage implements StreamMessage
     */
    public char readChar() throws JMSException
    {
-      if (QpidRAStreamMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAStreamMessage.log.trace("readChar()");
+         _log.trace("readChar()");
       }
 
       return ((StreamMessage)message).readChar();
@@ -125,9 +122,9 @@ public class QpidRAStreamMessage extends QpidRAMessage implements StreamMessage
     */
    public double readDouble() throws JMSException
    {
-      if (QpidRAStreamMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAStreamMessage.log.trace("readDouble()");
+         _log.trace("readDouble()");
       }
 
       return ((StreamMessage)message).readDouble();
@@ -140,9 +137,9 @@ public class QpidRAStreamMessage extends QpidRAMessage implements StreamMessage
     */
    public float readFloat() throws JMSException
    {
-      if (QpidRAStreamMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAStreamMessage.log.trace("readFloat()");
+         _log.trace("readFloat()");
       }
 
       return ((StreamMessage)message).readFloat();
@@ -155,9 +152,9 @@ public class QpidRAStreamMessage extends QpidRAMessage implements StreamMessage
     */
    public int readInt() throws JMSException
    {
-      if (QpidRAStreamMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAStreamMessage.log.trace("readInt()");
+         _log.trace("readInt()");
       }
 
       return ((StreamMessage)message).readInt();
@@ -170,9 +167,9 @@ public class QpidRAStreamMessage extends QpidRAMessage implements StreamMessage
     */
    public long readLong() throws JMSException
    {
-      if (QpidRAStreamMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAStreamMessage.log.trace("readLong()");
+         _log.trace("readLong()");
       }
 
       return ((StreamMessage)message).readLong();
@@ -185,9 +182,9 @@ public class QpidRAStreamMessage extends QpidRAMessage implements StreamMessage
     */
    public Object readObject() throws JMSException
    {
-      if (QpidRAStreamMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAStreamMessage.log.trace("readObject()");
+         _log.trace("readObject()");
       }
 
       return ((StreamMessage)message).readObject();
@@ -200,9 +197,9 @@ public class QpidRAStreamMessage extends QpidRAMessage implements StreamMessage
     */
    public short readShort() throws JMSException
    {
-      if (QpidRAStreamMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAStreamMessage.log.trace("readShort()");
+         _log.trace("readShort()");
       }
 
       return ((StreamMessage)message).readShort();
@@ -215,9 +212,9 @@ public class QpidRAStreamMessage extends QpidRAMessage implements StreamMessage
     */
    public String readString() throws JMSException
    {
-      if (QpidRAStreamMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAStreamMessage.log.trace("readString()");
+         _log.trace("readString()");
       }
 
       return ((StreamMessage)message).readString();
@@ -229,9 +226,9 @@ public class QpidRAStreamMessage extends QpidRAMessage implements StreamMessage
     */
    public void reset() throws JMSException
    {
-      if (QpidRAStreamMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAStreamMessage.log.trace("reset()");
+         _log.trace("reset()");
       }
 
       ((StreamMessage)message).reset();
@@ -244,9 +241,9 @@ public class QpidRAStreamMessage extends QpidRAMessage implements StreamMessage
     */
    public void writeBoolean(final boolean value) throws JMSException
    {
-      if (QpidRAStreamMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAStreamMessage.log.trace("writeBoolean(" + value + ")");
+         _log.trace("writeBoolean(" + value + ")");
       }
 
       ((StreamMessage)message).writeBoolean(value);
@@ -259,9 +256,9 @@ public class QpidRAStreamMessage extends QpidRAMessage implements StreamMessage
     */
    public void writeByte(final byte value) throws JMSException
    {
-      if (QpidRAStreamMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAStreamMessage.log.trace("writeByte(" + value + ")");
+         _log.trace("writeByte(" + value + ")");
       }
 
       ((StreamMessage)message).writeByte(value);
@@ -276,9 +273,9 @@ public class QpidRAStreamMessage extends QpidRAMessage implements StreamMessage
     */
    public void writeBytes(final byte[] value, final int offset, final int length) throws JMSException
    {
-      if (QpidRAStreamMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAStreamMessage.log.trace("writeBytes(" + value + ", " + offset + ", " + length + ")");
+         _log.trace("writeBytes(" + value + ", " + offset + ", " + length + ")");
       }
 
       ((StreamMessage)message).writeBytes(value, offset, length);
@@ -291,9 +288,9 @@ public class QpidRAStreamMessage extends QpidRAMessage implements StreamMessage
     */
    public void writeBytes(final byte[] value) throws JMSException
    {
-      if (QpidRAStreamMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAStreamMessage.log.trace("writeBytes(" + value + ")");
+         _log.trace("writeBytes(" + value + ")");
       }
 
       ((StreamMessage)message).writeBytes(value);
@@ -306,9 +303,9 @@ public class QpidRAStreamMessage extends QpidRAMessage implements StreamMessage
     */
    public void writeChar(final char value) throws JMSException
    {
-      if (QpidRAStreamMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAStreamMessage.log.trace("writeChar(" + value + ")");
+         _log.trace("writeChar(" + value + ")");
       }
 
       ((StreamMessage)message).writeChar(value);
@@ -321,9 +318,9 @@ public class QpidRAStreamMessage extends QpidRAMessage implements StreamMessage
     */
    public void writeDouble(final double value) throws JMSException
    {
-      if (QpidRAStreamMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAStreamMessage.log.trace("writeDouble(" + value + ")");
+         _log.trace("writeDouble(" + value + ")");
       }
 
       ((StreamMessage)message).writeDouble(value);
@@ -336,9 +333,9 @@ public class QpidRAStreamMessage extends QpidRAMessage implements StreamMessage
     */
    public void writeFloat(final float value) throws JMSException
    {
-      if (QpidRAStreamMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAStreamMessage.log.trace("writeFloat(" + value + ")");
+         _log.trace("writeFloat(" + value + ")");
       }
 
       ((StreamMessage)message).writeFloat(value);
@@ -351,9 +348,9 @@ public class QpidRAStreamMessage extends QpidRAMessage implements StreamMessage
     */
    public void writeInt(final int value) throws JMSException
    {
-      if (QpidRAStreamMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAStreamMessage.log.trace("writeInt(" + value + ")");
+         _log.trace("writeInt(" + value + ")");
       }
 
       ((StreamMessage)message).writeInt(value);
@@ -366,9 +363,9 @@ public class QpidRAStreamMessage extends QpidRAMessage implements StreamMessage
     */
    public void writeLong(final long value) throws JMSException
    {
-      if (QpidRAStreamMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAStreamMessage.log.trace("writeLong(" + value + ")");
+         _log.trace("writeLong(" + value + ")");
       }
 
       ((StreamMessage)message).writeLong(value);
@@ -381,9 +378,9 @@ public class QpidRAStreamMessage extends QpidRAMessage implements StreamMessage
     */
    public void writeObject(final Object value) throws JMSException
    {
-      if (QpidRAStreamMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAStreamMessage.log.trace("writeObject(" + value + ")");
+         _log.trace("writeObject(" + value + ")");
       }
 
       ((StreamMessage)message).writeObject(value);
@@ -396,9 +393,9 @@ public class QpidRAStreamMessage extends QpidRAMessage implements StreamMessage
     */
    public void writeShort(final short value) throws JMSException
    {
-      if (QpidRAStreamMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAStreamMessage.log.trace("writeShort(" + value + ")");
+         _log.trace("writeShort(" + value + ")");
       }
 
       ((StreamMessage)message).writeShort(value);
@@ -411,9 +408,9 @@ public class QpidRAStreamMessage extends QpidRAMessage implements StreamMessage
     */
    public void writeString(final String value) throws JMSException
    {
-      if (QpidRAStreamMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAStreamMessage.log.trace("writeString(" + value + ")");
+         _log.trace("writeString(" + value + ")");
       }
 
       ((StreamMessage)message).writeString(value);

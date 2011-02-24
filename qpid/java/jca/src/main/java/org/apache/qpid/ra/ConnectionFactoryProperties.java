@@ -32,12 +32,7 @@ public class ConnectionFactoryProperties
    /**
     * The logger
     */
-   private static final Logger log = LoggerFactory.getLogger(QpidRAMCFProperties.class);
-
-   /**
-    * Trace enabled
-    */
-   private static boolean trace = ConnectionFactoryProperties.log.isTraceEnabled();
+   private static final Logger _log = LoggerFactory.getLogger(ConnectionFactoryProperties.class);
 
    private boolean hasBeenUpdated = false;
 
@@ -59,18 +54,18 @@ public class ConnectionFactoryProperties
    
    public String getClientID()
    {
-      if (ConnectionFactoryProperties.trace)
+      if (_log.isTraceEnabled())
       {
-         ConnectionFactoryProperties.log.trace("getClientID()");
+         _log.trace("getClientID()");
       }
       return clientID;
    }
 
    public void setClientID(final String clientID)
    {
-      if (ConnectionFactoryProperties.trace)
+      if (_log.isTraceEnabled())
       {
-         ConnectionFactoryProperties.log.trace("setClientID(" + clientID + ")");
+         _log.trace("setClientID(" + clientID + ")");
       }
       hasBeenUpdated = true;
       this.clientID = clientID;
@@ -83,18 +78,18 @@ public class ConnectionFactoryProperties
 
    public String getConnectionURL()
    {
-      if (ConnectionFactoryProperties.trace)
+      if (_log.isTraceEnabled())
       {
-         ConnectionFactoryProperties.log.trace("getConnectionURL()");
+         _log.trace("getConnectionURL()");
       }
       return connectionURL;
    }
 
    public void setConnectionURL(final String connectionURL)
    {
-      if (ConnectionFactoryProperties.trace)
+      if (_log.isTraceEnabled())
       {
-         ConnectionFactoryProperties.log.trace("setConnectionURL(" + connectionURL + ")");
+         _log.trace("setConnectionURL(" + connectionURL + ")");
       }
       hasBeenUpdated = true;
       this.connectionURL = connectionURL;
@@ -102,18 +97,18 @@ public class ConnectionFactoryProperties
 
    public String getDefaultPassword()
    {
-      if (ConnectionFactoryProperties.trace)
+      if (_log.isTraceEnabled())
       {
-         ConnectionFactoryProperties.log.trace("getDefaultPassword()");
+         _log.trace("getDefaultPassword()");
       }
       return defaultPassword;
    }
 
    public void setDefaultPassword(final String defaultPassword)
    {
-      if (ConnectionFactoryProperties.trace)
+      if (_log.isTraceEnabled())
       {
-         ConnectionFactoryProperties.log.trace("setDefaultPassword(" + defaultPassword + ")");
+         _log.trace("setDefaultPassword(" + defaultPassword + ")");
       }
       hasBeenUpdated = true;
       this.defaultPassword = defaultPassword;
@@ -121,18 +116,18 @@ public class ConnectionFactoryProperties
 
    public String getDefaultUsername()
    {
-      if (ConnectionFactoryProperties.trace)
+      if (_log.isTraceEnabled())
       {
-         ConnectionFactoryProperties.log.trace("getDefaultUsername()");
+         _log.trace("getDefaultUsername()");
       }
       return defaultUsername;
    }
 
    public void setDefaultUsername(final String defaultUsername)
    {
-      if (ConnectionFactoryProperties.trace)
+      if (_log.isTraceEnabled())
       {
-         ConnectionFactoryProperties.log.trace("setDefaultUsername(" + defaultUsername + ")");
+         _log.trace("setDefaultUsername(" + defaultUsername + ")");
       }
       hasBeenUpdated = true;
       this.defaultUsername = defaultUsername;
@@ -140,18 +135,18 @@ public class ConnectionFactoryProperties
 
    public String getHost()
    {
-      if (ConnectionFactoryProperties.trace)
+      if (_log.isTraceEnabled())
       {
-         ConnectionFactoryProperties.log.trace("getHost()");
+         _log.trace("getHost()");
       }
       return host;
    }
 
    public void setHost(final String host)
    {
-      if (ConnectionFactoryProperties.trace)
+      if (_log.isTraceEnabled())
       {
-         ConnectionFactoryProperties.log.trace("setHost(" + host + ")");
+         _log.trace("setHost(" + host + ")");
       }
       hasBeenUpdated = true;
       this.host = host;
@@ -159,18 +154,18 @@ public class ConnectionFactoryProperties
 
    public Integer getPort()
    {
-      if (ConnectionFactoryProperties.trace)
+      if (_log.isTraceEnabled())
       {
-         ConnectionFactoryProperties.log.trace("getPort()");
+         _log.trace("getPort()");
       }
       return port;
    }
 
    public void setPort(final Integer port)
    {
-      if (ConnectionFactoryProperties.trace)
+      if (_log.isTraceEnabled())
       {
-         ConnectionFactoryProperties.log.trace("setPort(" + port + ")");
+         _log.trace("setPort(" + port + ")");
       }
       hasBeenUpdated = true;
       this.port = port;
@@ -178,18 +173,18 @@ public class ConnectionFactoryProperties
 
    public String getPath()
    {
-      if (ConnectionFactoryProperties.trace)
+      if (_log.isTraceEnabled())
       {
-         ConnectionFactoryProperties.log.trace("getPath()");
+         _log.trace("getPath()");
       }
       return path;
    }
 
    public void setPath(final String path)
    {
-      if (ConnectionFactoryProperties.trace)
+      if (_log.isTraceEnabled())
       {
-         ConnectionFactoryProperties.log.trace("setPath(" + path + ")");
+         _log.trace("setPath(" + path + ")");
       }
       hasBeenUpdated = true;
       this.path = path;
@@ -197,18 +192,18 @@ public class ConnectionFactoryProperties
 
    public SSLConfiguration getSSLConfig()
    {
-      if (ConnectionFactoryProperties.trace)
+      if (_log.isTraceEnabled())
       {
-         ConnectionFactoryProperties.log.trace("getSSLConfig()");
+         _log.trace("getSSLConfig()");
       }
       return sslConfig;
    }
    
    public void setSSLConfig(final SSLConfiguration sslConfig)
    {
-      if (ConnectionFactoryProperties.trace)
+      if (_log.isTraceEnabled())
       {
-         ConnectionFactoryProperties.log.trace("setSSLConfig(" + sslConfig + ")");
+         _log.trace("setSSLConfig(" + sslConfig + ")");
       }
       hasBeenUpdated = true;
       this.sslConfig = sslConfig;
@@ -216,18 +211,18 @@ public class ConnectionFactoryProperties
    
    public String getKeystorePath()
    {
-      if (ConnectionFactoryProperties.trace)
+      if (_log.isTraceEnabled())
       {
-         ConnectionFactoryProperties.log.trace("getKeystorePath()");
+         _log.trace("getKeystorePath()");
       }
       return (sslConfig == null ? null : sslConfig.getKeystorePath()) ;
    }
 
    public void setKeystorePath(final String path)
    {
-      if (ConnectionFactoryProperties.trace)
+      if (_log.isTraceEnabled())
       {
-         ConnectionFactoryProperties.log.trace("setKeystorePath(" + path + ")");
+         _log.trace("setKeystorePath(" + path + ")");
       }
       if (sslConfig == null)
       {
@@ -239,18 +234,18 @@ public class ConnectionFactoryProperties
    
    public String getKeystorePassword()
    {
-      if (ConnectionFactoryProperties.trace)
+      if (_log.isTraceEnabled())
       {
-         ConnectionFactoryProperties.log.trace("getKeystorePassword()");
+         _log.trace("getKeystorePassword()");
       }
       return (sslConfig == null ? null : sslConfig.getKeystorePassword()) ;
    }
 
    public void setKeystorePassword(final String password)
    {
-      if (ConnectionFactoryProperties.trace)
+      if (_log.isTraceEnabled())
       {
-         ConnectionFactoryProperties.log.trace("setKeystorePassword(" + password + ")");
+         _log.trace("setKeystorePassword(" + password + ")");
       }
       if (sslConfig == null)
       {
@@ -262,18 +257,18 @@ public class ConnectionFactoryProperties
    
    public String getCertType()
    {
-      if (ConnectionFactoryProperties.trace)
+      if (_log.isTraceEnabled())
       {
-         ConnectionFactoryProperties.log.trace("getCertType()");
+         _log.trace("getCertType()");
       }
       return (sslConfig == null ? null : sslConfig.getCertType()) ;
    }
 
    public void setCertType(final String certType)
    {
-      if (ConnectionFactoryProperties.trace)
+      if (_log.isTraceEnabled())
       {
-         ConnectionFactoryProperties.log.trace("setCertType(" + certType + ")");
+         _log.trace("setCertType(" + certType + ")");
       }
       if (sslConfig == null)
       {

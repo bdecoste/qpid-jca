@@ -39,10 +39,7 @@ import org.slf4j.LoggerFactory;
 public class QpidRAObjectMessage extends QpidRAMessage implements ObjectMessage
 {
    /** The logger */
-   private static final Logger log = LoggerFactory.getLogger(QpidRAObjectMessage.class);
-
-   /** Whether trace is enabled */
-   private static boolean trace = QpidRAObjectMessage.log.isTraceEnabled();
+   private static final Logger _log = LoggerFactory.getLogger(QpidRAObjectMessage.class);
 
    /**
     * Create a new wrapper
@@ -53,9 +50,9 @@ public class QpidRAObjectMessage extends QpidRAMessage implements ObjectMessage
    {
       super(message, session);
 
-      if (QpidRAObjectMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAObjectMessage.log.trace("constructor(" + message + ", " + session + ")");
+         _log.trace("constructor(" + Util.asString(message) + ", " + session + ")");
       }
    }
 
@@ -66,9 +63,9 @@ public class QpidRAObjectMessage extends QpidRAMessage implements ObjectMessage
     */
    public Serializable getObject() throws JMSException
    {
-      if (QpidRAObjectMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAObjectMessage.log.trace("getObject()");
+         _log.trace("getObject()");
       }
 
       return ((ObjectMessage)message).getObject();
@@ -81,9 +78,9 @@ public class QpidRAObjectMessage extends QpidRAMessage implements ObjectMessage
     */
    public void setObject(final Serializable object) throws JMSException
    {
-      if (QpidRAObjectMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAObjectMessage.log.trace("setObject(" + object + ")");
+         _log.trace("setObject(" + object + ")");
       }
 
       ((ObjectMessage)message).setObject(object);

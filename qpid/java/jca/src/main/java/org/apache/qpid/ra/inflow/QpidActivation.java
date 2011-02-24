@@ -66,12 +66,7 @@ public class QpidActivation implements ExceptionListener
    /**
     * The logger
     */
-   private static final Logger log = LoggerFactory.getLogger(QpidActivation.class);
-
-   /**
-    * Trace enabled
-    */
-   private static boolean trace = QpidActivation.log.isTraceEnabled();
+   private static final Logger _log = LoggerFactory.getLogger(QpidActivation.class);
 
    /**
     * The onMessage method
@@ -146,9 +141,9 @@ public class QpidActivation implements ExceptionListener
                             final MessageEndpointFactory endpointFactory,
                             final QpidActivationSpec spec) throws ResourceException
    {
-      if (QpidActivation.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidActivation.log.trace("constructor(" + ra + ", " + endpointFactory + ", " + spec + ")");
+         _log.trace("constructor(" + ra + ", " + endpointFactory + ", " + spec + ")");
       }
 
       this.ra = ra;
@@ -171,9 +166,9 @@ public class QpidActivation implements ExceptionListener
     */
    public QpidActivationSpec getActivationSpec()
    {
-      if (QpidActivation.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidActivation.log.trace("getActivationSpec()");
+         _log.trace("getActivationSpec()");
       }
 
       return spec;
@@ -186,9 +181,9 @@ public class QpidActivation implements ExceptionListener
     */
    public MessageEndpointFactory getMessageEndpointFactory()
    {
-      if (QpidActivation.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidActivation.log.trace("getMessageEndpointFactory()");
+         _log.trace("getMessageEndpointFactory()");
       }
 
       return endpointFactory;
@@ -201,9 +196,9 @@ public class QpidActivation implements ExceptionListener
     */
    public boolean isDeliveryTransacted()
    {
-      if (QpidActivation.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidActivation.log.trace("isDeliveryTransacted()");
+         _log.trace("isDeliveryTransacted()");
       }
 
       return isDeliveryTransacted;
@@ -216,9 +211,9 @@ public class QpidActivation implements ExceptionListener
     */
    public WorkManager getWorkManager()
    {
-      if (QpidActivation.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidActivation.log.trace("getWorkManager()");
+         _log.trace("getWorkManager()");
       }
 
       return ra.getWorkManager();
@@ -231,9 +226,9 @@ public class QpidActivation implements ExceptionListener
     */
    public boolean isTopic()
    {
-      if (QpidActivation.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidActivation.log.trace("isTopic()");
+         _log.trace("isTopic()");
       }
 
       return isTopic;
@@ -246,9 +241,9 @@ public class QpidActivation implements ExceptionListener
     */
    public void start() throws ResourceException
    {
-      if (QpidActivation.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidActivation.log.trace("start()");
+         _log.trace("start()");
       }
       deliveryActive.set(true);
       ra.getWorkManager().scheduleWork(new SetupActivation());
@@ -259,9 +254,9 @@ public class QpidActivation implements ExceptionListener
     */
    public void stop()
    {
-      if (QpidActivation.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidActivation.log.trace("stop()");
+         _log.trace("stop()");
       }
 
       deliveryActive.set(false);
@@ -275,7 +270,7 @@ public class QpidActivation implements ExceptionListener
     */
    protected synchronized void setup() throws Exception
    {
-      QpidActivation.log.debug("Setting up " + spec);
+      _log.debug("Setting up " + spec);
       setupCF();
 
       setupDestination();
@@ -313,7 +308,7 @@ public class QpidActivation implements ExceptionListener
                      spec.getPrefetchHigh());
             }
 
-            QpidActivation.log.debug("Using session " + session);
+            _log.debug("Using session " + Util.asString(session));
             QpidMessageHandler handler = new QpidMessageHandler(this, ra.getTM(), session);
             handler.setup();
             handlers.add(handler);
@@ -326,7 +321,7 @@ public class QpidActivation implements ExceptionListener
             }
             catch (Exception e2)
             {
-               QpidActivation.log.trace("Ignored error closing connection", e2);
+               _log.trace("Ignored error closing connection", e2);
             }
             
             throw e;
@@ -335,7 +330,7 @@ public class QpidActivation implements ExceptionListener
       amqConnection.start() ;
       this.connection = amqConnection ;
 
-      QpidActivation.log.debug("Setup complete " + this);
+      _log.debug("Setup complete " + this);
    }
 
    /**
@@ -343,7 +338,7 @@ public class QpidActivation implements ExceptionListener
     */
    protected synchronized void teardown()
    {
-      QpidActivation.log.debug("Tearing down " + spec);
+      _log.debug("Tearing down " + spec);
 
       try
       {
@@ -354,7 +349,7 @@ public class QpidActivation implements ExceptionListener
       }
       catch (Throwable t)
       {
-         QpidActivation.log.debug("Error stopping connection " + connection, t);
+         _log.debug("Error stopping connection " + Util.asString(connection), t);
       }
 
       for (QpidMessageHandler handler : handlers)
@@ -371,13 +366,13 @@ public class QpidActivation implements ExceptionListener
       }
       catch (Throwable t)
       {
-         QpidActivation.log.debug("Error closing connection " + connection, t);
+         _log.debug("Error closing connection " + Util.asString(connection), t);
       }
       if (spec.isHasBeenUpdated())
       {
          factory = null;
       }
-      QpidActivation.log.debug("Tearing down complete " + this);
+      _log.debug("Tearing down complete " + this);
    }
 
    protected void setupCF() throws Exception
@@ -406,15 +401,15 @@ public class QpidActivation implements ExceptionListener
       if (spec.isUseJNDI())
       {
          Context ctx = new InitialContext();
-         QpidActivation.log.debug("Using context " + ctx.getEnvironment() + " for " + spec);
-         if (QpidActivation.trace)
+         _log.debug("Using context " + ctx.getEnvironment() + " for " + spec);
+         if (_log.isTraceEnabled())
          {
-            QpidActivation.log.trace("setupDestination(" + ctx + ")");
+            _log.trace("setupDestination(" + ctx + ")");
          }
 
          if (destinationTypeString != null && !destinationTypeString.trim().equals(""))
          {
-            QpidActivation.log.debug("Destination type defined as " + destinationTypeString);
+            _log.debug("Destination type defined as " + destinationTypeString);
 
             Class<? extends Destination> destinationType;
             if (Topic.class.getName().equals(destinationTypeString))
@@ -427,15 +422,15 @@ public class QpidActivation implements ExceptionListener
                destinationType = Queue.class;
             }
 
-            QpidActivation.log.debug("Retrieving destination " + destinationName +
+            _log.debug("Retrieving destination " + destinationName +
                                         " of type " +
                                         destinationType.getName());
             destination = Util.lookup(ctx, destinationName, destinationType);
          }
          else
          {
-            QpidActivation.log.debug("Destination type not defined");
-            QpidActivation.log.debug("Retrieving destination " + destinationName +
+            _log.debug("Destination type not defined");
+            _log.debug("Retrieving destination " + destinationName +
                                         " of type " +
                                         Destination.class.getName());
 
@@ -448,7 +443,7 @@ public class QpidActivation implements ExceptionListener
          destination = (AMQDestination)AMQDestination.createDestination(spec.getDestination());
          if (destinationTypeString != null && !destinationTypeString.trim().equals(""))
          {
-            QpidActivation.log.debug("Destination type defined as " + destinationTypeString);
+            _log.debug("Destination type defined as " + destinationTypeString);
             final boolean match ;
             if (Topic.class.getName().equals(destinationTypeString))
             {
@@ -470,7 +465,7 @@ public class QpidActivation implements ExceptionListener
          }
       }
 
-      QpidActivation.log.debug("Got destination " + destination + " from " + destinationName);
+      _log.debug("Got destination " + destination + " from " + destinationName);
    }
 
    /**
@@ -509,11 +504,11 @@ public class QpidActivation implements ExceptionListener
    {
       if(doesNotExist(failure))
       {
-         log.info("awaiting topic/queue creation " + getActivationSpec().getDestination());
+         _log.info("awaiting topic/queue creation " + getActivationSpec().getDestination());
       }
       else
       {
-         log.warn("Failure in Qpid activation " + spec, failure);
+         _log.warn("Failure in Qpid activation " + spec, failure);
       }
       int reconnectCount = 0;
       int setupAttempts = spec.getSetupAttempts();
@@ -534,26 +529,26 @@ public class QpidActivation implements ExceptionListener
             }
             catch (InterruptedException e)
             {
-               log.debug("Interrupted trying to reconnect " + spec, e);
+               _log.debug("Interrupted trying to reconnect " + spec, e);
                break;
             }
 
-            log.info("Attempting to reconnect " + spec);
+            _log.info("Attempting to reconnect " + spec);
             try
             {
                setup();
-               log.info("Reconnected with Qpid");            
+               _log.info("Reconnected with Qpid");            
                break;
             }
             catch (Throwable t)
             {
                if(doesNotExist(failure))
                {
-                  log.info("awaiting topic/queue creation " + getActivationSpec().getDestination());
+                  _log.info("awaiting topic/queue creation " + getActivationSpec().getDestination());
                }
                else
                {
-                  log.error("Unable to reconnect " + spec, t);
+                  _log.error("Unable to reconnect " + spec, t);
                }
             }
             ++reconnectCount;

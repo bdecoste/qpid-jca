@@ -38,10 +38,7 @@ import org.slf4j.LoggerFactory;
 public class QpidRAXAResource implements XAResource
 {
    /** The logger */
-   private static final Logger log = LoggerFactory.getLogger(QpidRAXAResource.class);
-
-   /** Trace enabled */
-   private static boolean trace = QpidRAXAResource.log.isTraceEnabled();
+   private static final Logger _log = LoggerFactory.getLogger(QpidRAXAResource.class);
 
    /** The managed connection */
    private final QpidRAManagedConnection managedConnection;
@@ -56,9 +53,9 @@ public class QpidRAXAResource implements XAResource
     */
    public QpidRAXAResource(final QpidRAManagedConnection managedConnection, final XAResource xaResource)
    {
-      if (QpidRAXAResource.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAXAResource.log.trace("constructor(" + managedConnection + ", " + xaResource + ")");
+         _log.trace("constructor(" + managedConnection + ", " + Util.asString(xaResource) + ")");
       }
 
       this.managedConnection = managedConnection;
@@ -73,9 +70,9 @@ public class QpidRAXAResource implements XAResource
     */
    public void start(final Xid xid, final int flags) throws XAException
    {
-      if (QpidRAXAResource.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAXAResource.log.trace("start(" + xid + ", " + flags + ")");
+         _log.trace("start(" + xid + ", " + flags + ")");
       }
 
       managedConnection.lock();
@@ -98,9 +95,9 @@ public class QpidRAXAResource implements XAResource
     */
    public void end(final Xid xid, final int flags) throws XAException
    {
-      if (QpidRAXAResource.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAXAResource.log.trace("end(" + xid + ", " + flags + ")");
+         _log.trace("end(" + xid + ", " + flags + ")");
       }
 
       managedConnection.lock();
@@ -123,9 +120,9 @@ public class QpidRAXAResource implements XAResource
     */
    public int prepare(final Xid xid) throws XAException
    {
-      if (QpidRAXAResource.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAXAResource.log.trace("prepare(" + xid + ")");
+         _log.trace("prepare(" + xid + ")");
       }
 
       return xaResource.prepare(xid);
@@ -139,9 +136,9 @@ public class QpidRAXAResource implements XAResource
     */
    public void commit(final Xid xid, final boolean onePhase) throws XAException
    {
-      if (QpidRAXAResource.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAXAResource.log.trace("commit(" + xid + ", " + onePhase + ")");
+         _log.trace("commit(" + xid + ", " + onePhase + ")");
       }
 
       xaResource.commit(xid, onePhase);
@@ -154,9 +151,9 @@ public class QpidRAXAResource implements XAResource
     */
    public void rollback(final Xid xid) throws XAException
    {
-      if (QpidRAXAResource.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAXAResource.log.trace("rollback(" + xid + ")");
+         _log.trace("rollback(" + xid + ")");
       }
 
       xaResource.rollback(xid);
@@ -169,9 +166,9 @@ public class QpidRAXAResource implements XAResource
     */
    public void forget(final Xid xid) throws XAException
    {
-      if (QpidRAXAResource.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAXAResource.log.trace("forget(" + xid + ")");
+         _log.trace("forget(" + xid + ")");
       }
 
       managedConnection.lock();
@@ -194,9 +191,9 @@ public class QpidRAXAResource implements XAResource
     */
    public boolean isSameRM(final XAResource xaRes) throws XAException
    {
-      if (QpidRAXAResource.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAXAResource.log.trace("isSameRM(" + xaRes + ")");
+         _log.trace("isSameRM(" + xaRes + ")");
       }
 
       return xaResource.isSameRM(xaRes);
@@ -210,9 +207,9 @@ public class QpidRAXAResource implements XAResource
     */
    public Xid[] recover(final int flag) throws XAException
    {
-      if (QpidRAXAResource.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAXAResource.log.trace("recover(" + flag + ")");
+         _log.trace("recover(" + flag + ")");
       }
 
       return xaResource.recover(flag);
@@ -225,9 +222,9 @@ public class QpidRAXAResource implements XAResource
     */
    public int getTransactionTimeout() throws XAException
    {
-      if (QpidRAXAResource.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAXAResource.log.trace("getTransactionTimeout()");
+         _log.trace("getTransactionTimeout()");
       }
 
       return xaResource.getTransactionTimeout();
@@ -241,9 +238,9 @@ public class QpidRAXAResource implements XAResource
     */
    public boolean setTransactionTimeout(final int seconds) throws XAException
    {
-      if (QpidRAXAResource.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAXAResource.log.trace("setTransactionTimeout(" + seconds + ")");
+         _log.trace("setTransactionTimeout(" + seconds + ")");
       }
 
       return xaResource.setTransactionTimeout(seconds);

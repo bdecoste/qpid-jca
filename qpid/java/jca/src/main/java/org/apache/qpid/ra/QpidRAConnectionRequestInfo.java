@@ -40,10 +40,7 @@ import org.slf4j.LoggerFactory;
 public class QpidRAConnectionRequestInfo implements ConnectionRequestInfo
 {
    /** The logger */
-   private static final Logger log = LoggerFactory.getLogger(QpidRAConnectionRequestInfo.class);
-
-   /** Trace enabled */
-   private static boolean trace = QpidRAConnectionRequestInfo.log.isTraceEnabled();
+   private static final Logger _log = LoggerFactory.getLogger(QpidRAConnectionRequestInfo.class);
 
    /** The user name */
    private String userName;
@@ -72,9 +69,9 @@ public class QpidRAConnectionRequestInfo implements ConnectionRequestInfo
    public QpidRAConnectionRequestInfo(final QpidResourceAdapter ra, final int type)
       throws ResourceException
    {
-      if (QpidRAConnectionRequestInfo.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAConnectionRequestInfo.log.trace("constructor(" + ra + ")");
+         _log.trace("constructor(" + ra + ")");
       }
 
       final QpidRAProperties properties = ra.getProperties() ;
@@ -102,9 +99,9 @@ public class QpidRAConnectionRequestInfo implements ConnectionRequestInfo
     */
    public QpidRAConnectionRequestInfo(final int type)
    {
-      if (QpidRAConnectionRequestInfo.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAConnectionRequestInfo.log.trace("constructor(" + type + ")");
+         _log.trace("constructor(" + type + ")");
       }
 
       this.type = type;
@@ -120,9 +117,9 @@ public class QpidRAConnectionRequestInfo implements ConnectionRequestInfo
     */
    public QpidRAConnectionRequestInfo(final boolean transacted, final int acknowledgeMode, final int type)
    {
-      if (QpidRAConnectionRequestInfo.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAConnectionRequestInfo.log.trace("constructor(" + transacted +
+         _log.trace("constructor(" + transacted +
                                                   ", " +
                                                   acknowledgeMode +
                                                   ", " +
@@ -163,9 +160,9 @@ public class QpidRAConnectionRequestInfo implements ConnectionRequestInfo
    public void setDefaults(final QpidResourceAdapter ra)
       throws ResourceException
    {
-      if (QpidRAConnectionRequestInfo.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAConnectionRequestInfo.log.trace("setDefaults(" + ra + ")");
+         _log.trace("setDefaults(" + ra + ")");
       }
       
       final QpidRAProperties properties = ra.getProperties() ;
@@ -196,9 +193,9 @@ public class QpidRAConnectionRequestInfo implements ConnectionRequestInfo
     */
    public String getUserName()
    {
-      if (QpidRAConnectionRequestInfo.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAConnectionRequestInfo.log.trace("getUserName()");
+         _log.trace("getUserName()");
       }
 
       return userName;
@@ -210,9 +207,9 @@ public class QpidRAConnectionRequestInfo implements ConnectionRequestInfo
     */
    public void setUserName(final String userName)
    {
-      if (QpidRAConnectionRequestInfo.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAConnectionRequestInfo.log.trace("setUserName(" + userName + ")");
+         _log.trace("setUserName(" + userName + ")");
       }
 
       this.userName = userName;
@@ -224,9 +221,9 @@ public class QpidRAConnectionRequestInfo implements ConnectionRequestInfo
     */
    public String getPassword()
    {
-      if (QpidRAConnectionRequestInfo.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAConnectionRequestInfo.log.trace("getPassword()");
+         _log.trace("getPassword()");
       }
 
       return password;
@@ -238,9 +235,9 @@ public class QpidRAConnectionRequestInfo implements ConnectionRequestInfo
     */
    public void setPassword(final String password)
    {
-      if (QpidRAConnectionRequestInfo.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAConnectionRequestInfo.log.trace("setPassword(****)");
+         _log.trace("setPassword(****)");
       }
 
       this.password = password;
@@ -252,9 +249,9 @@ public class QpidRAConnectionRequestInfo implements ConnectionRequestInfo
     */
    public String getClientID()
    {
-      if (QpidRAConnectionRequestInfo.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAConnectionRequestInfo.log.trace("getClientID()");
+         _log.trace("getClientID()");
       }
 
       return clientID;
@@ -266,9 +263,9 @@ public class QpidRAConnectionRequestInfo implements ConnectionRequestInfo
     */
    public void setClientID(final String clientID)
    {
-      if (QpidRAConnectionRequestInfo.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAConnectionRequestInfo.log.trace("setClientID(" + clientID + ")");
+         _log.trace("setClientID(" + clientID + ")");
       }
 
       this.clientID = clientID;
@@ -280,9 +277,9 @@ public class QpidRAConnectionRequestInfo implements ConnectionRequestInfo
     */
    public int getType()
    {
-      if (QpidRAConnectionRequestInfo.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAConnectionRequestInfo.log.trace("getType()");
+         _log.trace("getType()");
       }
 
       return type;
@@ -294,9 +291,9 @@ public class QpidRAConnectionRequestInfo implements ConnectionRequestInfo
     */
    public boolean isTransacted()
    {
-      if (QpidRAConnectionRequestInfo.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAConnectionRequestInfo.log.trace("isTransacted() " + transacted);
+         _log.trace("isTransacted() " + transacted);
       }
 
       return transacted;
@@ -308,9 +305,9 @@ public class QpidRAConnectionRequestInfo implements ConnectionRequestInfo
     */
    public int getAcknowledgeMode()
    {
-      if (QpidRAConnectionRequestInfo.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAConnectionRequestInfo.log.trace("getAcknowledgeMode()");
+         _log.trace("getAcknowledgeMode()");
       }
 
       return acknowledgeMode;
@@ -324,11 +321,6 @@ public class QpidRAConnectionRequestInfo implements ConnectionRequestInfo
    @Override
    public boolean equals(final Object obj)
    {
-      if (QpidRAConnectionRequestInfo.trace)
-      {
-         QpidRAConnectionRequestInfo.log.trace("equals(" + obj + ")");
-      }
-
       if (obj == null)
       {
          return false;
@@ -356,11 +348,6 @@ public class QpidRAConnectionRequestInfo implements ConnectionRequestInfo
    @Override
    public int hashCode()
    {
-      if (QpidRAConnectionRequestInfo.trace)
-      {
-         QpidRAConnectionRequestInfo.log.trace("hashCode()");
-      }
-
       int hash = 7;
 
       hash += 31 * hash + (userName != null ? userName.hashCode() : 0);

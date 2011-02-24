@@ -38,10 +38,7 @@ import org.slf4j.LoggerFactory;
 public class QpidRATopicSubscriber extends QpidRAMessageConsumer implements TopicSubscriber
 {
    /** The logger */
-   private static final Logger log = LoggerFactory.getLogger(QpidRATopicSubscriber.class);
-
-   /** Whether trace is enabled */
-   private static boolean trace = QpidRATopicSubscriber.log.isTraceEnabled();
+   private static final Logger _log = LoggerFactory.getLogger(QpidRATopicSubscriber.class);
 
    /**
     * Create a new wrapper
@@ -52,9 +49,9 @@ public class QpidRATopicSubscriber extends QpidRAMessageConsumer implements Topi
    {
       super(consumer, session);
 
-      if (QpidRATopicSubscriber.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRATopicSubscriber.log.trace("constructor(" + consumer + ", " + session + ")");
+         _log.trace("constructor(" + Util.asString(consumer) + ", " + session + ")");
       }
    }
 
@@ -65,9 +62,9 @@ public class QpidRATopicSubscriber extends QpidRAMessageConsumer implements Topi
     */
    public boolean getNoLocal() throws JMSException
    {
-      if (QpidRATopicSubscriber.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRATopicSubscriber.log.trace("getNoLocal()");
+         _log.trace("getNoLocal()");
       }
 
       checkState();
@@ -81,9 +78,9 @@ public class QpidRATopicSubscriber extends QpidRAMessageConsumer implements Topi
     */
    public Topic getTopic() throws JMSException
    {
-      if (QpidRATopicSubscriber.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRATopicSubscriber.log.trace("getTopic()");
+         _log.trace("getTopic()");
       }
 
       checkState();

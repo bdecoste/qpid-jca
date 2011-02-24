@@ -39,10 +39,7 @@ import org.slf4j.LoggerFactory;
 public class QpidRATopicPublisher extends QpidRAMessageProducer implements TopicPublisher
 {
    /** The logger */
-   private static final Logger log = LoggerFactory.getLogger(QpidRATopicPublisher.class);
-
-   /** Whether trace is enabled */
-   private static boolean trace = QpidRATopicPublisher.log.isTraceEnabled();
+   private static final Logger _log = LoggerFactory.getLogger(QpidRATopicPublisher.class);
 
    /**
     * Create a new wrapper
@@ -53,9 +50,9 @@ public class QpidRATopicPublisher extends QpidRAMessageProducer implements Topic
    {
       super(producer, session);
 
-      if (QpidRATopicPublisher.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRATopicPublisher.log.trace("constructor(" + producer + ", " + session + ")");
+         _log.trace("constructor(" + Util.asString(producer) + ", " + session + ")");
       }
    }
 
@@ -66,9 +63,9 @@ public class QpidRATopicPublisher extends QpidRAMessageProducer implements Topic
     */
    public Topic getTopic() throws JMSException
    {
-      if (QpidRATopicPublisher.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRATopicPublisher.log.trace("getTopic()");
+         _log.trace("getTopic()");
       }
 
       return ((TopicPublisher)producer).getTopic();
@@ -87,11 +84,11 @@ public class QpidRATopicPublisher extends QpidRAMessageProducer implements Topic
       session.lock();
       try
       {
-         if (QpidRATopicPublisher.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRATopicPublisher.log.trace("send " + this +
+            _log.trace("send " + this +
                                               " message=" +
-                                              message +
+                                              Util.asString(message) +
                                               " deliveryMode=" +
                                               deliveryMode +
                                               " priority=" +
@@ -104,9 +101,9 @@ public class QpidRATopicPublisher extends QpidRAMessageProducer implements Topic
 
          ((TopicPublisher)producer).publish(message, deliveryMode, priority, timeToLive);
 
-         if (QpidRATopicPublisher.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRATopicPublisher.log.trace("sent " + this + " result=" + message);
+            _log.trace("sent " + this + " result=" + Util.asString(message));
          }
       }
       finally
@@ -125,18 +122,18 @@ public class QpidRATopicPublisher extends QpidRAMessageProducer implements Topic
       session.lock();
       try
       {
-         if (QpidRATopicPublisher.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRATopicPublisher.log.trace("send " + this + " message=" + message);
+            _log.trace("send " + this + " message=" + Util.asString(message));
          }
 
          checkState();
 
          ((TopicPublisher)producer).publish(message);
 
-         if (QpidRATopicPublisher.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRATopicPublisher.log.trace("sent " + this + " result=" + message);
+            _log.trace("sent " + this + " result=" + Util.asString(message));
          }
       }
       finally
@@ -163,13 +160,13 @@ public class QpidRATopicPublisher extends QpidRAMessageProducer implements Topic
       session.lock();
       try
       {
-         if (QpidRATopicPublisher.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRATopicPublisher.log.trace("send " + this +
+            _log.trace("send " + this +
                                               " destination=" +
                                               destination +
                                               " message=" +
-                                              message +
+                                              Util.asString(message) +
                                               " deliveryMode=" +
                                               deliveryMode +
                                               " priority=" +
@@ -182,9 +179,9 @@ public class QpidRATopicPublisher extends QpidRAMessageProducer implements Topic
 
          ((TopicPublisher)producer).publish(destination, message, deliveryMode, priority, timeToLive);
 
-         if (QpidRATopicPublisher.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRATopicPublisher.log.trace("sent " + this + " result=" + message);
+            _log.trace("sent " + this + " result=" + Util.asString(message));
          }
       }
       finally
@@ -204,18 +201,18 @@ public class QpidRATopicPublisher extends QpidRAMessageProducer implements Topic
       session.lock();
       try
       {
-         if (QpidRATopicPublisher.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRATopicPublisher.log.trace("send " + this + " destination=" + destination + " message=" + message);
+            _log.trace("send " + this + " destination=" + destination + " message=" + Util.asString(message));
          }
 
          checkState();
 
          ((TopicPublisher)producer).publish(destination, message);
 
-         if (QpidRATopicPublisher.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRATopicPublisher.log.trace("sent " + this + " result=" + message);
+            _log.trace("sent " + this + " result=" + Util.asString(message));
          }
       }
       finally

@@ -39,10 +39,7 @@ import org.slf4j.LoggerFactory;
 public class QpidRAMessage implements Message
 {
    /** The logger */
-   private static final Logger log = LoggerFactory.getLogger(QpidRAMessage.class);
-
-   /** Whether trace is enabled */
-   private static boolean trace = QpidRAMessage.log.isTraceEnabled();
+   private static final Logger _log = LoggerFactory.getLogger(QpidRAMessage.class);
 
    /** The message */
    protected Message message;
@@ -57,9 +54,9 @@ public class QpidRAMessage implements Message
     */
    public QpidRAMessage(final Message message, final QpidRASession session)
    {
-      if (QpidRAMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessage.log.trace("constructor(" + message + ", " + session + ")");
+         _log.trace("constructor(" + Util.asString(message) + ", " + session + ")");
       }
 
       this.message = message;
@@ -72,9 +69,9 @@ public class QpidRAMessage implements Message
     */
    public void acknowledge() throws JMSException
    {
-      if (QpidRAMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessage.log.trace("acknowledge()");
+         _log.trace("acknowledge()");
       }
 
       session.getSession(); // Check for closed
@@ -87,9 +84,9 @@ public class QpidRAMessage implements Message
     */
    public void clearBody() throws JMSException
    {
-      if (QpidRAMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessage.log.trace("clearBody()");
+         _log.trace("clearBody()");
       }
 
       message.clearBody();
@@ -101,9 +98,9 @@ public class QpidRAMessage implements Message
     */
    public void clearProperties() throws JMSException
    {
-      if (QpidRAMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessage.log.trace("clearProperties()");
+         _log.trace("clearProperties()");
       }
 
       message.clearProperties();
@@ -117,9 +114,9 @@ public class QpidRAMessage implements Message
     */
    public boolean getBooleanProperty(final String name) throws JMSException
    {
-      if (QpidRAMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessage.log.trace("getBooleanProperty(" + name + ")");
+         _log.trace("getBooleanProperty(" + name + ")");
       }
 
       return message.getBooleanProperty(name);
@@ -133,9 +130,9 @@ public class QpidRAMessage implements Message
     */
    public byte getByteProperty(final String name) throws JMSException
    {
-      if (QpidRAMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessage.log.trace("getByteProperty(" + name + ")");
+         _log.trace("getByteProperty(" + name + ")");
       }
 
       return message.getByteProperty(name);
@@ -149,9 +146,9 @@ public class QpidRAMessage implements Message
     */
    public double getDoubleProperty(final String name) throws JMSException
    {
-      if (QpidRAMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessage.log.trace("getDoubleProperty(" + name + ")");
+         _log.trace("getDoubleProperty(" + name + ")");
       }
 
       return message.getDoubleProperty(name);
@@ -165,9 +162,9 @@ public class QpidRAMessage implements Message
     */
    public float getFloatProperty(final String name) throws JMSException
    {
-      if (QpidRAMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessage.log.trace("getFloatProperty(" + name + ")");
+         _log.trace("getFloatProperty(" + name + ")");
       }
 
       return message.getFloatProperty(name);
@@ -181,9 +178,9 @@ public class QpidRAMessage implements Message
     */
    public int getIntProperty(final String name) throws JMSException
    {
-      if (QpidRAMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessage.log.trace("getIntProperty(" + name + ")");
+         _log.trace("getIntProperty(" + name + ")");
       }
 
       return message.getIntProperty(name);
@@ -196,9 +193,9 @@ public class QpidRAMessage implements Message
     */
    public String getJMSCorrelationID() throws JMSException
    {
-      if (QpidRAMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessage.log.trace("getJMSCorrelationID()");
+         _log.trace("getJMSCorrelationID()");
       }
 
       return message.getJMSCorrelationID();
@@ -211,9 +208,9 @@ public class QpidRAMessage implements Message
     */
    public byte[] getJMSCorrelationIDAsBytes() throws JMSException
    {
-      if (QpidRAMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessage.log.trace("getJMSCorrelationIDAsBytes()");
+         _log.trace("getJMSCorrelationIDAsBytes()");
       }
 
       return message.getJMSCorrelationIDAsBytes();
@@ -226,9 +223,9 @@ public class QpidRAMessage implements Message
     */
    public int getJMSDeliveryMode() throws JMSException
    {
-      if (QpidRAMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessage.log.trace("getJMSDeliveryMode()");
+         _log.trace("getJMSDeliveryMode()");
       }
 
       return message.getJMSDeliveryMode();
@@ -241,9 +238,9 @@ public class QpidRAMessage implements Message
     */
    public Destination getJMSDestination() throws JMSException
    {
-      if (QpidRAMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessage.log.trace("getJMSDestination()");
+         _log.trace("getJMSDestination()");
       }
 
       return message.getJMSDestination();
@@ -256,9 +253,9 @@ public class QpidRAMessage implements Message
     */
    public long getJMSExpiration() throws JMSException
    {
-      if (QpidRAMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessage.log.trace("getJMSExpiration()");
+         _log.trace("getJMSExpiration()");
       }
 
       return message.getJMSExpiration();
@@ -271,9 +268,9 @@ public class QpidRAMessage implements Message
     */
    public String getJMSMessageID() throws JMSException
    {
-      if (QpidRAMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessage.log.trace("getJMSMessageID()");
+         _log.trace("getJMSMessageID()");
       }
 
       return message.getJMSMessageID();
@@ -286,9 +283,9 @@ public class QpidRAMessage implements Message
     */
    public int getJMSPriority() throws JMSException
    {
-      if (QpidRAMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessage.log.trace("getJMSPriority()");
+         _log.trace("getJMSPriority()");
       }
 
       return message.getJMSPriority();
@@ -301,9 +298,9 @@ public class QpidRAMessage implements Message
     */
    public boolean getJMSRedelivered() throws JMSException
    {
-      if (QpidRAMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessage.log.trace("getJMSRedelivered()");
+         _log.trace("getJMSRedelivered()");
       }
 
       return message.getJMSRedelivered();
@@ -316,9 +313,9 @@ public class QpidRAMessage implements Message
     */
    public Destination getJMSReplyTo() throws JMSException
    {
-      if (QpidRAMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessage.log.trace("getJMSReplyTo()");
+         _log.trace("getJMSReplyTo()");
       }
 
       return message.getJMSReplyTo();
@@ -331,9 +328,9 @@ public class QpidRAMessage implements Message
     */
    public long getJMSTimestamp() throws JMSException
    {
-      if (QpidRAMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessage.log.trace("getJMSTimestamp()");
+         _log.trace("getJMSTimestamp()");
       }
 
       return message.getJMSTimestamp();
@@ -346,9 +343,9 @@ public class QpidRAMessage implements Message
     */
    public String getJMSType() throws JMSException
    {
-      if (QpidRAMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessage.log.trace("getJMSType()");
+         _log.trace("getJMSType()");
       }
 
       return message.getJMSType();
@@ -362,9 +359,9 @@ public class QpidRAMessage implements Message
     */
    public long getLongProperty(final String name) throws JMSException
    {
-      if (QpidRAMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessage.log.trace("getLongProperty(" + name + ")");
+         _log.trace("getLongProperty(" + name + ")");
       }
 
       return message.getLongProperty(name);
@@ -378,9 +375,9 @@ public class QpidRAMessage implements Message
     */
    public Object getObjectProperty(final String name) throws JMSException
    {
-      if (QpidRAMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessage.log.trace("getObjectProperty(" + name + ")");
+         _log.trace("getObjectProperty(" + name + ")");
       }
 
       return message.getObjectProperty(name);
@@ -393,9 +390,9 @@ public class QpidRAMessage implements Message
     */
    public Enumeration<?> getPropertyNames() throws JMSException
    {
-      if (QpidRAMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessage.log.trace("getPropertyNames()");
+         _log.trace("getPropertyNames()");
       }
 
       return message.getPropertyNames();
@@ -409,9 +406,9 @@ public class QpidRAMessage implements Message
     */
    public short getShortProperty(final String name) throws JMSException
    {
-      if (QpidRAMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessage.log.trace("getShortProperty(" + name + ")");
+         _log.trace("getShortProperty(" + name + ")");
       }
 
       return message.getShortProperty(name);
@@ -425,9 +422,9 @@ public class QpidRAMessage implements Message
     */
    public String getStringProperty(final String name) throws JMSException
    {
-      if (QpidRAMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessage.log.trace("getStringProperty(" + name + ")");
+         _log.trace("getStringProperty(" + name + ")");
       }
 
       return message.getStringProperty(name);
@@ -441,9 +438,9 @@ public class QpidRAMessage implements Message
     */
    public boolean propertyExists(final String name) throws JMSException
    {
-      if (QpidRAMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessage.log.trace("propertyExists(" + name + ")");
+         _log.trace("propertyExists(" + name + ")");
       }
 
       return message.propertyExists(name);
@@ -457,9 +454,9 @@ public class QpidRAMessage implements Message
     */
    public void setBooleanProperty(final String name, final boolean value) throws JMSException
    {
-      if (QpidRAMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessage.log.trace("setBooleanProperty(" + name + ", " + value + ")");
+         _log.trace("setBooleanProperty(" + name + ", " + value + ")");
       }
 
       message.setBooleanProperty(name, value);
@@ -473,9 +470,9 @@ public class QpidRAMessage implements Message
     */
    public void setByteProperty(final String name, final byte value) throws JMSException
    {
-      if (QpidRAMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessage.log.trace("setByteProperty(" + name + ", " + value + ")");
+         _log.trace("setByteProperty(" + name + ", " + value + ")");
       }
 
       message.setByteProperty(name, value);
@@ -489,9 +486,9 @@ public class QpidRAMessage implements Message
     */
    public void setDoubleProperty(final String name, final double value) throws JMSException
    {
-      if (QpidRAMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessage.log.trace("setDoubleProperty(" + name + ", " + value + ")");
+         _log.trace("setDoubleProperty(" + name + ", " + value + ")");
       }
 
       message.setDoubleProperty(name, value);
@@ -505,9 +502,9 @@ public class QpidRAMessage implements Message
     */
    public void setFloatProperty(final String name, final float value) throws JMSException
    {
-      if (QpidRAMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessage.log.trace("setFloatProperty(" + name + ", " + value + ")");
+         _log.trace("setFloatProperty(" + name + ", " + value + ")");
       }
 
       message.setFloatProperty(name, value);
@@ -521,9 +518,9 @@ public class QpidRAMessage implements Message
     */
    public void setIntProperty(final String name, final int value) throws JMSException
    {
-      if (QpidRAMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessage.log.trace("setIntProperty(" + name + ", " + value + ")");
+         _log.trace("setIntProperty(" + name + ", " + value + ")");
       }
 
       message.setIntProperty(name, value);
@@ -536,9 +533,9 @@ public class QpidRAMessage implements Message
     */
    public void setJMSCorrelationID(final String correlationID) throws JMSException
    {
-      if (QpidRAMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessage.log.trace("setJMSCorrelationID(" + correlationID + ")");
+         _log.trace("setJMSCorrelationID(" + correlationID + ")");
       }
 
       message.setJMSCorrelationID(correlationID);
@@ -551,9 +548,9 @@ public class QpidRAMessage implements Message
     */
    public void setJMSCorrelationIDAsBytes(final byte[] correlationID) throws JMSException
    {
-      if (QpidRAMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessage.log.trace("setJMSCorrelationIDAsBytes(" + correlationID + ")");
+         _log.trace("setJMSCorrelationIDAsBytes(" + correlationID + ")");
       }
 
       message.setJMSCorrelationIDAsBytes(correlationID);
@@ -566,9 +563,9 @@ public class QpidRAMessage implements Message
     */
    public void setJMSDeliveryMode(final int deliveryMode) throws JMSException
    {
-      if (QpidRAMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessage.log.trace("setJMSDeliveryMode(" + deliveryMode + ")");
+         _log.trace("setJMSDeliveryMode(" + deliveryMode + ")");
       }
 
       message.setJMSDeliveryMode(deliveryMode);
@@ -581,9 +578,9 @@ public class QpidRAMessage implements Message
     */
    public void setJMSDestination(final Destination destination) throws JMSException
    {
-      if (QpidRAMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessage.log.trace("setJMSDestination(" + destination + ")");
+         _log.trace("setJMSDestination(" + destination + ")");
       }
 
       message.setJMSDestination(destination);
@@ -596,9 +593,9 @@ public class QpidRAMessage implements Message
     */
    public void setJMSExpiration(final long expiration) throws JMSException
    {
-      if (QpidRAMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessage.log.trace("setJMSExpiration(" + expiration + ")");
+         _log.trace("setJMSExpiration(" + expiration + ")");
       }
 
       message.setJMSExpiration(expiration);
@@ -611,9 +608,9 @@ public class QpidRAMessage implements Message
     */
    public void setJMSMessageID(final String id) throws JMSException
    {
-      if (QpidRAMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessage.log.trace("setJMSMessageID(" + id + ")");
+         _log.trace("setJMSMessageID(" + id + ")");
       }
 
       message.setJMSMessageID(id);
@@ -626,9 +623,9 @@ public class QpidRAMessage implements Message
     */
    public void setJMSPriority(final int priority) throws JMSException
    {
-      if (QpidRAMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessage.log.trace("setJMSPriority(" + priority + ")");
+         _log.trace("setJMSPriority(" + priority + ")");
       }
 
       message.setJMSPriority(priority);
@@ -641,9 +638,9 @@ public class QpidRAMessage implements Message
     */
    public void setJMSRedelivered(final boolean redelivered) throws JMSException
    {
-      if (QpidRAMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessage.log.trace("setJMSRedelivered(" + redelivered + ")");
+         _log.trace("setJMSRedelivered(" + redelivered + ")");
       }
 
       message.setJMSRedelivered(redelivered);
@@ -656,9 +653,9 @@ public class QpidRAMessage implements Message
     */
    public void setJMSReplyTo(final Destination replyTo) throws JMSException
    {
-      if (QpidRAMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessage.log.trace("setJMSReplyTo(" + replyTo + ")");
+         _log.trace("setJMSReplyTo(" + replyTo + ")");
       }
 
       message.setJMSReplyTo(replyTo);
@@ -671,9 +668,9 @@ public class QpidRAMessage implements Message
     */
    public void setJMSTimestamp(final long timestamp) throws JMSException
    {
-      if (QpidRAMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessage.log.trace("setJMSTimestamp(" + timestamp + ")");
+         _log.trace("setJMSTimestamp(" + timestamp + ")");
       }
 
       message.setJMSTimestamp(timestamp);
@@ -686,9 +683,9 @@ public class QpidRAMessage implements Message
     */
    public void setJMSType(final String type) throws JMSException
    {
-      if (QpidRAMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessage.log.trace("setJMSType(" + type + ")");
+         _log.trace("setJMSType(" + type + ")");
       }
 
       message.setJMSType(type);
@@ -702,9 +699,9 @@ public class QpidRAMessage implements Message
     */
    public void setLongProperty(final String name, final long value) throws JMSException
    {
-      if (QpidRAMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessage.log.trace("setLongProperty(" + name + ", " + value + ")");
+         _log.trace("setLongProperty(" + name + ", " + value + ")");
       }
 
       message.setLongProperty(name, value);
@@ -718,9 +715,9 @@ public class QpidRAMessage implements Message
     */
    public void setObjectProperty(final String name, final Object value) throws JMSException
    {
-      if (QpidRAMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessage.log.trace("setObjectProperty(" + name + ", " + value + ")");
+         _log.trace("setObjectProperty(" + name + ", " + value + ")");
       }
 
       message.setObjectProperty(name, value);
@@ -734,9 +731,9 @@ public class QpidRAMessage implements Message
     */
    public void setShortProperty(final String name, final short value) throws JMSException
    {
-      if (QpidRAMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessage.log.trace("setShortProperty(" + name + ", " + value + ")");
+         _log.trace("setShortProperty(" + name + ", " + value + ")");
       }
 
       message.setShortProperty(name, value);
@@ -750,9 +747,9 @@ public class QpidRAMessage implements Message
     */
    public void setStringProperty(final String name, final String value) throws JMSException
    {
-      if (QpidRAMessage.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessage.log.trace("setStringProperty(" + name + ", " + value + ")");
+         _log.trace("setStringProperty(" + name + ", " + value + ")");
       }
 
       message.setStringProperty(name, value);
@@ -765,11 +762,6 @@ public class QpidRAMessage implements Message
    @Override
    public int hashCode()
    {
-      if (QpidRAMessage.trace)
-      {
-         QpidRAMessage.log.trace("hashCode()");
-      }
-
       return message.hashCode();
    }
 
@@ -781,11 +773,6 @@ public class QpidRAMessage implements Message
    @Override
    public boolean equals(final Object object)
    {
-      if (QpidRAMessage.trace)
-      {
-         QpidRAMessage.log.trace("equals(" + object + ")");
-      }
-
       if (object != null && object instanceof QpidRAMessage)
       {
          return message.equals(((QpidRAMessage)object).message);
@@ -794,20 +781,5 @@ public class QpidRAMessage implements Message
       {
          return message.equals(object);
       }
-   }
-
-   /**
-    * Return string representation
-    * @return The string
-    */
-   @Override
-   public String toString()
-   {
-      if (QpidRAMessage.trace)
-      {
-         QpidRAMessage.log.trace("toString()");
-      }
-
-      return message.toString();
    }
 }

@@ -46,10 +46,7 @@ import org.slf4j.LoggerFactory;
 public class QpidRAMessageConsumer implements MessageConsumer
 {
    /** The logger */
-   private static final Logger log = LoggerFactory.getLogger(QpidRAMessageConsumer.class);
-
-   /** Whether trace is enabled */
-   private static boolean trace = QpidRAMessageConsumer.log.isTraceEnabled();
+   private static final Logger _log = LoggerFactory.getLogger(QpidRAMessageConsumer.class);
 
    /** The wrapped message consumer */
    protected MessageConsumer consumer;
@@ -69,11 +66,11 @@ public class QpidRAMessageConsumer implements MessageConsumer
       this.consumer = consumer;
       this.session = session;
 
-      if (QpidRAMessageConsumer.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessageConsumer.log.trace("new QpidRAMessageConsumer " + this +
+         _log.trace("new QpidRAMessageConsumer " + this +
                                             " consumer=" +
-                                            consumer +
+                                            Util.asString(consumer) +
                                             " session=" +
                                             session);
       }
@@ -85,9 +82,9 @@ public class QpidRAMessageConsumer implements MessageConsumer
     */
    public void close() throws JMSException
    {
-      if (QpidRAMessageConsumer.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessageConsumer.log.trace("close " + this);
+         _log.trace("close " + this);
       }
       try
       {
@@ -105,9 +102,9 @@ public class QpidRAMessageConsumer implements MessageConsumer
     */
    void checkState() throws JMSException
    {
-      if (QpidRAMessageConsumer.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessageConsumer.log.trace("checkState()");
+         _log.trace("checkState()");
       }
       session.checkState();
    }
@@ -119,9 +116,9 @@ public class QpidRAMessageConsumer implements MessageConsumer
     */
    public MessageListener getMessageListener() throws JMSException
    {
-      if (QpidRAMessageConsumer.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessageConsumer.log.trace("getMessageListener()");
+         _log.trace("getMessageListener()");
       }
 
       checkState();
@@ -163,9 +160,9 @@ public class QpidRAMessageConsumer implements MessageConsumer
     */
    public String getMessageSelector() throws JMSException
    {
-      if (QpidRAMessageConsumer.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessageConsumer.log.trace("getMessageSelector()");
+         _log.trace("getMessageSelector()");
       }
 
       checkState();
@@ -182,17 +179,17 @@ public class QpidRAMessageConsumer implements MessageConsumer
       session.lock();
       try
       {
-         if (QpidRAMessageConsumer.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRAMessageConsumer.log.trace("receive " + this);
+            _log.trace("receive " + this);
          }
 
          checkState();
          Message message = consumer.receive();
 
-         if (QpidRAMessageConsumer.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRAMessageConsumer.log.trace("received " + this + " result=" + message);
+            _log.trace("received " + this + " result=" + Util.asString(message));
          }
 
          if (message == null)
@@ -221,17 +218,17 @@ public class QpidRAMessageConsumer implements MessageConsumer
       session.lock();
       try
       {
-         if (QpidRAMessageConsumer.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRAMessageConsumer.log.trace("receive " + this + " timeout=" + timeout);
+            _log.trace("receive " + this + " timeout=" + timeout);
          }
 
          checkState();
          Message message = consumer.receive(timeout);
 
-         if (QpidRAMessageConsumer.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRAMessageConsumer.log.trace("received " + this + " result=" + message);
+            _log.trace("received " + this + " result=" + Util.asString(message));
          }
 
          if (message == null)
@@ -259,17 +256,17 @@ public class QpidRAMessageConsumer implements MessageConsumer
       session.lock();
       try
       {
-         if (QpidRAMessageConsumer.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRAMessageConsumer.log.trace("receiveNoWait " + this);
+            _log.trace("receiveNoWait " + this);
          }
 
          checkState();
          Message message = consumer.receiveNoWait();
 
-         if (QpidRAMessageConsumer.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRAMessageConsumer.log.trace("received " + this + " result=" + message);
+            _log.trace("received " + this + " result=" + Util.asString(message));
          }
 
          if (message == null)
@@ -293,9 +290,9 @@ public class QpidRAMessageConsumer implements MessageConsumer
     */
    void closeConsumer() throws JMSException
    {
-      if (QpidRAMessageConsumer.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessageConsumer.log.trace("closeConsumer()");
+         _log.trace("closeConsumer()");
       }
 
       if (!closed.getAndSet(true))
@@ -311,9 +308,9 @@ public class QpidRAMessageConsumer implements MessageConsumer
     */
    Message wrapMessage(final Message message)
    {
-      if (QpidRAMessageConsumer.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessageConsumer.log.trace("wrapMessage(" + message + ")");
+         _log.trace("wrapMessage(" + Util.asString(message) + ")");
       }
 
       if (message instanceof BytesMessage)
@@ -346,9 +343,9 @@ public class QpidRAMessageConsumer implements MessageConsumer
     */
    MessageListener wrapMessageListener(final MessageListener listener)
    {
-      if (QpidRAMessageConsumer.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMessageConsumer.log.trace("getMessageSelector()");
+         _log.trace("getMessageSelector()");
       }
 
       return new QpidRAMessageListener(listener, this);

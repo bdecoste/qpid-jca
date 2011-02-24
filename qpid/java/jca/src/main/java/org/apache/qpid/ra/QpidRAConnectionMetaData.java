@@ -40,11 +40,8 @@ import org.slf4j.LoggerFactory;
 public class QpidRAConnectionMetaData implements ConnectionMetaData
 {
    /** The logger */
-   private static final Logger log = LoggerFactory.getLogger(QpidRAConnectionMetaData.class);
+   private static final Logger _log = LoggerFactory.getLogger(QpidRAConnectionMetaData.class);
 
-   /** Trace enabled */
-   private static boolean trace = QpidRAConnectionMetaData.log.isTraceEnabled();
-   
    private static final String PROVIDER_VERSION ;
    private static final int PROVIDER_MAJOR ;
    private static final int PROVIDER_MINOR ;
@@ -54,9 +51,9 @@ public class QpidRAConnectionMetaData implements ConnectionMetaData
     */
    public QpidRAConnectionMetaData()
    {
-      if (QpidRAConnectionMetaData.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAConnectionMetaData.log.trace("constructor()");
+         _log.trace("constructor()");
       }
    }
 
@@ -66,9 +63,9 @@ public class QpidRAConnectionMetaData implements ConnectionMetaData
     */
    public String getJMSVersion()
    {
-      if (QpidRAConnectionMetaData.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAConnectionMetaData.log.trace("getJMSVersion()");
+         _log.trace("getJMSVersion()");
       }
 
       return "1.1";
@@ -80,9 +77,9 @@ public class QpidRAConnectionMetaData implements ConnectionMetaData
     */
    public int getJMSMajorVersion()
    {
-      if (QpidRAConnectionMetaData.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAConnectionMetaData.log.trace("getJMSMajorVersion()");
+         _log.trace("getJMSMajorVersion()");
       }
 
       return 1;
@@ -94,9 +91,9 @@ public class QpidRAConnectionMetaData implements ConnectionMetaData
     */
    public int getJMSMinorVersion()
    {
-      if (QpidRAConnectionMetaData.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAConnectionMetaData.log.trace("getJMSMinorVersion()");
+         _log.trace("getJMSMinorVersion()");
       }
 
       return 1;
@@ -108,9 +105,9 @@ public class QpidRAConnectionMetaData implements ConnectionMetaData
     */
    public String getJMSProviderName()
    {
-      if (QpidRAConnectionMetaData.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAConnectionMetaData.log.trace("getJMSProviderName()");
+         _log.trace("getJMSProviderName()");
       }
 
       return QpidProperties.getProductName() + " Resource Adapter" ;
@@ -122,9 +119,9 @@ public class QpidRAConnectionMetaData implements ConnectionMetaData
     */
    public String getProviderVersion()
    {
-      if (QpidRAConnectionMetaData.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAConnectionMetaData.log.trace("getProviderVersion()");
+         _log.trace("getProviderVersion()");
       }
 
       return PROVIDER_VERSION ;
@@ -136,9 +133,9 @@ public class QpidRAConnectionMetaData implements ConnectionMetaData
     */
    public int getProviderMajorVersion()
    {
-      if (QpidRAConnectionMetaData.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAConnectionMetaData.log.trace("getProviderMajorVersion()");
+         _log.trace("getProviderMajorVersion()");
       }
 
       return PROVIDER_MAJOR ;
@@ -150,9 +147,9 @@ public class QpidRAConnectionMetaData implements ConnectionMetaData
     */
    public int getProviderMinorVersion()
    {
-      if (QpidRAConnectionMetaData.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAConnectionMetaData.log.trace("getProviderMinorVersion()");
+         _log.trace("getProviderMinorVersion()");
       }
 
       return PROVIDER_MINOR ;
@@ -194,7 +191,7 @@ public class QpidRAConnectionMetaData implements ConnectionMetaData
 	   }
 	   catch (final NumberFormatException nfe)
 	   {
-		   log.warn("Failed to parse " + name + ": " + value) ;
+		   _log.warn("Failed to parse " + name + ": " + value) ;
 		   return -1 ;
 	   }
    }

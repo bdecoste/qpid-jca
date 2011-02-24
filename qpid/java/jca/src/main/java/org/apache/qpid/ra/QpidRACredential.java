@@ -48,10 +48,7 @@ public class QpidRACredential implements Serializable
    static final long serialVersionUID = 210476602237497193L;
 
    /** The logger */
-   private static final Logger log = LoggerFactory.getLogger(QpidRACredential.class);
-
-   /** Trace enabled */
-   private static boolean trace = QpidRACredential.log.isTraceEnabled();
+   private static final Logger _log = LoggerFactory.getLogger(QpidRACredential.class);
 
    /** The user name */
    private String userName;
@@ -64,9 +61,9 @@ public class QpidRACredential implements Serializable
     */
    private QpidRACredential()
    {
-      if (QpidRACredential.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRACredential.log.trace("constructor()");
+         _log.trace("constructor()");
       }
    }
 
@@ -76,9 +73,9 @@ public class QpidRACredential implements Serializable
     */
    public String getUserName()
    {
-      if (QpidRACredential.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRACredential.log.trace("getUserName()");
+         _log.trace("getUserName()");
       }
 
       return userName;
@@ -90,9 +87,9 @@ public class QpidRACredential implements Serializable
     */
    private void setUserName(final String userName)
    {
-      if (QpidRACredential.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRACredential.log.trace("setUserName(" + userName + ")");
+         _log.trace("setUserName(" + userName + ")");
       }
 
       this.userName = userName;
@@ -104,9 +101,9 @@ public class QpidRACredential implements Serializable
     */
    public String getPassword()
    {
-      if (QpidRACredential.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRACredential.log.trace("getPassword()");
+         _log.trace("getPassword()");
       }
 
       return password;
@@ -118,9 +115,9 @@ public class QpidRACredential implements Serializable
     */
    private void setPassword(final String password)
    {
-      if (QpidRACredential.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRACredential.log.trace("setPassword(****)");
+         _log.trace("setPassword(****)");
       }
 
       this.password = password;
@@ -138,9 +135,9 @@ public class QpidRACredential implements Serializable
                                                    final Subject subject,
                                                    final ConnectionRequestInfo info) throws SecurityException
    {
-      if (QpidRACredential.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRACredential.log.trace("getCredential(" + mcf + ", " + subject + ", " + info + ")");
+         _log.trace("getCredential(" + mcf + ", " + subject + ", " + info + ")");
       }
 
       QpidRACredential jc = new QpidRACredential();
@@ -176,11 +173,6 @@ public class QpidRACredential implements Serializable
    @Override
    public String toString()
    {
-      if (QpidRACredential.trace)
-      {
-         QpidRACredential.log.trace("toString()");
-      }
-
       return super.toString() + "{ username=" + userName + ", password=**** }";
    }
 
@@ -202,9 +194,9 @@ public class QpidRACredential implements Serializable
        */
       GetCredentialAction(final Subject subject, final ManagedConnectionFactory mcf)
       {
-         if (QpidRACredential.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRACredential.log.trace("constructor(" + subject + ", " + mcf + ")");
+            _log.trace("constructor(" + subject + ", " + mcf + ")");
          }
 
          this.subject = subject;
@@ -217,9 +209,9 @@ public class QpidRACredential implements Serializable
        */
       public PasswordCredential run()
       {
-         if (QpidRACredential.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRACredential.log.trace("run()");
+            _log.trace("run()");
          }
 
          Set<PasswordCredential> creds = subject.getPrivateCredentials(PasswordCredential.class);
@@ -244,9 +236,9 @@ public class QpidRACredential implements Serializable
        */
       static PasswordCredential getCredential(final Subject subject, final ManagedConnectionFactory mcf)
       {
-         if (QpidRACredential.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRACredential.log.trace("getCredential(" + subject + ", " + mcf + ")");
+            _log.trace("getCredential(" + subject + ", " + mcf + ")");
          }
 
          GetCredentialAction action = new GetCredentialAction(subject, mcf);

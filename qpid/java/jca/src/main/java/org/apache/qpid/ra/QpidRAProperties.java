@@ -39,10 +39,7 @@ public class QpidRAProperties extends ConnectionFactoryProperties implements Ser
    static final long serialVersionUID = -2772367477755473248L;
 
    /** The logger */
-   private static final Logger log = LoggerFactory.getLogger(QpidRAProperties.class);
-
-   /** Trace enabled */
-   private static boolean trace = QpidRAProperties.log.isTraceEnabled();
+   private static final Logger _log = LoggerFactory.getLogger(QpidRAProperties.class);
 
    /** Use Local TX instead of XA */
    private Boolean localTx = false;
@@ -67,9 +64,9 @@ public class QpidRAProperties extends ConnectionFactoryProperties implements Ser
     */
    public QpidRAProperties()
    {
-      if (QpidRAProperties.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAProperties.log.trace("constructor()");
+         _log.trace("constructor()");
       }
    }
 
@@ -79,9 +76,9 @@ public class QpidRAProperties extends ConnectionFactoryProperties implements Ser
     */
    public Boolean getUseLocalTx()
    {
-      if (QpidRAProperties.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAProperties.log.trace("getUseLocalTx()");
+         _log.trace("getUseLocalTx()");
       }
 
       return localTx;
@@ -93,9 +90,9 @@ public class QpidRAProperties extends ConnectionFactoryProperties implements Ser
     */
    public void setUseLocalTx(final Boolean localTx)
    {
-      if (QpidRAProperties.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAProperties.log.trace("setUseLocalTx(" + localTx + ")");
+         _log.trace("setUseLocalTx(" + localTx + ")");
       }
 
       this.localTx = localTx;
@@ -103,47 +100,91 @@ public class QpidRAProperties extends ConnectionFactoryProperties implements Ser
 
    public void setTransactionManagerLocatorClass(final String transactionManagerLocatorClass)
    {
+      if (_log.isTraceEnabled())
+      {
+         _log.trace("setTransactionManagerLocatorClass(" + transactionManagerLocatorClass + ")");
+      }
+
       this.transactionManagerLocatorClass = transactionManagerLocatorClass;
    }
 
    public String getTransactionManagerLocatorClass()
    {
+      if (_log.isTraceEnabled())
+      {
+         _log.trace("getTransactionManagerLocatorClass()");
+      }
+
       return transactionManagerLocatorClass;
    }
 
    public String getTransactionManagerLocatorMethod()
    {
+      if (_log.isTraceEnabled())
+      {
+         _log.trace("getTransactionManagerLocatorMethod()");
+      }
+
       return transactionManagerLocatorMethod;
    }
 
    public void setTransactionManagerLocatorMethod(final String transactionManagerLocatorMethod)
    {
+      if (_log.isTraceEnabled())
+      {
+         _log.trace("setTransactionManagerLocatorMethod(" + transactionManagerLocatorMethod + ")");
+      }
+
       this.transactionManagerLocatorMethod = transactionManagerLocatorMethod;
    }
 
    public int getSetupAttempts()
    {
+      if (_log.isTraceEnabled())
+      {
+         _log.trace("getSetupAttempts()");
+      }
+
       return setupAttempts;
    }
 
    public void setSetupAttempts(int setupAttempts)
    {
+      if (_log.isTraceEnabled())
+      {
+         _log.trace("setSetupAttempts(" + setupAttempts + ")");
+      }
+
       this.setupAttempts = setupAttempts;
    }
 
    public long getSetupInterval()
    {
+      if (_log.isTraceEnabled())
+      {
+         _log.trace("getSetupInterval()");
+      }
+
       return setupInterval;
    }
 
    public void setSetupInterval(long setupInterval)
    {
+      if (_log.isTraceEnabled())
+      {
+         _log.trace("setSetupInterval(" + setupInterval + ")");
+      }
+
       this.setupInterval = setupInterval;
    }
    
    @Override
    public String toString()
    {
-      return "QpidRAProperties[localTx=" + localTx + "]";
+      return "QpidRAProperties[localTx=" + localTx +
+            ", transactionManagerLocatorClass=" + transactionManagerLocatorClass +
+            ", transactionManagerLocatorMethod=" + transactionManagerLocatorMethod +
+            ", setupAttempts=" + setupAttempts +
+            ", setupInterval=" + setupInterval + "]";
    }
 }

@@ -58,12 +58,7 @@ public class QpidRAManagedConnectionFactory implements ManagedConnectionFactory,
    /**
     * The logger
     */
-   private static final Logger log = LoggerFactory.getLogger(QpidRAManagedConnectionFactory.class);
-
-   /**
-    * Trace enabled
-    */
-   private static boolean trace = QpidRAManagedConnectionFactory.log.isTraceEnabled();
+   private static final Logger _log = LoggerFactory.getLogger(QpidRAManagedConnectionFactory.class);
 
    /**
     * The resource adapter
@@ -90,9 +85,9 @@ public class QpidRAManagedConnectionFactory implements ManagedConnectionFactory,
     */
    public QpidRAManagedConnectionFactory()
    {
-      if (QpidRAManagedConnectionFactory.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnectionFactory.log.trace("constructor()");
+         _log.trace("constructor()");
       }
 
       ra = null;
@@ -108,9 +103,9 @@ public class QpidRAManagedConnectionFactory implements ManagedConnectionFactory,
     */
    public Object createConnectionFactory() throws ResourceException
    {
-      if (QpidRAManagedConnectionFactory.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnectionFactory.log.trace("createConnectionFactory()");
+         _log.trace("createConnectionFactory()");
       }
 
       return createConnectionFactory(new QpidRAConnectionManager());
@@ -125,18 +120,18 @@ public class QpidRAManagedConnectionFactory implements ManagedConnectionFactory,
     */
    public Object createConnectionFactory(final ConnectionManager cxManager) throws ResourceException
    {
-      if (QpidRAManagedConnectionFactory.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnectionFactory.log.trace("createConnectionFactory(" + cxManager + ")");
+         _log.trace("createConnectionFactory(" + cxManager + ")");
       }
 
       cm = cxManager;
 
       QpidRAConnectionFactory cf = new QpidRAConnectionFactoryImpl(this, cm);
 
-      if (QpidRAManagedConnectionFactory.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnectionFactory.log.trace("Created connection factory: " + cf +
+         _log.trace("Created connection factory: " + cf +
                                                      ", using connection manager: " +
                                                      cm);
       }
@@ -154,18 +149,18 @@ public class QpidRAManagedConnectionFactory implements ManagedConnectionFactory,
     */
    public ManagedConnection createManagedConnection(final Subject subject, final ConnectionRequestInfo cxRequestInfo) throws ResourceException
    {
-      if (QpidRAManagedConnectionFactory.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnectionFactory.log.trace("createManagedConnection(" + subject + ", " + cxRequestInfo + ")");
+         _log.trace("createManagedConnection(" + subject + ", " + cxRequestInfo + ")");
       }
 
       QpidRAConnectionRequestInfo cri = getCRI((QpidRAConnectionRequestInfo)cxRequestInfo);
 
       QpidRACredential credential = QpidRACredential.getCredential(this, subject, cri);
 
-      if (QpidRAManagedConnectionFactory.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnectionFactory.log.trace("jms credential: " + credential);
+         _log.trace("jms credential: " + credential);
       }
 
       QpidRAManagedConnection mc = new QpidRAManagedConnection(this,
@@ -174,9 +169,9 @@ public class QpidRAManagedConnectionFactory implements ManagedConnectionFactory,
                                                                      credential.getUserName(),
                                                                      credential.getPassword());
 
-      if (QpidRAManagedConnectionFactory.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnectionFactory.log.trace("created new managed connection: " + mc);
+         _log.trace("created new managed connection: " + mc);
       }
 
       return mc;
@@ -195,9 +190,9 @@ public class QpidRAManagedConnectionFactory implements ManagedConnectionFactory,
                                                     final Subject subject,
                                                     final ConnectionRequestInfo cxRequestInfo) throws ResourceException
    {
-      if (QpidRAManagedConnectionFactory.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnectionFactory.log.trace("matchManagedConnections(" + connectionSet +
+         _log.trace("matchManagedConnections(" + connectionSet +
                                                      ", " +
                                                      subject +
                                                      ", " +
@@ -208,9 +203,9 @@ public class QpidRAManagedConnectionFactory implements ManagedConnectionFactory,
       QpidRAConnectionRequestInfo cri = getCRI((QpidRAConnectionRequestInfo)cxRequestInfo);
       QpidRACredential credential = QpidRACredential.getCredential(this, subject, cri);
 
-      if (QpidRAManagedConnectionFactory.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnectionFactory.log.trace("Looking for connection matching credentials: " + credential);
+         _log.trace("Looking for connection matching credentials: " + credential);
       }
 
       Iterator connections = connectionSet.iterator();
@@ -229,9 +224,9 @@ public class QpidRAManagedConnectionFactory implements ManagedConnectionFactory,
             {
                if (cri.equals(mc.getCRI()))
                {
-                  if (QpidRAManagedConnectionFactory.trace)
+                  if (_log.isTraceEnabled())
                   {
-                     QpidRAManagedConnectionFactory.log.trace("Found matching connection: " + mc);
+                     _log.trace("Found matching connection: " + mc);
                   }
 
                   return mc;
@@ -240,9 +235,9 @@ public class QpidRAManagedConnectionFactory implements ManagedConnectionFactory,
          }
       }
 
-      if (QpidRAManagedConnectionFactory.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnectionFactory.log.trace("No matching connection was found");
+         _log.trace("No matching connection was found");
       }
 
       return null;
@@ -256,9 +251,9 @@ public class QpidRAManagedConnectionFactory implements ManagedConnectionFactory,
     */
    public void setLogWriter(final PrintWriter out) throws ResourceException
    {
-      if (QpidRAManagedConnectionFactory.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnectionFactory.log.trace("setLogWriter(" + out + ")");
+         _log.trace("setLogWriter(" + out + ")");
       }
    }
 
@@ -270,9 +265,9 @@ public class QpidRAManagedConnectionFactory implements ManagedConnectionFactory,
     */
    public PrintWriter getLogWriter() throws ResourceException
    {
-      if (QpidRAManagedConnectionFactory.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnectionFactory.log.trace("getLogWriter()");
+         _log.trace("getLogWriter()");
       }
 
       return null;
@@ -285,9 +280,9 @@ public class QpidRAManagedConnectionFactory implements ManagedConnectionFactory,
     */
    public ResourceAdapter getResourceAdapter()
    {
-      if (QpidRAManagedConnectionFactory.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnectionFactory.log.trace("getResourceAdapter()");
+         _log.trace("getResourceAdapter()");
       }
 
       return ra;
@@ -301,9 +296,9 @@ public class QpidRAManagedConnectionFactory implements ManagedConnectionFactory,
     */
    public void setResourceAdapter(final ResourceAdapter ra) throws ResourceException
    {
-      if (QpidRAManagedConnectionFactory.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnectionFactory.log.trace("setResourceAdapter(" + ra + ")");
+         _log.trace("setResourceAdapter(" + ra + ")");
       }
 
       if (ra == null || !(ra instanceof QpidResourceAdapter))
@@ -323,11 +318,6 @@ public class QpidRAManagedConnectionFactory implements ManagedConnectionFactory,
    @Override
    public boolean equals(final Object obj)
    {
-      if (QpidRAManagedConnectionFactory.trace)
-      {
-         QpidRAManagedConnectionFactory.log.trace("equals(" + obj + ")");
-      }
-
       if (obj == null)
       {
          return false;
@@ -353,11 +343,6 @@ public class QpidRAManagedConnectionFactory implements ManagedConnectionFactory,
    @Override
    public int hashCode()
    {
-      if (QpidRAManagedConnectionFactory.trace)
-      {
-         QpidRAManagedConnectionFactory.log.trace("hashCode()");
-      }
-
       int hash = mcfProperties.hashCode();
       hash += 31 * ra.hashCode();
 
@@ -371,9 +356,9 @@ public class QpidRAManagedConnectionFactory implements ManagedConnectionFactory,
     */
    public String getSessionDefaultType()
    {
-      if (QpidRAManagedConnectionFactory.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnectionFactory.log.trace("getSessionDefaultType()");
+         _log.trace("getSessionDefaultType()");
       }
 
       return mcfProperties.getSessionDefaultType();
@@ -386,9 +371,9 @@ public class QpidRAManagedConnectionFactory implements ManagedConnectionFactory,
     */
    public void setSessionDefaultType(final String type)
    {
-      if (QpidRAManagedConnectionFactory.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnectionFactory.log.trace("setSessionDefaultType(" + type + ")");
+         _log.trace("setSessionDefaultType(" + type + ")");
       }
 
       mcfProperties.setSessionDefaultType(type);
@@ -416,162 +401,162 @@ public class QpidRAManagedConnectionFactory implements ManagedConnectionFactory,
 
    public String getDefaultPassword()
    {
-      if (QpidRAManagedConnectionFactory.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnectionFactory.log.trace("getDefaultPassword()");
+         _log.trace("getDefaultPassword()");
       }
       return mcfProperties.getDefaultPassword();
    }
 
    public void setDefaultPassword(final String defaultPassword)
    {
-      if (QpidRAManagedConnectionFactory.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnectionFactory.log.trace("setDefaultPassword(" + defaultPassword + ")");
+         _log.trace("setDefaultPassword(" + defaultPassword + ")");
       }
       mcfProperties.setDefaultPassword(defaultPassword);
    }
 
    public String getDefaultUsername()
    {
-      if (QpidRAManagedConnectionFactory.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnectionFactory.log.trace("getDefaultUsername()");
+         _log.trace("getDefaultUsername()");
       }
       return mcfProperties.getDefaultUsername();
    }
 
    public void setDefaultUsername(final String defaultUsername)
    {
-      if (QpidRAManagedConnectionFactory.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnectionFactory.log.trace("setDefaultUsername(" + defaultUsername + ")");
+         _log.trace("setDefaultUsername(" + defaultUsername + ")");
       }
       mcfProperties.setDefaultUsername(defaultUsername);
    }
 
    public String getHost()
    {
-      if (QpidRAManagedConnectionFactory.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnectionFactory.log.trace("getHost()");
+         _log.trace("getHost()");
       }
       return mcfProperties.getHost();
    }
 
    public void setHost(final String host)
    {
-      if (QpidRAManagedConnectionFactory.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnectionFactory.log.trace("setHost(" + host + ")");
+         _log.trace("setHost(" + host + ")");
       }
       mcfProperties.setHost(host);
    }
 
    public Integer getPort()
    {
-      if (QpidRAManagedConnectionFactory.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnectionFactory.log.trace("getPort()");
+         _log.trace("getPort()");
       }
       return mcfProperties.getPort();
    }
 
    public void setPort(final Integer port)
    {
-      if (QpidRAManagedConnectionFactory.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnectionFactory.log.trace("setPort(" + port + ")");
+         _log.trace("setPort(" + port + ")");
       }
       mcfProperties.setPort(port);
    }
 
    public String getPath()
    {
-      if (QpidRAManagedConnectionFactory.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnectionFactory.log.trace("getPath()");
+         _log.trace("getPath()");
       }
       return mcfProperties.getPath();
    }
 
    public void setPath(final String path)
    {
-      if (QpidRAManagedConnectionFactory.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnectionFactory.log.trace("setPath(" + path + ")");
+         _log.trace("setPath(" + path + ")");
       }
       mcfProperties.setPath(path);
    }
 
    public SSLConfiguration getSSLConfig()
    {
-      if (QpidRAManagedConnectionFactory.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnectionFactory.log.trace("getSSLConfig()");
+         _log.trace("getSSLConfig()");
       }
       return mcfProperties.getSSLConfig();
    }
    
    public void setSSLConfig(final SSLConfiguration sslConfig)
    {
-      if (QpidRAManagedConnectionFactory.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnectionFactory.log.trace("setSSLConfig(" + sslConfig + ")");
+         _log.trace("setSSLConfig(" + sslConfig + ")");
       }
       mcfProperties.setSSLConfig(sslConfig);
    }
    
    public String getKeystorePath()
    {
-      if (QpidRAManagedConnectionFactory.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnectionFactory.log.trace("getKeystorePath()");
+         _log.trace("getKeystorePath()");
       }
       return mcfProperties.getKeystorePath();
    }
 
    public void setKeystorePath(final String path)
    {
-      if (QpidRAManagedConnectionFactory.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnectionFactory.log.trace("setKeystorePath(" + path + ")");
+         _log.trace("setKeystorePath(" + path + ")");
       }
       mcfProperties.setKeystorePath(path);
    }
    
    public String getKeystorePassword()
    {
-      if (QpidRAManagedConnectionFactory.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnectionFactory.log.trace("getKeystorePassword()");
+         _log.trace("getKeystorePassword()");
       }
       return mcfProperties.getKeystorePassword();
    }
 
    public void setKeystorePassword(final String password)
    {
-      if (QpidRAManagedConnectionFactory.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnectionFactory.log.trace("setKeystorePassword(" + password + ")");
+         _log.trace("setKeystorePassword(" + password + ")");
       }
       mcfProperties.setKeystorePassword(password);
    }
    
    public String getCertType()
    {
-      if (QpidRAManagedConnectionFactory.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnectionFactory.log.trace("getCertType()");
+         _log.trace("getCertType()");
       }
       return mcfProperties.getCertType();
    }
 
    public void setCertType(final String certType)
    {
-      if (QpidRAManagedConnectionFactory.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnectionFactory.log.trace("setCertType(" + certType + ")");
+         _log.trace("setCertType(" + certType + ")");
       }
       mcfProperties.setCertType(certType);
    }
@@ -583,9 +568,9 @@ public class QpidRAManagedConnectionFactory implements ManagedConnectionFactory,
     */
    public Integer getUseTryLock()
    {
-      if (QpidRAManagedConnectionFactory.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnectionFactory.log.trace("getUseTryLock()");
+         _log.trace("getUseTryLock()");
       }
 
       return mcfProperties.getUseTryLock();
@@ -598,9 +583,9 @@ public class QpidRAManagedConnectionFactory implements ManagedConnectionFactory,
     */
    public void setUseTryLock(final Integer useTryLock)
    {
-      if (QpidRAManagedConnectionFactory.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnectionFactory.log.trace("setUseTryLock(" + useTryLock + ")");
+         _log.trace("setUseTryLock(" + useTryLock + ")");
       }
 
       mcfProperties.setUseTryLock(useTryLock);
@@ -613,9 +598,9 @@ public class QpidRAManagedConnectionFactory implements ManagedConnectionFactory,
     */
    public ConnectionMetaData getMetaData()
    {
-      if (QpidRAManagedConnectionFactory.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnectionFactory.log.trace("getMetadata()");
+         _log.trace("getMetadata()");
       }
 
       return new QpidRAConnectionMetaData();
@@ -666,9 +651,9 @@ public class QpidRAManagedConnectionFactory implements ManagedConnectionFactory,
     */
    protected QpidRAMCFProperties getProperties()
    {
-      if (QpidRAManagedConnectionFactory.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnectionFactory.log.trace("getProperties()");
+         _log.trace("getProperties()");
       }
 
       return mcfProperties;
@@ -684,9 +669,9 @@ public class QpidRAManagedConnectionFactory implements ManagedConnectionFactory,
    private QpidRAConnectionRequestInfo getCRI(final QpidRAConnectionRequestInfo info)
       throws ResourceException
    {
-      if (QpidRAManagedConnectionFactory.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnectionFactory.log.trace("getCRI(" + info + ")");
+         _log.trace("getCRI(" + info + ")");
       }
 
       if (info == null)

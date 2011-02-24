@@ -46,10 +46,7 @@ public class QpidActivationSpec extends ConnectionFactoryProperties implements A
    private static final int DEFAULT_MAX_SESSION = 15;
 
    /** The logger */
-   private static final Logger log = LoggerFactory.getLogger(QpidActivationSpec.class);
-
-   /** Whether trace is enabled */
-   private static boolean trace = QpidActivationSpec.log.isTraceEnabled();
+   private static final Logger _log = LoggerFactory.getLogger(QpidActivationSpec.class);
 
    /** The resource adapter */
    private QpidResourceAdapter ra;
@@ -100,9 +97,9 @@ public class QpidActivationSpec extends ConnectionFactoryProperties implements A
     */
    public QpidActivationSpec()
    {
-      if (QpidActivationSpec.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidActivationSpec.log.trace("constructor()");
+         _log.trace("constructor()");
       }
 
       acknowledgeMode = Session.AUTO_ACKNOWLEDGE;
@@ -116,9 +113,9 @@ public class QpidActivationSpec extends ConnectionFactoryProperties implements A
     */
    public ResourceAdapter getResourceAdapter()
    {
-      if (QpidActivationSpec.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidActivationSpec.log.trace("getResourceAdapter()");
+         _log.trace("getResourceAdapter()");
       }
 
       return ra;
@@ -147,9 +144,9 @@ public class QpidActivationSpec extends ConnectionFactoryProperties implements A
     */
    public void setResourceAdapter(final ResourceAdapter ra) throws ResourceException
    {
-      if (QpidActivationSpec.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidActivationSpec.log.trace("setResourceAdapter(" + ra + ")");
+         _log.trace("setResourceAdapter(" + ra + ")");
       }
 
       if (ra == null || !(ra instanceof QpidResourceAdapter))
@@ -166,9 +163,9 @@ public class QpidActivationSpec extends ConnectionFactoryProperties implements A
     */
    public String getDestination()
    {
-      if (QpidActivationSpec.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidActivationSpec.log.trace("getDestination()");
+         _log.trace("getDestination()");
       }
 
       return destination;
@@ -180,9 +177,9 @@ public class QpidActivationSpec extends ConnectionFactoryProperties implements A
     */
    public void setDestination(final String value)
    {
-      if (QpidActivationSpec.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidActivationSpec.log.trace("setDestination(" + value + ")");
+         _log.trace("setDestination(" + value + ")");
       }
 
       destination = value;
@@ -194,9 +191,9 @@ public class QpidActivationSpec extends ConnectionFactoryProperties implements A
     */
    public String getDestinationType()
    {
-      if (QpidActivationSpec.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidActivationSpec.log.trace("getDestinationType()");
+         _log.trace("getDestinationType()");
       }
 
       return destinationType;
@@ -208,9 +205,9 @@ public class QpidActivationSpec extends ConnectionFactoryProperties implements A
     */
    public void setDestinationType(final String value)
    {
-      if (QpidActivationSpec.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidActivationSpec.log.trace("setDestinationType(" + value + ")");
+         _log.trace("setDestinationType(" + value + ")");
       }
 
       destinationType = value;
@@ -222,9 +219,9 @@ public class QpidActivationSpec extends ConnectionFactoryProperties implements A
     */
    public String getMessageSelector()
    {
-      if (QpidActivationSpec.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidActivationSpec.log.trace("getMessageSelector()");
+         _log.trace("getMessageSelector()");
       }
 
       return messageSelector;
@@ -236,9 +233,9 @@ public class QpidActivationSpec extends ConnectionFactoryProperties implements A
     */
    public void setMessageSelector(final String value)
    {
-      if (QpidActivationSpec.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidActivationSpec.log.trace("setMessageSelector(" + value + ")");
+         _log.trace("setMessageSelector(" + value + ")");
       }
 
       messageSelector = value;
@@ -250,9 +247,9 @@ public class QpidActivationSpec extends ConnectionFactoryProperties implements A
     */
    public String getAcknowledgeMode()
    {
-      if (QpidActivationSpec.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidActivationSpec.log.trace("getAcknowledgeMode()");
+         _log.trace("getAcknowledgeMode()");
       }
 
       if (Session.DUPS_OK_ACKNOWLEDGE == acknowledgeMode)
@@ -271,9 +268,9 @@ public class QpidActivationSpec extends ConnectionFactoryProperties implements A
     */
    public void setAcknowledgeMode(final String value)
    {
-      if (QpidActivationSpec.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidActivationSpec.log.trace("setAcknowledgeMode(" + value + ")");
+         _log.trace("setAcknowledgeMode(" + value + ")");
       }
 
       if ("DUPS_OK_ACKNOWLEDGE".equalsIgnoreCase(value) || "Dups-ok-acknowledge".equalsIgnoreCase(value))
@@ -295,9 +292,9 @@ public class QpidActivationSpec extends ConnectionFactoryProperties implements A
     */
    public int getAcknowledgeModeInt()
    {
-      if (QpidActivationSpec.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidActivationSpec.log.trace("getAcknowledgeMode()");
+         _log.trace("getAcknowledgeMode()");
       }
 
       return acknowledgeMode;
@@ -309,9 +306,9 @@ public class QpidActivationSpec extends ConnectionFactoryProperties implements A
     */
    public String getSubscriptionDurability()
    {
-      if (QpidActivationSpec.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidActivationSpec.log.trace("getSubscriptionDurability()");
+         _log.trace("getSubscriptionDurability()");
       }
 
       if (subscriptionDurability)
@@ -330,9 +327,9 @@ public class QpidActivationSpec extends ConnectionFactoryProperties implements A
     */
    public void setSubscriptionDurability(final String value)
    {
-      if (QpidActivationSpec.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidActivationSpec.log.trace("setSubscriptionDurability(" + value + ")");
+         _log.trace("setSubscriptionDurability(" + value + ")");
       }
 
       subscriptionDurability = "Durable".equals(value);
@@ -344,9 +341,9 @@ public class QpidActivationSpec extends ConnectionFactoryProperties implements A
     */
    public boolean isSubscriptionDurable()
    {
-      if (QpidActivationSpec.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidActivationSpec.log.trace("isSubscriptionDurable()");
+         _log.trace("isSubscriptionDurable()");
       }
 
       return subscriptionDurability;
@@ -358,9 +355,9 @@ public class QpidActivationSpec extends ConnectionFactoryProperties implements A
     */
    public String getSubscriptionName()
    {
-      if (QpidActivationSpec.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidActivationSpec.log.trace("getSubscriptionName()");
+         _log.trace("getSubscriptionName()");
       }
 
       return subscriptionName;
@@ -372,9 +369,9 @@ public class QpidActivationSpec extends ConnectionFactoryProperties implements A
     */
    public void setSubscriptionName(final String value)
    {
-      if (QpidActivationSpec.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidActivationSpec.log.trace("setSubscriptionName(" + value + ")");
+         _log.trace("setSubscriptionName(" + value + ")");
       }
 
       subscriptionName = value;
@@ -386,9 +383,9 @@ public class QpidActivationSpec extends ConnectionFactoryProperties implements A
     */
    public Integer getMaxSession()
    {
-      if (QpidActivationSpec.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidActivationSpec.log.trace("getMaxSession()");
+         _log.trace("getMaxSession()");
       }
 
       if (maxSession == null)
@@ -405,9 +402,9 @@ public class QpidActivationSpec extends ConnectionFactoryProperties implements A
     */
    public void setMaxSession(final Integer value)
    {
-      if (QpidActivationSpec.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidActivationSpec.log.trace("setMaxSession(" + value + ")");
+         _log.trace("setMaxSession(" + value + ")");
       }
 
       maxSession = value;
@@ -419,9 +416,9 @@ public class QpidActivationSpec extends ConnectionFactoryProperties implements A
     */
    public Integer getTransactionTimeout()
    {
-      if (QpidActivationSpec.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidActivationSpec.log.trace("getTransactionTimeout()");
+         _log.trace("getTransactionTimeout()");
       }
 
       return transactionTimeout;
@@ -433,9 +430,9 @@ public class QpidActivationSpec extends ConnectionFactoryProperties implements A
     */
    public void setTransactionTimeout(final Integer value)
    {
-      if (QpidActivationSpec.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidActivationSpec.log.trace("setTransactionTimeout(" + value + ")");
+         _log.trace("setTransactionTimeout(" + value + ")");
       }
 
       transactionTimeout = value;
@@ -447,9 +444,9 @@ public class QpidActivationSpec extends ConnectionFactoryProperties implements A
     */
    public Integer getPrefetchLow()
    {
-      if (QpidActivationSpec.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidActivationSpec.log.trace("getPrefetchLow()");
+         _log.trace("getPrefetchLow()");
       }
 
       return prefetchLow;
@@ -461,9 +458,9 @@ public class QpidActivationSpec extends ConnectionFactoryProperties implements A
     */
    public void setPrefetchLow(final Integer prefetchLow)
    {
-      if (QpidActivationSpec.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidActivationSpec.log.trace("setPrefetchLow(" + prefetchLow + ")");
+         _log.trace("setPrefetchLow(" + prefetchLow + ")");
       }
 
       this.prefetchLow = prefetchLow;
@@ -475,9 +472,9 @@ public class QpidActivationSpec extends ConnectionFactoryProperties implements A
     */
    public Integer getPrefetchHigh()
    {
-      if (QpidActivationSpec.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidActivationSpec.log.trace("getPrefetchHigh()");
+         _log.trace("getPrefetchHigh()");
       }
 
       return prefetchHigh;
@@ -489,9 +486,9 @@ public class QpidActivationSpec extends ConnectionFactoryProperties implements A
     */
    public void setPrefetchHigh(final Integer prefetchHigh)
    {
-      if (QpidActivationSpec.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidActivationSpec.log.trace("setPrefetchHigh(" + prefetchHigh + ")");
+         _log.trace("setPrefetchHigh(" + prefetchHigh + ")");
       }
 
       this.prefetchHigh = prefetchHigh;
@@ -516,9 +513,9 @@ public class QpidActivationSpec extends ConnectionFactoryProperties implements A
 
    public int getSetupAttempts()
    {
-      if (QpidActivationSpec.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidActivationSpec.log.trace("getSetupAttempts()");
+         _log.trace("getSetupAttempts()");
       }
 
       if (setupAttempts == null)
@@ -533,9 +530,9 @@ public class QpidActivationSpec extends ConnectionFactoryProperties implements A
 
    public void setSetupAttempts(int setupAttempts)
    {
-      if (QpidActivationSpec.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidActivationSpec.log.trace("setSetupAttempts(" + setupAttempts + ")");
+         _log.trace("setSetupAttempts(" + setupAttempts + ")");
       }
 
       this.setupAttempts = setupAttempts;
@@ -543,9 +540,9 @@ public class QpidActivationSpec extends ConnectionFactoryProperties implements A
 
    public long getSetupInterval()
    {
-      if (QpidActivationSpec.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidActivationSpec.log.trace("getSetupInterval()");
+         _log.trace("getSetupInterval()");
       }
 
       if (setupInterval == null)
@@ -560,9 +557,9 @@ public class QpidActivationSpec extends ConnectionFactoryProperties implements A
 
    public void setSetupInterval(long setupInterval)
    {
-      if (QpidActivationSpec.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidActivationSpec.log.trace("setSetupInterval(" + setupInterval + ")");
+         _log.trace("setSetupInterval(" + setupInterval + ")");
       }
 
       this.setupInterval = setupInterval;
@@ -574,9 +571,9 @@ public class QpidActivationSpec extends ConnectionFactoryProperties implements A
     */
    public void validate() throws InvalidPropertyException
    {
-      if (QpidActivationSpec.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidActivationSpec.log.trace("validate()");
+         _log.trace("validate()");
       }
 
       if (destination == null || destination.trim().equals(""))

@@ -71,10 +71,7 @@ import org.slf4j.LoggerFactory;
 public class QpidRAManagedConnection implements ManagedConnection, ExceptionListener
 {
    /** The logger */
-   private static final Logger log = LoggerFactory.getLogger(QpidRAManagedConnection.class);
-
-   /** Trace enabled */
-   private static boolean trace = QpidRAManagedConnection.log.isTraceEnabled();
+   private static final Logger _log = LoggerFactory.getLogger(QpidRAManagedConnection.class);
 
    /** The managed connection factory */
    private final QpidRAManagedConnectionFactory mcf;
@@ -126,9 +123,9 @@ public class QpidRAManagedConnection implements ManagedConnection, ExceptionList
                                      final String userName,
                                      final String password) throws ResourceException
    {
-      if (QpidRAManagedConnection.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnection.log.trace("constructor(" + mcf + ", " + cri + ", " + userName + ", ****)");
+         _log.trace("constructor(" + mcf + ", " + cri + ", " + userName + ", ****)");
       }
 
       this.mcf = mcf;
@@ -170,9 +167,9 @@ public class QpidRAManagedConnection implements ManagedConnection, ExceptionList
     */
    public synchronized Object getConnection(final Subject subject, final ConnectionRequestInfo cxRequestInfo) throws ResourceException
    {
-      if (QpidRAManagedConnection.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnection.log.trace("getConnection(" + subject + ", " + cxRequestInfo + ")");
+         _log.trace("getConnection(" + subject + ", " + cxRequestInfo + ")");
       }
 
       // Check user first
@@ -205,9 +202,9 @@ public class QpidRAManagedConnection implements ManagedConnection, ExceptionList
     */
    private void destroyHandles() throws ResourceException
    {
-      if (QpidRAManagedConnection.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnection.log.trace("destroyHandles()");
+         _log.trace("destroyHandles()");
       }
 
       try
@@ -219,7 +216,7 @@ public class QpidRAManagedConnection implements ManagedConnection, ExceptionList
       }
       catch (Throwable t)
       {
-         QpidRAManagedConnection.log.trace("Ignored error stopping connection", t);
+         _log.trace("Ignored error stopping connection", t);
       }
 
       for (QpidRASession session : handles)
@@ -236,9 +233,9 @@ public class QpidRAManagedConnection implements ManagedConnection, ExceptionList
     */
    public void destroy() throws ResourceException
    {
-      if (QpidRAManagedConnection.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnection.log.trace("destroy()");
+         _log.trace("destroy()");
       }
 
       if (isDestroyed.get() ||  connection == null)
@@ -254,7 +251,7 @@ public class QpidRAManagedConnection implements ManagedConnection, ExceptionList
       }
       catch (JMSException e)
       {
-         QpidRAManagedConnection.log.debug("Error unsetting the exception listener " + this, e);
+         _log.debug("Error unsetting the exception listener " + this, e);
       }
 
       destroyHandles();
@@ -275,7 +272,7 @@ public class QpidRAManagedConnection implements ManagedConnection, ExceptionList
          }
          catch (JMSException e)
          {
-            QpidRAManagedConnection.log.debug("Error closing session " + this, e);
+            _log.debug("Error closing session " + this, e);
          }
 
          if (connection != null)
@@ -295,9 +292,9 @@ public class QpidRAManagedConnection implements ManagedConnection, ExceptionList
     */
    public void cleanup() throws ResourceException
    {
-      if (QpidRAManagedConnection.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnection.log.trace("cleanup()");
+         _log.trace("cleanup()");
       }
 
       if (isDestroyed.get())
@@ -324,9 +321,9 @@ public class QpidRAManagedConnection implements ManagedConnection, ExceptionList
     */
    public void associateConnection(final Object obj) throws ResourceException
    {
-      if (QpidRAManagedConnection.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnection.log.trace("associateConnection(" + obj + ")");
+         _log.trace("associateConnection(" + obj + ")");
       }
 
       if (!isDestroyed.get() && obj instanceof QpidRASession)
@@ -376,9 +373,9 @@ public class QpidRAManagedConnection implements ManagedConnection, ExceptionList
     */
    protected void lock()
    {
-      if (QpidRAManagedConnection.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnection.log.trace("lock()");
+         _log.trace("lock()");
       }
 
       lock.lock();
@@ -390,9 +387,9 @@ public class QpidRAManagedConnection implements ManagedConnection, ExceptionList
     */
    protected void tryLock() throws JMSException
    {
-      if (QpidRAManagedConnection.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnection.log.trace("tryLock()");
+         _log.trace("tryLock()");
       }
 
       Integer tryLock = mcf.getUseTryLock();
@@ -419,9 +416,9 @@ public class QpidRAManagedConnection implements ManagedConnection, ExceptionList
     */
    protected void unlock()
    {
-      if (QpidRAManagedConnection.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnection.log.trace("unlock()");
+         _log.trace("unlock()");
       }
 
       if (lock.isHeldByCurrentThread())
@@ -436,9 +433,9 @@ public class QpidRAManagedConnection implements ManagedConnection, ExceptionList
     */
    public void addConnectionEventListener(final ConnectionEventListener l)
    {
-      if (QpidRAManagedConnection.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnection.log.trace("addConnectionEventListener(" + l + ")");
+         _log.trace("addConnectionEventListener(" + l + ")");
       }
 
       eventListeners.add(l);
@@ -450,9 +447,9 @@ public class QpidRAManagedConnection implements ManagedConnection, ExceptionList
     */
    public void removeConnectionEventListener(final ConnectionEventListener l)
    {
-      if (QpidRAManagedConnection.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnection.log.trace("removeConnectionEventListener(" + l + ")");
+         _log.trace("removeConnectionEventListener(" + l + ")");
       }
 
       eventListeners.remove(l);
@@ -465,9 +462,9 @@ public class QpidRAManagedConnection implements ManagedConnection, ExceptionList
     */
    public XAResource getXAResource() throws ResourceException
    {
-      if (QpidRAManagedConnection.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnection.log.trace("getXAResource()");
+         _log.trace("getXAResource()");
       }
 
       //
@@ -479,9 +476,9 @@ public class QpidRAManagedConnection implements ManagedConnection, ExceptionList
             xaResource = new QpidRAXAResource(this, xaSession.getXAResource());
       }
 
-      if (QpidRAManagedConnection.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnection.log.trace("XAResource=" + xaResource);
+         _log.trace("XAResource=" + xaResource);
       }
 
       return xaResource;
@@ -494,16 +491,16 @@ public class QpidRAManagedConnection implements ManagedConnection, ExceptionList
     */
    public LocalTransaction getLocalTransaction() throws ResourceException
    {
-      if (QpidRAManagedConnection.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnection.log.trace("getLocalTransaction()");
+         _log.trace("getLocalTransaction()");
       }
 
       LocalTransaction tx = new QpidRALocalTransaction(this);
 
-      if (QpidRAManagedConnection.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnection.log.trace("LocalTransaction=" + tx);
+         _log.trace("LocalTransaction=" + tx);
       }
 
       return tx;
@@ -517,9 +514,9 @@ public class QpidRAManagedConnection implements ManagedConnection, ExceptionList
     */
    public ManagedConnectionMetaData getMetaData() throws ResourceException
    {
-      if (QpidRAManagedConnection.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnection.log.trace("getMetaData()");
+         _log.trace("getMetaData()");
       }
 
       if (isDestroyed.get())
@@ -537,9 +534,9 @@ public class QpidRAManagedConnection implements ManagedConnection, ExceptionList
     */
    public void setLogWriter(final PrintWriter out) throws ResourceException
    {
-      if (QpidRAManagedConnection.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnection.log.trace("setLogWriter(" + out + ")");
+         _log.trace("setLogWriter(" + out + ")");
       }
    }
 
@@ -550,9 +547,9 @@ public class QpidRAManagedConnection implements ManagedConnection, ExceptionList
     */
    public PrintWriter getLogWriter() throws ResourceException
    {
-      if (QpidRAManagedConnection.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnection.log.trace("getLogWriter()");
+         _log.trace("getLogWriter()");
       }
 
       return null;
@@ -564,21 +561,21 @@ public class QpidRAManagedConnection implements ManagedConnection, ExceptionList
     */
    public void onException(final JMSException exception)
    {
-      if (QpidRAManagedConnection.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnection.log.trace("onException(" + exception + ")");
+         _log.trace("onException(" + exception + ")");
       }
 
       if (isDestroyed.get())
       {
-         if (QpidRAManagedConnection.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRAManagedConnection.log.trace("Ignoring error on already destroyed connection " + this, exception);
+            _log.trace("Ignoring error on already destroyed connection " + this, exception);
          }
          return;
       }
 
-      QpidRAManagedConnection.log.warn("Handling JMS exception failure: " + this, exception);
+      _log.warn("Handling JMS exception failure: " + this, exception);
 
       try
       {
@@ -586,7 +583,7 @@ public class QpidRAManagedConnection implements ManagedConnection, ExceptionList
       }
       catch (JMSException e)
       {
-         QpidRAManagedConnection.log.debug("Unable to unset exception listener", e);
+         _log.debug("Unable to unset exception listener", e);
       }
 
       ConnectionEvent event = new ConnectionEvent(this, ConnectionEvent.CONNECTION_ERROR_OCCURRED, exception);
@@ -602,18 +599,18 @@ public class QpidRAManagedConnection implements ManagedConnection, ExceptionList
    {
       if (xaResource != null && inManagedTx)
       {
-         if (QpidRAManagedConnection.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRAManagedConnection.log.trace("getSession() -> XA session " + xaSession);
+            _log.trace("getSession() -> XA session " + xaSession);
          }
 
          return xaSession;
       } 
       else
       {
-         if (QpidRAManagedConnection.trace)
+         if (_log.isTraceEnabled())
          {
-            QpidRAManagedConnection.log.trace("getSession() -> session " + session);
+            _log.trace("getSession() -> session " + session);
          }
 
          return session;
@@ -626,9 +623,9 @@ public class QpidRAManagedConnection implements ManagedConnection, ExceptionList
     */
    protected void sendEvent(final ConnectionEvent event)
    {
-      if (QpidRAManagedConnection.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnection.log.trace("sendEvent(" + event + ")");
+         _log.trace("sendEvent(" + event + ")");
       }
 
       int type = event.getId();
@@ -672,9 +669,9 @@ public class QpidRAManagedConnection implements ManagedConnection, ExceptionList
     */
    protected void removeHandle(final QpidRASession handle)
    {
-      if (QpidRAManagedConnection.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnection.log.trace("removeHandle(" + handle + ")");
+         _log.trace("removeHandle(" + handle + ")");
       }
 
       handles.remove(handle);
@@ -686,9 +683,9 @@ public class QpidRAManagedConnection implements ManagedConnection, ExceptionList
     */
    protected QpidRAConnectionRequestInfo getCRI()
    {
-      if (QpidRAManagedConnection.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnection.log.trace("getCRI()");
+         _log.trace("getCRI()");
       }
 
       return cri;
@@ -700,9 +697,9 @@ public class QpidRAManagedConnection implements ManagedConnection, ExceptionList
     */
    protected QpidRAManagedConnectionFactory getManagedConnectionFactory()
    {
-      if (QpidRAManagedConnection.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnection.log.trace("getManagedConnectionFactory()");
+         _log.trace("getManagedConnectionFactory()");
       }
 
       return mcf;
@@ -714,9 +711,9 @@ public class QpidRAManagedConnection implements ManagedConnection, ExceptionList
     */
    void start() throws JMSException
    {
-      if (QpidRAManagedConnection.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnection.log.trace("start()");
+         _log.trace("start()");
       }
 
       if (connection != null)
@@ -731,9 +728,9 @@ public class QpidRAManagedConnection implements ManagedConnection, ExceptionList
     */
    void stop() throws JMSException
    {
-      if (QpidRAManagedConnection.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnection.log.trace("stop()");
+         _log.trace("stop()");
       }
 
       if (connection != null)
@@ -748,9 +745,9 @@ public class QpidRAManagedConnection implements ManagedConnection, ExceptionList
     */
    protected String getUserName()
    {
-      if (QpidRAManagedConnection.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnection.log.trace("getUserName()");
+         _log.trace("getUserName()");
       }
 
       return userName;
@@ -762,9 +759,9 @@ public class QpidRAManagedConnection implements ManagedConnection, ExceptionList
     */
    private void setup() throws ResourceException
    {
-      if (QpidRAManagedConnection.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAManagedConnection.log.trace("setup()");
+         _log.trace("setup()");
       }
 
       try

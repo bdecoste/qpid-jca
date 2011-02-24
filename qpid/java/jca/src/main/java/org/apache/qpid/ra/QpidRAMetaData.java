@@ -37,10 +37,7 @@ import org.slf4j.LoggerFactory;
 public class QpidRAMetaData implements ManagedConnectionMetaData
 {
    /** The logger */
-   private static final Logger log = LoggerFactory.getLogger(QpidRAMetaData.class);
-
-   /** Trace enabled */
-   private static boolean trace = QpidRAMetaData.log.isTraceEnabled();
+   private static final Logger _log = LoggerFactory.getLogger(QpidRAMetaData.class);
 
    /** The managed connection */
    private final QpidRAManagedConnection mc;
@@ -51,9 +48,9 @@ public class QpidRAMetaData implements ManagedConnectionMetaData
     */
    public QpidRAMetaData(final QpidRAManagedConnection mc)
    {
-      if (QpidRAMetaData.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMetaData.log.trace("constructor(" + mc + ")");
+         _log.trace("constructor(" + mc + ")");
       }
 
       this.mc = mc;
@@ -66,9 +63,9 @@ public class QpidRAMetaData implements ManagedConnectionMetaData
     */
    public String getEISProductName() throws ResourceException
    {
-      if (QpidRAMetaData.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMetaData.log.trace("getEISProductName()");
+         _log.trace("getEISProductName()");
       }
 
       return "Qpid";
@@ -81,9 +78,9 @@ public class QpidRAMetaData implements ManagedConnectionMetaData
     */
    public String getEISProductVersion() throws ResourceException
    {
-      if (QpidRAMetaData.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMetaData.log.trace("getEISProductVersion()");
+         _log.trace("getEISProductVersion()");
       }
 
       return "2.0";
@@ -96,9 +93,9 @@ public class QpidRAMetaData implements ManagedConnectionMetaData
     */
    public String getUserName() throws ResourceException
    {
-      if (QpidRAMetaData.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMetaData.log.trace("getUserName()");
+         _log.trace("getUserName()");
       }
 
       return mc.getUserName();
@@ -111,9 +108,9 @@ public class QpidRAMetaData implements ManagedConnectionMetaData
      */
    public int getMaxConnections() throws ResourceException
    {
-      if (QpidRAMetaData.trace)
+      if (_log.isTraceEnabled())
       {
-         QpidRAMetaData.log.trace("getMaxConnections()");
+         _log.trace("getMaxConnections()");
       }
 
       return 0;

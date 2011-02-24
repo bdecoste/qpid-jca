@@ -21,6 +21,7 @@
 
 package org.apache.qpid.ra;
 
+import java.util.Collections;
 import java.util.Enumeration;
 
 import javax.jms.ConnectionMetaData;
@@ -29,6 +30,8 @@ import org.apache.qpid.client.CustomJMSXProperty;
 import org.apache.qpid.common.QpidProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import edu.emory.mathcs.backport.java.util.Arrays;
 
 /**
  * This class implements javax.jms.ConnectionMetaData
@@ -45,6 +48,7 @@ public class QpidRAConnectionMetaData implements ConnectionMetaData
    private static final String PROVIDER_VERSION ;
    private static final int PROVIDER_MAJOR ;
    private static final int PROVIDER_MINOR ;
+   private static final String[] JMSX_PROPERTY_NAMES ;
 
    /**
     * Constructor
@@ -161,7 +165,8 @@ public class QpidRAConnectionMetaData implements ConnectionMetaData
     */
    public Enumeration<Object> getJMSXPropertyNames()
    {
-       return CustomJMSXProperty.asEnumeration();
+      // Bug in CustomJMSXProperty.asEnumeration() so we handle this here
+      return Collections.enumeration(Arrays.asList(JMSX_PROPERTY_NAMES)) ;
    }
    
    static
@@ -181,6 +186,15 @@ public class QpidRAConnectionMetaData implements ConnectionMetaData
 	   PROVIDER_VERSION = version ;
 	   PROVIDER_MAJOR = major ;
 	   PROVIDER_MINOR = minor ;
+	   
+      final CustomJMSXProperty[] properties = CustomJMSXProperty.values();
+      final String[] names = new String[properties.length] ;
+      int count = 0 ;
+      for(CustomJMSXProperty property :  properties)
+      {
+          names[count++] = property.toString() ;
+      }
+	   JMSX_PROPERTY_NAMES = names ;
    }
    
    private static int parseInt(final String value, final String name)

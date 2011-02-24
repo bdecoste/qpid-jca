@@ -25,6 +25,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.jms.BytesMessage;
 import javax.jms.Destination;
@@ -92,6 +93,9 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
    /** The message producers */
    private final Set<MessageProducer> producers;
 
+   /** Are we started */
+   private AtomicBoolean started = new AtomicBoolean(false) ;
+
    /**
     * Constructor
     * @param mc The managed connection
@@ -122,6 +126,7 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
          _log.trace("setQpidSessionFactory(" + sf + ")");
       }
 
+      started.set(false) ;
       this.sf = sf;
    }
 
@@ -1383,6 +1388,7 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
       final QpidRAManagedConnection mc = this.mc;
       if (mc != null)
       {
+         started.set(true) ;
          mc.start();
       }
    }
@@ -1402,6 +1408,7 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
       if (mc != null)
       {
          mc.stop();
+         started.set(false) ;
       }
    }
 
@@ -1653,5 +1660,14 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
       {
          mc.checkTransactionActive();
       }
+   }
+
+   /**
+    * Has this session been started?
+    * @return true if started, false if stopped.
+    */
+   public boolean isStarted()
+   {
+      return started.get();
    }
 }

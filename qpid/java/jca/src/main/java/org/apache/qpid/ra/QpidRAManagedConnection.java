@@ -100,8 +100,6 @@ public class QpidRAManagedConnection implements ManagedConnection, ExceptionList
    // Physical JMS connection stuff
    private Connection connection;
 
-   private Session session;
-
    private XASession xaSession;
 
    private XAResource xaResource;
@@ -135,11 +133,6 @@ public class QpidRAManagedConnection implements ManagedConnection, ExceptionList
       this.password = password;
       eventListeners = Collections.synchronizedList(new ArrayList<ConnectionEventListener>());
       handles = Collections.synchronizedSet(new HashSet<QpidRASession>());
-
-      connection = null;
-      session = null;
-      xaSession = null;
-      xaResource = null;
 
       try
       {
@@ -260,11 +253,6 @@ public class QpidRAManagedConnection implements ManagedConnection, ExceptionList
       {
          try
          {
-            if (session != null)
-            {
-               session.close();
-            }
-
             if (xaSession != null)
             {
                xaSession.close();
@@ -597,24 +585,12 @@ public class QpidRAManagedConnection implements ManagedConnection, ExceptionList
     */
    protected Session getSession() throws JMSException
    {
-      if (xaResource != null && inManagedTx)
+      if (_log.isTraceEnabled())
       {
-         if (_log.isTraceEnabled())
-         {
-            _log.trace("getSession() -> XA session " + xaSession);
-         }
-
-         return xaSession;
-      } 
-      else
-      {
-         if (_log.isTraceEnabled())
-         {
-            _log.trace("getSession() -> session " + session);
-         }
-
-         return session;
+         _log.trace("getSession() -> XA session " + Util.asString(xaSession));
       }
+
+      return xaSession;
    }
 
    /**
@@ -783,7 +759,6 @@ public class QpidRAManagedConnection implements ManagedConnection, ExceptionList
             connection.setExceptionListener(this);
 
             xaSession = ((XATopicConnection)connection).createXATopicSession();
-            session = ((TopicConnection)connection).createTopicSession(transacted, acknowledgeMode);
          }
          else if (cri.getType() == QpidRAConnectionFactory.QUEUE_CONNECTION)
          {
@@ -799,7 +774,6 @@ public class QpidRAManagedConnection implements ManagedConnection, ExceptionList
             connection.setExceptionListener(this);
 
             xaSession = ((XAQueueConnection)connection).createXAQueueSession();
-            session = ((QueueConnection)connection).createQueueSession(transacted, acknowledgeMode);
          }
          else
          {
@@ -815,7 +789,6 @@ public class QpidRAManagedConnection implements ManagedConnection, ExceptionList
             connection.setExceptionListener(this);
 
             xaSession = ((XAConnection)connection).createXASession();
-            session = connection.createSession(transacted, acknowledgeMode);
          }
       }
       catch (JMSException je)

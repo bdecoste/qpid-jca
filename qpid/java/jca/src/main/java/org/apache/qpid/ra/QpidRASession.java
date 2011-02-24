@@ -659,6 +659,11 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
                                                   final String messageSelector,
                                                   final boolean noLocal) throws JMSException
    {
+      if (cri.getType() == QpidRAConnectionFactory.QUEUE_CONNECTION || cri.getType() == QpidRAConnectionFactory.XA_QUEUE_CONNECTION)
+      {
+         throw new IllegalStateException("Cannot create durable subscriber from javax.jms.QueueSession");
+      }
+
       lock();
       try
       {

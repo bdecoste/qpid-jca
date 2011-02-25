@@ -21,6 +21,7 @@
 
 package org.apache.qpid.ra;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Enumeration;
 
@@ -30,8 +31,6 @@ import org.apache.qpid.client.CustomJMSXProperty;
 import org.apache.qpid.common.QpidProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import edu.emory.mathcs.backport.java.util.Arrays;
 
 /**
  * This class implements javax.jms.ConnectionMetaData
@@ -163,7 +162,7 @@ public class QpidRAConnectionMetaData implements ConnectionMetaData
     * Get the JMS XPropertyNames
     * @return The names
     */
-   public Enumeration<Object> getJMSXPropertyNames()
+   public Enumeration<String> getJMSXPropertyNames()
    {
       // Bug in CustomJMSXProperty.asEnumeration() so we handle this here
       return Collections.enumeration(Arrays.asList(JMSX_PROPERTY_NAMES)) ;

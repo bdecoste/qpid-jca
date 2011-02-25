@@ -31,6 +31,7 @@ import javax.jms.XASession;
 import javax.resource.ResourceException;
 import javax.resource.spi.endpoint.MessageEndpoint;
 import javax.resource.spi.endpoint.MessageEndpointFactory;
+import javax.transaction.Status;
 import javax.transaction.TransactionManager;
 import javax.transaction.xa.XAResource;
 
@@ -165,17 +166,25 @@ public class QpidMessageHandler implements MessageListener
          }
          endpoint.beforeDelivery(QpidActivation.ONMESSAGE);
          beforeDelivery = true;
-         
-         //In the transacted case the message must be acked *before* onMessage is called
-         
-         if (transacted)
-         {
-            message.acknowledge();
-         }
-         
+
          ((MessageListener)endpoint).onMessage(message);
          
-         if (!transacted)
+         if (transacted && (tm.getTransaction() != null))
+         {
+            final int status = tm.getStatus() ;
+            final boolean rollback = status == Status.STATUS_MARKED_ROLLBACK
+               || status == Status.STATUS_ROLLING_BACK
+               || status == Status.STATUS_ROLLEDBACK;
+            if (rollback)
+            {
+               session.recover() ;
+            }
+            else
+            {
+               message.acknowledge();
+            }
+         }
+         else
          {
             message.acknowledge();
          }
@@ -218,6 +227,17 @@ public class QpidMessageHandler implements MessageListener
             catch (JMSException e1)
             {
                _log.warn("Unable to roll local transaction back", e1);
+            }
+         }
+         else
+         {
+            try
+            {
+               session.recover() ;
+            }
+            catch (JMSException e1)
+            {
+               _log.warn("Unable to recover XA transaction", e1);
             }
          }
       }

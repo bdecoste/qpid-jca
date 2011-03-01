@@ -21,6 +21,22 @@
 <project name="Qpid JCA RA" default="build">
 
   <property name="module.depends" value="common client"/>
+  <property name="module.name" value="ra"/>
 
   <import file="../module.xml"/>
+
+  <property name="module.rar" value="${build.lib}/${project.name}-${module.name}-${project.version}.rar"/>
+  <property name="module.resources" value="src/main/resources"/>
+
+
+  <target name="rar" depends="jar">
+    <jar destfile="${module.rar}">
+      <fileset dir="${module.resources}" defaultexcludes="no"/>
+      <fileset dir="${build.lib}">
+        <include name="${project.name}-ra-${project.version}.jar"/>
+        <include name="${project.name}-client-${project.version}.jar"/>
+        <include name="${project.name}-common-${project.version}.jar"/>
+      </fileset>
+    </jar>
+  </target>
 </project>

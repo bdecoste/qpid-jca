@@ -39,4 +39,6 @@
       </fileset>
     </jar>
   </target>
+
+  <target name="build" depends="rar"/>
 </project>

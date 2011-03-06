@@ -56,10 +56,6 @@ import org.apache.qpid.ra.Util;
 /**
  * The activation.
  *
- * @author <a href="adrian@jboss.com">Adrian Brock</a>
- * @author <a href="jesper.pedersen@jboss.org">Jesper Pedersen</a>
- * @author <a href="mailto:andy.taylor@jboss.org">Andy Taylor</a>
- * @version $Revision: $
  */
 public class QpidActivation implements ExceptionListener
 {

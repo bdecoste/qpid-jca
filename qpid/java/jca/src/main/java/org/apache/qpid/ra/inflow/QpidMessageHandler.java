@@ -42,10 +42,6 @@ import org.slf4j.LoggerFactory;
 /**
  * The message handler
  *
- * @author <a href="adrian@jboss.com">Adrian Brock</a>
- * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
- * @author <a href="mailto:andy.taylor@jboss.org">Andy Taylor</a>
- * @version $Revision: $
  */
 public class QpidMessageHandler implements MessageListener
 {

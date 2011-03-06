@@ -32,10 +32,6 @@ import org.slf4j.LoggerFactory;
 /**
  * Connection request information
  *
- * @author <a href="mailto:adrian@jboss.com">Adrian Brock</a>
- * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
- * @author <a href="mailto:andy.taylor@jboss.org">Andy Taylor</a>
- * @version $Revision:  $
  */
 public class QpidRAConnectionRequestInfo implements ConnectionRequestInfo
 {

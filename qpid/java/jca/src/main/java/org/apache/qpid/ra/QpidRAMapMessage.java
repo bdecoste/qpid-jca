@@ -32,9 +32,6 @@ import org.slf4j.LoggerFactory;
 /**
  * A wrapper for a message
  *
- * @author <a href="mailto:adrian@jboss.com">Adrian Brock</a>
- * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
- * @version $Revision: 71554 $
  */
 public class QpidRAMapMessage extends QpidRAMessage implements MapMessage
 {

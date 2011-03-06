@@ -53,9 +53,6 @@ import org.slf4j.LoggerFactory;
 /**
  * Implements the JMS Connection API and produces {@link QpidRASession} objects.
  *
- * @author <a href="mailto:adrian@jboss.com">Adrian Brock</a>
- * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
- * @version $Revision:  $
  */
 public class QpidRASessionFactoryImpl implements QpidRASessionFactory, Referenceable
 {

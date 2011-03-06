@@ -26,7 +26,6 @@ import java.lang.reflect.Method;
 import javax.transaction.TransactionManager;
 
 /**
- * @author <a href="mailto:andy.taylor@jboss.org">Andy Taylor</a>
  */
 public class JBossTransactionManagerLocator
 {

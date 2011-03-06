@@ -31,9 +31,6 @@ import org.slf4j.LoggerFactory;
 /**
  * A wrapper for a topic subscriber
  *
- * @author <a href="mailto:adrian@jboss.com">Adrian Brock</a>
- * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
- * @version $Revision: $
  */
 public class QpidRATopicSubscriber extends QpidRAMessageConsumer implements TopicSubscriber
 {

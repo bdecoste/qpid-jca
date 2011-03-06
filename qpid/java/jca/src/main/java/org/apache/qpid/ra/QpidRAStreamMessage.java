@@ -30,9 +30,6 @@ import org.slf4j.LoggerFactory;
 /**
  * A wrapper for a message
  *
- * @author <a href="mailto:adrian@jboss.com">Adrian Brock</a>
- * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
- * @version $Revision: $
  */
 public class QpidRAStreamMessage extends QpidRAMessage implements StreamMessage
 {

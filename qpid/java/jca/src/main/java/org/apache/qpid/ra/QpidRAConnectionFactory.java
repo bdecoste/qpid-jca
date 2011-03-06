@@ -34,9 +34,6 @@ import javax.resource.Referenceable;
 /**
  * An aggregate interface for the JMS connection factories
  *
- * @author <a href="mailto:adrian@jboss.com">Adrian Brock</a>
- * @author <a href="mailto:jesper.pedersen@jboss.com">Jesper Pedersen</a>
- * @version $Revision: $
  */
 public interface QpidRAConnectionFactory extends ConnectionFactory, TopicConnectionFactory, QueueConnectionFactory,
          XAConnectionFactory, XAQueueConnectionFactory, XATopicConnectionFactory, Serializable, Referenceable

@@ -52,10 +52,6 @@ import org.apache.qpid.url.URLSyntaxException;
 /**
  * The resource adapter for Qpid
  *
- * @author <a href="adrian@jboss.com">Adrian Brock</a>
- * @author <a href="jesper.pedersen@jboss.org">Jesper Pedersen</a>
- * @author <a href="mailto:andy.taylor@jboss.org">Andy Taylor</a>
- * @version $Revision: $
  */
 public class QpidResourceAdapter implements ResourceAdapter, Serializable
 {

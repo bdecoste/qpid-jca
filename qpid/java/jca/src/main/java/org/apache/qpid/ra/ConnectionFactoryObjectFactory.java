@@ -34,8 +34,6 @@ import javax.naming.spi.ObjectFactory;
  * 
  * Given a reference - reconstructs a QpidRAConnectionFactory
  * 
- * @author <a href="tim.fox@jboss.com">Tim Fox</a>
- * @version $Revision: 8611 $
  *
  * $Id: ConnectionFactoryObjectFactory.java 8611 2009-12-08 01:06:31Z timfox $
  */

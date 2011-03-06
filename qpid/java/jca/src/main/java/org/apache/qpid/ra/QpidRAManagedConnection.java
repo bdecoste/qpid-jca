@@ -64,9 +64,6 @@ import org.slf4j.LoggerFactory;
 /**
  * The managed connection
  *
- * @author <a href="mailto:adrian@jboss.com">Adrian Brock</a>
- * @author <a href="mailto:jesper.pedersen@jboss.org">Jesper Pedersen</a>
- * @version $Revision:  $
  */
 public class QpidRAManagedConnection implements ManagedConnection, ExceptionListener
 {

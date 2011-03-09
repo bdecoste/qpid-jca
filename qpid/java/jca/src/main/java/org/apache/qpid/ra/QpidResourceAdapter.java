@@ -711,6 +711,7 @@ public class QpidResourceAdapter implements ResourceAdapter, Serializable
                                                            final Map<String, Object> overrideConnectionParams)
    {
       Map<String, Object> map = new HashMap<String, Object>();
+
       if(connectionParams != null)
       {
          map.putAll(connectionParams);
@@ -727,16 +728,22 @@ public class QpidResourceAdapter implements ResourceAdapter, Serializable
    
    private void locateTM()
    {
-      String locatorClasses[] = raProperties.getTransactionManagerLocatorClass().split(";");
-      String locatorMethods[] = raProperties.getTransactionManagerLocatorMethod().split(";");
-      
-      for (int i = 0 ; i < locatorClasses.length; i++)
+      if(raProperties.getTransactionManagerLocatorClass() != null && raProperties.getTransactionManagerLocatorMethod() != null)
       {
-         tm = Util.locateTM(locatorClasses[i], locatorMethods[i]);
-         if (tm != null)
-         {
-            break;
-         }
+
+          String locatorClasses[] = raProperties.getTransactionManagerLocatorClass().split(";");
+          String locatorMethods[] = raProperties.getTransactionManagerLocatorMethod().split(";");
+
+          for (int i = 0 ; i < locatorClasses.length; i++)
+          {
+              tm = Util.locateTM(locatorClasses[i], locatorMethods[i]);
+              if (tm != null)
+              {
+                  break;
+              }
+          }
+
+
       }
       
       if (tm == null)

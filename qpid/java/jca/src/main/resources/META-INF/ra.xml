@@ -34,75 +34,76 @@
 
   <resourceadapter>
     <resourceadapter-class>org.apache.qpid.ra.QpidResourceAdapter</resourceadapter-class>
-    <!--
     <config-property>
       <description>Client ID for the connection</description>
       <config-property-name>ClientID</config-property-name>
       <config-property-type>java.lang.String</config-property-type>
-      <config-property-value></config-property-value>
+      <config-property-value>client_id</config-property-value>
     </config-property>
 
     <config-property>
       <description>Default Password</description>
       <config-property-name>DefaultPassword</config-property-name>
       <config-property-type>java.lang.String</config-property-type>
-      <config-property-value></config-property-value>
+      <config-property-value>guest</config-property-value>
     </config-property>
 
     <config-property>
       <description>Number of setup attempts before failing</description>
       <config-property-name>SetupAttempts</config-property-name>
       <config-property-type>java.lang.Integer</config-property-type>
-      <config-property-value></config-property-value>
+      <config-property-value>5</config-property-value>
     </config-property>
 
     <config-property>
       <description>Interval between setup attempts</description>
       <config-property-name>SetupInterval</config-property-name>
       <config-property-type>java.lang.Long</config-property-type>
-      <config-property-value></config-property-value>
+      <config-property-value>5000</config-property-value>
     </config-property>
 
     <config-property>
       <description>Use local transactions rather than XA</description>
       <config-property-name>UseLocalTx</config-property-name>
       <config-property-type>java.lang.Boolean</config-property-type>
-      <config-property-value></config-property-value>
+      <config-property-value>false</config-property-value>
     </config-property>
 
     <config-property>
       <description>Default User Name</description>
       <config-property-name>UserName</config-property-name>
       <config-property-type>java.lang.String</config-property-type>
-      <config-property-value></config-property-value>
+      <config-property-value>guest</config-property-value>
     </config-property>
 
     <config-property>
       <description>Broker host</description>
       <config-property-name>Host</config-property-name>
       <config-property-type>java.lang.String</config-property-type>
-      <config-property-value></config-property-value>
+      <config-property-value>localhost</config-property-value>
     </config-property>
 
     <config-property>
       <description>Broker port</description>
       <config-property-name>Port</config-property-name>
       <config-property-type>java.lang.Integer</config-property-type>
-      <config-property-value></config-property-value>
+      <config-property-value>5672</config-property-value>
     </config-property>
 
     <config-property>
       <description>Virtual Path for Connection Factory</description>
       <config-property-name>Path</config-property-name>
       <config-property-type>java.lang.String</config-property-type>
-      <config-property-value></config-property-value>
+      <config-property-value>test</config-property-value>
     </config-property>
 
+    <!--
+    
     <config-property>
       <description>connection URL</description>
       <config-property-name>ConnectionURL</config-property-name>
       <config-property-type>java.lang.String</config-property-type>
-      <config-property-value></config-property-value>
+      <config-property-value>amqp://guest:guest@/test?brokerlist='tcp://localhost:5672'</config-property-value>
     </config-property>
 
     <config-property>
@@ -222,7 +223,6 @@
       </authentication-mechanism>
       <reauthentication-support>false</reauthentication-support>
     </outbound-resourceadapter>
-
       <inbound-resourceadapter>
         <messageadapter>
           <messagelistener>
@@ -237,5 +237,17 @@
         </messageadapter>
       </inbound-resourceadapter>
 
+      <adminobject>
+            <adminobject-interface>javax.jms.Destination</adminobject-interface>
+            <adminobject-class> org.apache.qpid.ra.admin.QpidDestinationProxy</adminobject-class>
+            <config-property>
+                <config-property-name> destinationAddress </config-property-name>
+                <config-property-type> java.lang.String </config-property-type>
+            </config-property>
+            <config-property>
+                <config-property-name> destinationType</config-property-name>
+                <config-property-type> java.lang.String </config-property-type>
+            </config-property>
+        </adminobject>
    </resourceadapter>
 </connector>

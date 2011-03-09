@@ -31,7 +31,9 @@
 
   <target name="rar" depends="jar">
     <jar destfile="${module.rar}">
-      <fileset dir="${module.resources}" defaultexcludes="no"/>
+      <fileset dir="${module.resources}">
+        <include name="**/*.xml"/>
+      </fileset>
       <fileset dir="${build.lib}">
         <include name="${project.name}-ra-${project.version}.jar"/>
         <include name="${project.name}-client-${project.version}.jar"/>

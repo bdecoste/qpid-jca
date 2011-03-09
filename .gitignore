@@ -74,6 +74,8 @@ qpid/java/lib/findbugs
 *.dll
 # MacOS File
 .DS_Store
-
 #Eclipse workspace
 workspace/
+#vim
+*.swp
+cscope.*

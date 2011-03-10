@@ -524,7 +524,7 @@ public class QpidResourceAdapter implements ResourceAdapter, Serializable
       raProperties.setUseLocalTx(localTx);
    }
 
-   public int getSetupAttempts()
+   public Integer getSetupAttempts()
    {
       if (_log.isTraceEnabled())
       {
@@ -533,7 +533,7 @@ public class QpidResourceAdapter implements ResourceAdapter, Serializable
       return raProperties.getSetupAttempts();
    }
 
-   public void setSetupAttempts(int setupAttempts)
+   public void setSetupAttempts(Integer setupAttempts)
    {
       if (_log.isTraceEnabled())
       {
@@ -542,7 +542,7 @@ public class QpidResourceAdapter implements ResourceAdapter, Serializable
       raProperties.setSetupAttempts(setupAttempts);
    }
 
-   public long getSetupInterval()
+   public Long getSetupInterval()
    {
       if (_log.isTraceEnabled())
       {
@@ -551,7 +551,7 @@ public class QpidResourceAdapter implements ResourceAdapter, Serializable
       return raProperties.getSetupInterval();
    }
 
-   public void setSetupInterval(long interval)
+   public void setSetupInterval(Long interval)
    {
       if (_log.isTraceEnabled())
       {

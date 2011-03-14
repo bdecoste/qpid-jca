@@ -1,0 +1,212 @@
+<project name="qpid-jca-example" default="" basedir="">
+    <property environment="env"/>
+
+
+	<property name="src.dir" location="${basedir}/src"/>
+	<property name="build.dir" location="${basedir}/build"/>
+	<property name="build.classes.dir" location="${build.dir}/classes"/>	
+	<property name="gen.dir" location="${build.dir}/gen"/>	
+    
+    <property name="jboss.home" location="${env.JBOSS_HOME}"/>
+    <property name="jboss.server" value="default"/>
+    <property name="jboss.deploy" location="${jboss.home}/server/${jboss.server}/deploy"/>
+    <property name="jboss.client" location="${jboss.home}/client"/> 
+    <property name="ejb.name" value="qpid-jcaex-ejb.jar"/>
+    <property name="war.name" value="qpid-jcaex-web.war"/>
+    <property name="ear.name" value="qpid-jcaex.ear"/>
+    <property name="rar.name" value="qpid-ra-0.10.rar"/>
+    
+    <property name="jboss.host" value="jnp://localhost:1099"/>
+    <property name="jndi.context" value="org.jnp.interfaces.NamingContextFactory"/>
+    
+    <!-- Broker specific properties. By default in the adapter we use localhost here you an override this with host specific info-->
+    
+    <property name="broker.url" value="amqp://guest:guest@/test?brokerlist='tcp://localhost:5672'"/>
+    
+    <condition property="ee.ver" value="5">
+        <isset property="ee5"/>
+    </condition>
+    
+    <condition property="ee.verexcluded" value="6">
+        <isset property="ee5"/>
+    </condition>
+    
+    <property name="ee.ver" value="6"/>
+    <property name="ee.verexcluded" value="5"/>
+
+    <echo message="Using EE version ${ee.ver}"/>
+
+	<path id="project.classpath">
+		<fileset dir="${jboss.client}">
+		    <include name="jboss-javaee.jar"/>
+		    <include name="jboss-ejb3-ext-api.jar"/>
+		</fileset>
+		<fileset dir="${jboss.home}/common/lib">
+		    <include name="servlet-api.jar"/>
+		</fileset>
+		<fileset dir="${jboss.home}/lib">
+		    <include name="*.jar"/>
+		</fileset>
+	</path>
+	
+	<target name="init">
+		<mkdir dir="${build.classes.dir}"/>
+		<mkdir dir="${gen.dir}"/>
+	</target>
+        
+    <target name="generate" depends="init">
+        <copy todir="${gen.dir}">
+            <fileset dir="${src.dir}">
+            </fileset>
+            <filterset>
+                <filter token="rar.name" value="${rar.name}"/>
+                <filter token="broker.url" value="${broker.url}"/>
+            </filterset>
+        </copy>
+        <copy todir="${gen.dir}" overwrite="true">
+            <fileset dir="${basedir}/conf/">
+                <include name="qpid-jca-ds.xml"/>
+            </fileset>
+            <filterset>
+                <filter token="rar.name" value="${rar.name}"/>
+                <filter token="broker.url" value="${broker.url}"/>
+            </filterset>
+        </copy>
+    </target>
+
+	<target name="compile" depends="generate">
+		<javac srcdir="${gen.dir}" 
+               destdir="${build.classes.dir}" 
+               classpathref="project.classpath" 
+               debug="true" optimize="false">
+            <exclude name="qpid/jca/example/web/ee${ee.verexcluded}/**"/>
+        </javac>
+	</target>
+	
+	
+	<target name="package-ejb" depends="compile">
+		<jar destfile="${build.dir}/${ejb.name}" basedir="${build.classes.dir}">
+			<include name="qpid/jca/example/ejb/**/*.class"/>
+		</jar>
+	</target>
+    
+    <target name="package-web" depends="compile">
+		<war destfile="${build.dir}/${war.name}" webxml="${basedir}/conf/web.xml">
+			<classes dir="${build.classes.dir}">
+				<include name="qpid/jca/example/web/ee${ee.ver}/**"/>
+			</classes>
+		</war>
+    </target>
+
+    <target name="package-ear" depends="package-web, package-ejb">
+         <copy todir="${gen.dir}" overwrite="true">
+            <fileset dir="${basedir}/conf/">
+                <include name="application.xml"/>
+            </fileset>
+            <filterset>
+                <filter token="ee.version" value="${ee.ver}"/>
+                <filter token="ejb.name" value="${ejb.name}"/>
+                <filter token="war.name" value="${war.name}"/>
+            </filterset>
+        </copy>
+        <jar destfile="${build.dir}/${ear.name}" basedir="${build.dir}">
+            <include name="*.war"/>
+            <include name="*.jar"/>
+            <metainf dir="${gen.dir}">
+                <include name="application.xml"/>
+            </metainf>
+        </jar>
+    </target>
+
+	<target name="clean">
+		<delete dir="${build.dir}"/>
+	</target>
+
+	<target name="deploy-ejb" depends="package-ejb">
+		<copy todir="${jboss.deploy}" overwrite="true">
+			<fileset dir="${build.dir}">
+				<include name="${ejb.name}"/>
+            </fileset> 
+        </copy>
+	</target>
+
+	<target name="deploy-web" depends="package-web">
+		<copy todir="${jboss.deploy}" overwrite="true">
+				<fileset dir="${build.dir}">
+					<include name="${war.name}"/>
+				</fileset>
+			</copy>		
+	</target>
+
+	<target name="deploy-ear" depends="package-ear">
+		<copy todir="${jboss.deploy}" overwrite="true">
+			<fileset dir="${build.dir}">
+				<include name="${ear.name}"/>
+			</fileset>
+		</copy>
+	</target>
+	
+   	
+	<target name="deploy-ds" depends="generate">
+		<copy todir="${jboss.deploy}" overwrite="true">
+				<fileset dir="${gen.dir}">
+					<include name="*-ds.xml"/>
+				</fileset>
+			</copy>		
+	</target>
+    
+	<target name="deploy-rar-expanded" if="expand-rar">
+        <unzip src="${basedir}/lib/${rar.name}" dest="${build.dir}/${rar.name}"/>
+
+		<copy todir="${jboss.deploy}/${rar.name}" overwrite="true">
+            <fileset dir="${build.dir}/${rar.name}"/>
+		</copy>	
+	</target>
+    
+    <target name="deploy-rar-compressed" unless="expand-rar">
+        <copy todir="${jboss.deploy}" file="${basedir}/lib/${rar.name}"/>
+    </target>
+    
+    <target name="deploy-rar" depends="deploy-rar-compressed, deploy-rar-expanded"/>
+	<target name="deploy-jca" depends="deploy-rar, deploy-ds"/>
+
+	<target name="undeploy-ear">
+		<delete file="${jboss.deploy}/${ear.name}"/>
+	</target>
+
+	<target name="undeploy-web">
+		<delete file="${jboss.deploy}/${war.name}"/>
+	</target>
+		
+	<target name="undeploy-ejb">
+		<delete file="${jboss.deploy}/${ejb.name}"/>
+	</target>
+    
+	<target name="undeploy-ds">
+		<delete file="${jboss.deploy}/qpid-jca-ds.xml"/>
+	</target>
+    
+	<target name="undeploy-rar">
+		<delete dir="${jboss.deploy}/${rar.name}"/>
+		<delete file="${jboss.deploy}/${rar.name}"/>
+    </target>
+    
+	<target name="undeploy-jca" depends="undeploy-rar, undeploy-ds"/>
+    
+    <target name="undeploy-all" depends="undeploy-jca, undeploy-ear, undeploy-web, undeploy-ejb"/>
+
+
+    <target name="run-client" depends="compile">
+        <java classname="qpid.jca.example.client.QpidClient">
+            <classpath>
+                <pathelement path="${build.classes.dir}"/>
+                <fileset dir="${jboss.client}">
+                    <include name="*.jar"/>
+                </fileset>
+            </classpath>
+            <sysproperty key="java.naming.factory.initial" value="${jndi.context}"/>
+            <sysproperty key="java.naming.provider.url" value="${jboss.host}"/>
+        </java>
+
+    </target>
+</project>

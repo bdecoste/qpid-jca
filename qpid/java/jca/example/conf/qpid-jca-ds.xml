@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<connection-factories>
+    
+  <mbean code="org.jboss.resource.deployment.AdminObject"
+         name="qpid.jca:name=HelloTopic">
+     <attribute name="JNDIName">topic/Hello</attribute>
+     <depends optional-attribute-name="RARName">jboss.jca:service=RARDeployment,name='@rar.name@'</depends>
+     <attribute name="Type">javax.jms.Destination</attribute>
+     <attribute name="Properties">
+        destinationAddress=amq.topic
+        destinationType=topic
+     </attribute>
+  </mbean>
+  
+  <mbean code="org.jboss.resource.deployment.AdminObject"
+         name="qpid.jca:name=HelloQueue">
+     <attribute name="JNDIName">queue/Hello</attribute>
+     <depends optional-attribute-name="RARName">jboss.jca:service=RARDeployment,name='@rar.name@'</depends>
+     <attribute name="Type">javax.jms.Destination</attribute>
+     <attribute name="Properties">
+        destinationAddress=amq.direct
+        destinationType=queue
+     </attribute>
+  </mbean>
+
+  <tx-connection-factory>
+    <jndi-name>QpidJMSXA</jndi-name>
+    <xa-transaction/>
+    <rar-name>@rar.name@</rar-name>
+    <config-property name="connectionURL">@broker.url@</config-property>
+    <connection-definition>org.apache.qpid.ra.QpidRAConnectionFactory</connection-definition>
+    <max-pool-size>20</max-pool-size>
+  </tx-connection-factory>
+
+</connection-factories>

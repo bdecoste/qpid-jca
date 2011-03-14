@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ejb-jar
+        xmlns="http://java.sun.com/xml/ns/javaee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+                            http://java.sun.com/xml/ns/javaee/ejb-jar_3_1.xsd" version="3.1">
+
+	
+	<enterprise-beans>
+    <session>
+      <ejb-name>TestEJB</ejb-name>
+      <data-source>
+        <description>java:app/env/appds</description>
+        <name>java:app/env/appds</name>
+        <class-name>org.apache.derby.jdbc.ClientDataSource</class-name>
+        <server-name>jsesun25</server-name>
+        <port-number>1527</port-number>
+        <database-name>derbyDB</database-name>
+        <url>jdbc:xxxx://xxxx:1234</url>
+        <user>cts1</user>
+        <password>cts1</password>        
+        <property>
+          <name>x</name>
+          <value>y</value>
+        </property>
+        <property>
+          <name>y</name>
+          <value>x</value>
+        </property>
+        <login-timeout>500</login-timeout>
+        <transactional>false</transactional>
+        <isolation-level>TRANSACTION_READ_COMMITTED</isolation-level>
+        <initial-pool-size>2</initial-pool-size>
+        <max-pool-size>5</max-pool-size>
+        <min-pool-size>1</min-pool-size>
+        <max-idle-time>500</max-idle-time>
+        <max-statements>100</max-statements>
+      </data-source>
+	</session>
+	</enterprise-beans>
+
+</ejb-jar>                            

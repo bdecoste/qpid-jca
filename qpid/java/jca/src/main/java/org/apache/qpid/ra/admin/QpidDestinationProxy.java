@@ -32,8 +32,10 @@ import javax.naming.Reference;
 import javax.naming.Referenceable;
 import javax.naming.spi.ObjectFactory;
 
+import org.apache.qpid.client.AMQDestination;
 import org.apache.qpid.client.AMQQueue;
 import org.apache.qpid.client.AMQTopic;
+import org.apache.qpid.client.AMQDestination.DestSyntax;
 import org.apache.qpid.exchange.ExchangeDefaults;
 import org.apache.qpid.framing.AMQShortString;
 
@@ -53,11 +55,8 @@ public class QpidDestinationProxy implements Externalizable, Referenceable, Dest
 {
     private static final Logger _log = LoggerFactory.getLogger(QpidDestinationProxy.class);
 
-    private static final String DEFAULT_QUEUE_TYPE = "QUEUE";
-    private static final String DEFAULT_TOPIC_TYPE = "TOPIC";
 
     private String destinationAddress;
-    private String destinationType;
     private Destination delegate;
 
     /**
@@ -104,27 +103,13 @@ public class QpidDestinationProxy implements Externalizable, Referenceable, Dest
 
     public Reference getReference() throws NamingException 
     {
-    
-        if(getDestinationType() != null)
+        try 
         {
-            if(getDestinationType().equalsIgnoreCase(DEFAULT_QUEUE_TYPE))
-            {
-                delegate = new AMQQueue(ExchangeDefaults.DIRECT_EXCHANGE_NAME, new AMQShortString((String) getDestinationAddress()));                
-            }
-            else if(getDestinationType().equalsIgnoreCase(DEFAULT_TOPIC_TYPE))
-            {
-                String[] keys = (getDestinationAddress()).split(",");
-                AMQShortString[] bindings = new AMQShortString[keys.length];
-                int i = 0;
-                for (String key:keys)
-                {
-                    bindings[i] = new AMQShortString(key.trim());
-                    i++;
-                }
-                delegate = new AMQTopic(ExchangeDefaults.TOPIC_EXCHANGE_NAME,bindings[0],null,bindings);
-
-            }
-            //TODO we need to deal with generic Destination 
+            delegate = AMQDestination.createDestination(getDestinationAddress());
+        
+        } catch (Exception e) 
+        {
+            throw new NamingException(e.getMessage());
         }
 
         return ((Referenceable) delegate).getReference();
@@ -147,13 +132,4 @@ public class QpidDestinationProxy implements Externalizable, Referenceable, Dest
         return this.destinationAddress;    
     }
     
-    public void setDestinationType(String destinationType)
-    {
-        this.destinationType = destinationType;
-    }
-
-    public String getDestinationType()
-    {
-        return this.destinationType;    
-    }
 }

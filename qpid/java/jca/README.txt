@@ -2,14 +2,27 @@ QPID JCA Resource Adapter Installation/Configuration Instructions
 
 Overview
 ========
-The QPID Resource Adapter is a 1.5 JCA compliant resource adapter that allows for JEE integration between compliant EE applications and AMQP 0.10 compliant message brokers. The adapter provides both outbound and inbound connectivity and exposes a variety of options to fine tune your messaging applications. Currently the adapter only supports C++ based brokers and has only been tested with Apache QPID C++ broker. Similarly, the adapter has only been configured and tested using the JBoss 5/6 platform.The following document explains how to configure your adapter for deployment as well as how to deploy the adapter in the aforementioned supported environments. 
+The QPID Resource Adapter is a JCA 1.5 resource adapter that allows 
+for JEE integration between EE applications and AMQP 0.10  message brokers. 
+
+The adapter provides both outbound and inbound connectivity and 
+exposes a variety of options to fine tune your messaging applications. Currently 
+the adapter only supports C++ based brokers and has only been tested with Apache QPID C++ broker. 
+Similarly, the adapter has only been configured and tested using the JBoss 5/6 platform. And is configured to
+run 'out of the box' for these application servers. 
+
+The following document explains how to configure your adapter for deployment as well as how to deploy 
+the adapter in the aforementioned supported environments. 
 
 
 QuickStart
 ==========
 The following outlines the minimum steps to configure and deploy the QPID JCA resource adapter:
 
-1) Modify the ra.xml file provided in the META-INF directory of the QPID RAR file. A set of default properties has already been provided that should cover a majority of the most simple use cases. However, two properties are required to be configured to allow the adapter to function correctly using XA in the JBoss environment. In the ra.xml file, look for the following properties:
+1) Modify the ra.xml file provided in the META-INF directory of the QPID RAR file. A set of default 
+properties has already been provided that should cover a majority of the most simple use cases. 
+However, two properties are required to be configured to allow the adapter to function correctly using 
+XA in the JBoss environment. In the ra.xml file, look for the following properties:
 
     <config-property>
       <description>Transaction Manager locator class</description>

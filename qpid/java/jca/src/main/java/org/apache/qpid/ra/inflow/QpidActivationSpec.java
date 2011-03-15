@@ -20,6 +20,8 @@
  */
 package org.apache.qpid.ra.inflow;
 
+import java.io.Serializable;
+
 import javax.jms.Session;
 import javax.resource.ResourceException;
 import javax.resource.spi.ActivationSpec;
@@ -36,12 +38,14 @@ import org.apache.qpid.ra.QpidResourceAdapter;
  * These properties are set on the MDB ActivactionProperties
  * 
  */
-public class QpidActivationSpec extends ConnectionFactoryProperties implements ActivationSpec
+public class QpidActivationSpec extends ConnectionFactoryProperties implements ActivationSpec, Serializable
 {
+   private static final long serialVersionUID = 7379131936083146158L;
+   
    private static final int DEFAULT_MAX_SESSION = 15;
 
    /** The logger */
-   private static final Logger _log = LoggerFactory.getLogger(QpidActivationSpec.class);
+   private static final transient Logger _log = LoggerFactory.getLogger(QpidActivationSpec.class);
 
    /** The resource adapter */
    private QpidResourceAdapter ra;

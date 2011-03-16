@@ -37,7 +37,7 @@ import org.slf4j.LoggerFactory;
 public class QpidRAConnectionManager implements ConnectionManager
 {
    /** Serial version UID */
-   static final long serialVersionUID = 4409118162975011014L;
+   private static final long serialVersionUID = 688529567919039006L;
 
    /** The logger */
    private static final Logger _log = LoggerFactory.getLogger(QpidRAConnectionManager.class);

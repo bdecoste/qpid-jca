@@ -42,7 +42,7 @@ import org.slf4j.LoggerFactory;
 public class QpidRACredential implements Serializable
 {
    /** Serial version UID */
-   static final long serialVersionUID = 210476602237497193L;
+   private static final long serialVersionUID = 7040664839205409352L;
 
    /** The logger */
    private static final Logger _log = LoggerFactory.getLogger(QpidRACredential.class);

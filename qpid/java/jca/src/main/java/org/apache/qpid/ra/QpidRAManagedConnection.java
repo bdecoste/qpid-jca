@@ -34,10 +34,8 @@ import java.util.concurrent.locks.ReentrantLock;
 import javax.jms.Connection;
 import javax.jms.ExceptionListener;
 import javax.jms.JMSException;
-import javax.jms.QueueConnection;
 import javax.jms.ResourceAllocationException;
 import javax.jms.Session;
-import javax.jms.TopicConnection;
 import javax.jms.XAConnection;
 import javax.jms.XAQueueConnection;
 import javax.jms.XASession;
@@ -739,9 +737,6 @@ public class QpidRAManagedConnection implements ManagedConnection, ExceptionList
 
       try
       {
-         boolean transacted = cri.isTransacted();
-         int acknowledgeMode =  Session.AUTO_ACKNOWLEDGE;
-         
          if (cri.getType() == QpidRAConnectionFactory.TOPIC_CONNECTION)
          {
             if (userName != null && password != null)

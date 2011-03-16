@@ -30,7 +30,7 @@ public class QpidRAException extends Exception
    /**
     * The serial version uid for this serializable class.
     */
-   private static final long serialVersionUID = -8428168579371716101L;
+   private static final long serialVersionUID = 2921345326731695238L;
 
    /**
     * Create a default Qpid ra exception.

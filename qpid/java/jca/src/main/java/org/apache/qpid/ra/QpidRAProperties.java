@@ -32,7 +32,7 @@ import org.slf4j.LoggerFactory;
 public class QpidRAProperties extends ConnectionFactoryProperties implements Serializable
 {
    /** Serial version UID */
-   static final long serialVersionUID = -2772367477755473248L;
+   private static final long serialVersionUID = -4823893873707374791L;
 
    /** The logger */
    private static final Logger _log = LoggerFactory.getLogger(QpidRAProperties.class);

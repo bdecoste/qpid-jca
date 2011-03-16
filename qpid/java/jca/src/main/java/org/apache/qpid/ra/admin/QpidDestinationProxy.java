@@ -33,11 +33,6 @@ import javax.naming.Referenceable;
 import javax.naming.spi.ObjectFactory;
 
 import org.apache.qpid.client.AMQDestination;
-import org.apache.qpid.client.AMQQueue;
-import org.apache.qpid.client.AMQTopic;
-import org.apache.qpid.client.AMQDestination.DestSyntax;
-import org.apache.qpid.exchange.ExchangeDefaults;
-import org.apache.qpid.framing.AMQShortString;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,8 +42,6 @@ import org.slf4j.LoggerFactory;
  * as an generic integration point rather than relying on the EE server specific API's to create destinations (queues, topics). AdminObjects and associated
  * properties are defined in the ra.xml file for a particular JCA adapter. Please see the ra.xml file for the QPID JCA resource adapter as well as the README.txt for
  * the adapter for more details.
- *
- *
  *
  */
 public class QpidDestinationProxy implements Externalizable, Referenceable, Destination, Serializable

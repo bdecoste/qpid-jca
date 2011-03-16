@@ -38,7 +38,7 @@ public class QpidRAMCFProperties extends ConnectionFactoryProperties implements 
    /**
     * Serial version UID
     */
-   static final long serialVersionUID = -5951352236582886862L;
+   private static final long serialVersionUID = -1675836810881223064L;
 
    /**
     * The logger

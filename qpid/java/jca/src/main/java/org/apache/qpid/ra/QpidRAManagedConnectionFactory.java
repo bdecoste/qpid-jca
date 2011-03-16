@@ -49,7 +49,7 @@ public class QpidRAManagedConnectionFactory implements ManagedConnectionFactory,
    /**
     * Serial version UID
     */
-   static final long serialVersionUID = -1452379518562456741L;
+   private static final long serialVersionUID = -8798804592247643959L;
 
    /**
     * The logger

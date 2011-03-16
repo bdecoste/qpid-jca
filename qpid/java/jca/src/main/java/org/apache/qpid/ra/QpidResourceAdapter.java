@@ -58,7 +58,7 @@ public class QpidResourceAdapter implements ResourceAdapter, Serializable
    /**
     * 
     */
-   private static final long serialVersionUID = 4756893709825838770L;
+   private static final long serialVersionUID = -2446231446818098726L;
 
    /**
     * The logger

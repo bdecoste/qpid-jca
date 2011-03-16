@@ -34,7 +34,6 @@
     <property name="ejb.name" value="qpid-jcaex-ejb.jar"/>
     <property name="war.name" value="qpid-jcaex-web.war"/>
     <property name="ear.name" value="qpid-jcaex.ear"/>
-    <property name="rar.name" value="qpid-ra-0.10.rar"/>
     
     <property name="jboss.host" value="jnp://localhost:1099"/>
     <property name="jndi.context" value="org.jnp.interfaces.NamingContextFactory"/>
@@ -58,14 +57,14 @@
 
 	<path id="project.classpath">
 		<fileset dir="${jboss.client}">
-		    <include name="jboss-javaee.jar"/>
-		    <include name="jboss-ejb3-ext-api.jar"/>
+		    <include name="jboss-javaee.jar"/> <!-- jboss 5 -->
 		</fileset>
 		<fileset dir="${jboss.home}/common/lib">
-		    <include name="servlet-api.jar"/>
-		</fileset>
-		<fileset dir="${jboss.home}/lib">
-		    <include name="*.jar"/>
+		    <include name="servlet-api.jar"/> <!-- jboss 5 -->
+		    <include name="jboss-ejb3-ext-api.jar"/> <!-- jboss 5 -->
+		    <include name="jboss-servlet-api_3.0_spec.jar"/> <!-- jboss 6 -->
+		    <include name="jboss-jms-api_1.1_spec.jar"/> <!-- jboss 6 -->
+		    <include name="jboss-ejb-api_3.1_spec.jar"/> <!-- jboss 6 -->
 		</fileset>
 	</path>
 	
@@ -175,20 +174,7 @@
 			</copy>		
 	</target>
     
-	<target name="deploy-rar-expanded" if="expand-rar">
-        <unzip src="${basedir}/lib/${rar.name}" dest="${build.dir}/${rar.name}"/>
-
-		<copy todir="${jboss.deploy}/${rar.name}" overwrite="true">
-            <fileset dir="${build.dir}/${rar.name}"/>
-		</copy>	
-	</target>
-    
-    <target name="deploy-rar-compressed" unless="expand-rar">
-        <copy todir="${jboss.deploy}" file="${basedir}/lib/${rar.name}"/>
-    </target>
-    
-    <target name="deploy-rar" depends="deploy-rar-compressed, deploy-rar-expanded"/>
-	<target name="deploy-jca" depends="deploy-rar, deploy-ds"/>
+    <target name="deploy-all" depends="deploy-ds, deploy-ear, deploy-web, deploy-ejb"/>
 
 	<target name="undeploy-ear">
 		<delete file="${jboss.deploy}/${ear.name}"/>
@@ -205,16 +191,8 @@
 	<target name="undeploy-ds">
 		<delete file="${jboss.deploy}/qpid-jca-ds.xml"/>
 	</target>
-    
-	<target name="undeploy-rar">
-		<delete dir="${jboss.deploy}/${rar.name}"/>
-		<delete file="${jboss.deploy}/${rar.name}"/>
-    </target>
-    
-	<target name="undeploy-jca" depends="undeploy-rar, undeploy-ds"/>
-    
-    <target name="undeploy-all" depends="undeploy-jca, undeploy-ear, undeploy-web, undeploy-ejb"/>
 
+    <target name="undeploy-all" depends="undeploy-ds, undeploy-ear, undeploy-web, undeploy-ejb"/>
 
     <target name="run-client" depends="compile">
         <java classname="qpid.jca.example.client.QpidClient">

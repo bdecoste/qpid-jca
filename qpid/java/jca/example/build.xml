@@ -31,32 +31,20 @@
     <property name="jboss.server" value="default"/>
     <property name="jboss.deploy" location="${jboss.home}/server/${jboss.server}/deploy"/>
     <property name="jboss.client" location="${jboss.home}/client"/> 
-    <property name="rar.name" value="qpid-ra-0.10.rar"/>
 
     <property name="ejb.name" value="qpid-jcaex-ejb.jar"/>
     <property name="war.name" value="qpid-jcaex-web.war"/>
     <property name="ear.name" value="qpid-jcaex.ear"/>
-    
+
+    <!-- You will need to change this value if you are working with a different RAR version --> 
+    <property name="rar.name" value="qpid-ra-0.10.rar"/>
+
     <property name="jboss.host" value="jnp://localhost:1099"/>
     <property name="jndi.context" value="org.jnp.interfaces.NamingContextFactory"/>
     
-    <!-- Broker specific properties. By default in the adapter we use localhost here you an override this with host specific info-->
-    
+    <!-- Broker specific properties. By default in the adapter we use localhost here you an override this with host specific info-->    
     <property name="broker.url" value="amqp://guest:guest@/test?brokerlist='tcp://localhost:5672'"/>
     
-    <condition property="ee.ver" value="5">
-        <isset property="ee5"/>
-    </condition>
-    
-    <condition property="ee.verexcluded" value="6">
-        <isset property="ee5"/>
-    </condition>
-    
-    <property name="ee.ver" value="6"/>
-    <property name="ee.verexcluded" value="5"/>
-
-    <echo message="Using EE version ${ee.ver}"/>
-
 	<path id="project.classpath">
 		<fileset dir="${jboss.client}">
 		    <include name="jboss-javaee.jar"/> <!-- jboss 5 -->
@@ -75,32 +63,11 @@
 		<mkdir dir="${gen.dir}"/>
 	</target>
         
-    <target name="generate" depends="init">
-        <copy todir="${gen.dir}">
-            <fileset dir="${src.dir}">
-            </fileset>
-            <filterset>
-                <filter token="rar.name" value="${rar.name}"/>
-                <filter token="broker.url" value="${broker.url}"/>
-            </filterset>
-        </copy>
-        <copy todir="${gen.dir}" overwrite="true">
-            <fileset dir="${basedir}/conf/">
-                <include name="qpid-jca-ds.xml"/>
-            </fileset>
-            <filterset>
-                <filter token="rar.name" value="${rar.name}"/>
-                <filter token="broker.url" value="${broker.url}"/>
-            </filterset>
-        </copy>
-    </target>
-
-	<target name="compile" depends="generate">
-		<javac srcdir="${gen.dir}" 
+    <target name="compile" depends="init" description="Compiles the source for the Qpid JCA example">
+        <javac srcdir="${src.dir}"
                destdir="${build.classes.dir}" 
                classpathref="project.classpath" 
                debug="true" optimize="false">
-            <exclude name="qpid/jca/example/web/ee${ee.verexcluded}/**"/>
         </javac>
 	</target>
 	
@@ -114,7 +81,7 @@
     <target name="package-web" depends="compile">
 		<war destfile="${build.dir}/${war.name}" webxml="${basedir}/conf/web.xml">
 			<classes dir="${build.classes.dir}">
-				<include name="qpid/jca/example/web/ee${ee.ver}/**"/>
+				<include name="qpid/jca/example/web/**"/>
 			</classes>
 		</war>
     </target>
@@ -125,7 +92,6 @@
                 <include name="application.xml"/>
             </fileset>
             <filterset>
-                <filter token="ee.version" value="${ee.ver}"/>
                 <filter token="ejb.name" value="${ejb.name}"/>
                 <filter token="war.name" value="${war.name}"/>
             </filterset>
@@ -168,14 +134,23 @@
 	</target>
 	
    	
-	<target name="deploy-ds" depends="generate">
+	<target name="deploy-ds" depends="init">
+        <copy todir="${gen.dir}" overwrite="true">
+            <fileset dir="${basedir}/conf/">
+                <include name="qpid-jca-ds.xml"/>
+            </fileset>
+            <filterset>
+                <filter token="rar.name" value="${rar.name}"/>
+                <filter token="broker.url" value="${broker.url}"/>
+            </filterset>
+        </copy>
 		<copy todir="${jboss.deploy}" overwrite="true">
-				<fileset dir="${gen.dir}">
-					<include name="*-ds.xml"/>
-				</fileset>
-			</copy>		
+            <fileset dir="${gen.dir}">
+                <include name="qpid-jca-ds.xml"/>
+            </fileset>
+        </copy>
 	</target>
-    
+
     <target name="deploy-all" depends="deploy-ds, deploy-ear, deploy-web, deploy-ejb"/>
 
 	<target name="undeploy-ear">

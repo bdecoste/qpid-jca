@@ -26,7 +26,7 @@
  <servlet>
    <display-name>QpidTestServlet</display-name>
    <servlet-name>QpidTestServlet</servlet-name>
-   <servlet-class>qpid.jca.example.web.ee5.QpidTestServlet</servlet-class>
+   <servlet-class>qpid.jca.example.web.QpidTestServlet</servlet-class>
    <init-param>
      <param-name>connectionFactory</param-name>
      <param-value>java:QpidJMSXA</param-value>

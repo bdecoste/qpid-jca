@@ -33,6 +33,7 @@ import javax.naming.Referenceable;
 import javax.naming.spi.ObjectFactory;
 
 import org.apache.qpid.client.AMQDestination;
+import org.apache.qpid.url.AMQBindingURL;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -98,9 +99,10 @@ public class QpidDestinationProxy implements Externalizable, Referenceable, Dest
     {
         try 
         {
-            delegate = AMQDestination.createDestination(getDestinationAddress());
-        
-        } catch (Exception e) 
+            // Pending fixing QPID-3131 we can't pass the AMQDestination directly
+            delegate = AMQDestination.createDestination(new AMQBindingURL(getDestinationAddress()));
+        }
+        catch (Exception e)
         {
             throw new NamingException(e.getMessage());
         }

@@ -1,0 +1,105 @@
+Qpid JCA Example
+
+Overview
+=======
+The Qpid JCA example provides a sample JEE application that demonstrates how to
+configure, install and run applications relying on the Qpid JCA adapter for EE
+connectivity to the Apache Qpid C++ broker. The example code can also be used as
+a convenient starting point for your own development and deployments. Currently
+the example is supported on JBoss 5/6 application servers.
+
+Application Components
+===================
+Currently the example application consists of the following components:
+
+EJB 3.x
+    Two EJB3 components. A Stateless Session Bean (SLSB) and a Message Driven Bean (MDB) 
+    allowing for basic message producing and consuming.
+
+Java Servlet 2.5/3.0
+    Two servlets one conforming to the 2.5 Servlet Specification the other conforming to
+    the 3.0 Servlet Specification.
+
+An EE EAR archive
+    A EAR wrapper for the ejb and web components.
+
+RMI Client
+    An RMI client used to excercise the EJB 3.x component.
+
+Sample *-ds.xml file
+    A sample *-ds.xml file is provided to create two destinations and a ManagedConnectionFactory(MCF)
+    in the JBoss environment.
+
+A build.xml file
+    An ant build.xml file to configure, install and deploy the aforementioned components. 
+
+
+Requirements
+============
+
+JBOSS_HOME
+    To run the sample application you will need to set your JBOSS_HOME environment variable. 
+
+JBoss 5.1/6.x
+    To test the sample application you will need to have JBoss 5.1 or JBoss 6.x running. 
+
+Apache Qpid Broker
+    To run the sample it is assumed you have an Apache Qpid C++ broker configured and running. 
+    The example code assumes that the broker will run at localhost on port 5672. This can be 
+    modified within the build.xml file if this does not suit your particular environment. 
+
+Apache Qpid JCA Adapter
+    The example application relies on the Apache Qpid JCA adapter being deployed to your JBoss
+    host.
+
+
+Deploying the Example
+=====================
+
+After satisfying the above requirements you can simply change to the directory of the ant build.xml
+file and run the following command:
+
+ant deploy-all
+
+This will compile and package the ejb, web and application components. Further this will deploy the *-ds.xml
+file as well as the EAR file containing the ejb and web components.
+
+
+The build.xml file provides for deploying each of the components separately.
+
+
+Running the Example
+===================
+Once you have deployed the example there are two ways to test the components.
+
+RMI/Thin Client
+The build.xml file includes a target for running the thin client. To run execute 
+
+    ant run-client
+
+With this configuration it is assumed JBoss is running on localhost with the naming
+server running on port 1099. Note, these are the default values for JBoss. if this
+does not conform to your environment you will need to change the following properties
+in your build.xml file:
+
+
+    <property name="jboss.host" value="jnp://localhost:1099"/>
+    <property name="jndi.context" value="org.jnp.interfaces.NamingContextFactory"/>
+
+The RMI client will lookup the SLSB from JBoss and post a message to the SLSB. By default
+this message is the venerable 'Hello, World!'. Once the SLSB receives the message, the component
+in turn will attempt to post the message to the queue/Hello destination which was configured as
+part of the example deployment.
+
+Web Client
+If you chose to deploy the web component, you can also test the application using an HTTP interface.
+Once deployed, you can navigate to the following URL:
+
+http://<jboss-web-host>:<jboss-web-port>/qpid-jcaex-web/qpid
+
+This will post a default message to the queue/Hello destination which was configured as part of the 
+example deployment. Similarly, if you want to provide your own message, you post the following:
+
+http://<jboss-web-host>:<jboss-web-port>/qpid-jcaex-web/qpid?message=yourmessagehere
+
+

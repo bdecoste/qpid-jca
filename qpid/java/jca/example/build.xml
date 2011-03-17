@@ -64,11 +64,19 @@
 	</target>
         
     <target name="compile" depends="init" description="Compiles the source for the Qpid JCA example">
-        <javac srcdir="${src.dir}"
+       <copy todir="${gen.dir}">
+           <fileset dir="${src.dir}">
+           </fileset>
+           <filterset>
+               <filter token="rar.name" value="${rar.name}"/>
+               <filter token="broker.url" value="${broker.url}"/>
+           </filterset>
+       </copy>
+       <javac srcdir="${gen.dir}"
                destdir="${build.classes.dir}" 
                classpathref="project.classpath" 
                debug="true" optimize="false">
-        </javac>
+       </javac>
 	</target>
 	
 	

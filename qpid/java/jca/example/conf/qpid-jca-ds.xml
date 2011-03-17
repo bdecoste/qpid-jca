@@ -28,7 +28,6 @@
      <attribute name="Type">javax.jms.Destination</attribute>
      <attribute name="Properties">
         destinationAddress=amq.topic
-        destinationType=topic
      </attribute>
   </mbean>
   
@@ -39,7 +38,6 @@
      <attribute name="Type">javax.jms.Destination</attribute>
      <attribute name="Properties">
         destinationAddress=amq.direct
-        destinationType=queue
      </attribute>
   </mbean>
 

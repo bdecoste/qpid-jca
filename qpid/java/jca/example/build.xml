@@ -31,6 +31,8 @@
     <property name="jboss.server" value="default"/>
     <property name="jboss.deploy" location="${jboss.home}/server/${jboss.server}/deploy"/>
     <property name="jboss.client" location="${jboss.home}/client"/> 
+    <property name="rar.name" value="qpid-ra-0.10.rar"/>
+
     <property name="ejb.name" value="qpid-jcaex-ejb.jar"/>
     <property name="war.name" value="qpid-jcaex-web.war"/>
     <property name="ear.name" value="qpid-jcaex.ear"/>

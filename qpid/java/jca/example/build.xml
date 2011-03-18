@@ -197,8 +197,7 @@
 
     <target name="help">
         <echo>
-           Make sure your JBOSS_HOME environment is set correctly. By default, it is assumed to be set via your environment.  
-
+            
            ant compile
                 This will compile all the source code for the Qpid JCA example project to the ${build.classes.dir} directory.
 

@@ -18,9 +18,9 @@
  - under the License.
  -
  -->
-<project name="qpid-jca-example" default="" basedir="">
-    <property environment="env"/>
+<project name="qpid-jca-example" default="help" basedir="">
 
+    <property environment="env"/>
 
 	<property name="src.dir" location="${basedir}/src"/>
 	<property name="build.dir" location="${basedir}/build"/>
@@ -57,7 +57,8 @@
 		    <include name="jboss-ejb-api_3.1_spec.jar"/> <!-- jboss 6 -->
 		</fileset>
 	</path>
-	
+    
+    <echo message="JBOSS_HOME is currently set to ${jboss.home}"/>
 	<target name="init">
 		<mkdir dir="${build.classes.dir}"/>
 		<mkdir dir="${gen.dir}"/>
@@ -80,13 +81,13 @@
 	</target>
 	
 	
-	<target name="package-ejb" depends="compile">
+	<target name="package-ejb" depends="compile" description="Packages the ejb jar file for deployment.">
 		<jar destfile="${build.dir}/${ejb.name}" basedir="${build.classes.dir}">
 			<include name="qpid/jca/example/ejb/**/*.class"/>
 		</jar>
 	</target>
     
-    <target name="package-web" depends="compile">
+    <target name="package-web" depends="compile" description="Packages the war file for deployment.">
 		<war destfile="${build.dir}/${war.name}" webxml="${basedir}/conf/web.xml">
 			<classes dir="${build.classes.dir}">
 				<include name="qpid/jca/example/web/**"/>
@@ -94,7 +95,7 @@
 		</war>
     </target>
 
-    <target name="package-ear" depends="package-web, package-ejb">
+    <target name="package-ear" depends="package-web, package-ejb" description="Packages the ear file for deployment.">
          <copy todir="${gen.dir}" overwrite="true">
             <fileset dir="${basedir}/conf/">
                 <include name="application.xml"/>
@@ -113,11 +114,8 @@
         </jar>
     </target>
 
-	<target name="clean">
-		<delete dir="${build.dir}"/>
-	</target>
 
-	<target name="deploy-ejb" depends="package-ejb">
+	<target name="deploy-ejb" depends="package-ejb" description="Deploys the ejb-jar file.">
 		<copy todir="${jboss.deploy}" overwrite="true">
 			<fileset dir="${build.dir}">
 				<include name="${ejb.name}"/>
@@ -125,7 +123,7 @@
         </copy>
 	</target>
 
-	<target name="deploy-web" depends="package-web">
+	<target name="deploy-web" depends="package-web" description="Deploys the war file.">
 		<copy todir="${jboss.deploy}" overwrite="true">
 				<fileset dir="${build.dir}">
 					<include name="${war.name}"/>
@@ -133,7 +131,7 @@
 			</copy>		
 	</target>
 
-	<target name="deploy-ear" depends="package-ear">
+	<target name="deploy-ear" depends="package-ear" description="Deploys the ear file.">
 		<copy todir="${jboss.deploy}" overwrite="true">
 			<fileset dir="${build.dir}">
 				<include name="${ear.name}"/>
@@ -142,7 +140,7 @@
 	</target>
 	
    	
-	<target name="deploy-ds" depends="init">
+	<target name="deploy-ds" depends="init" description="Deploys the ds.xml file.">
         <copy todir="${gen.dir}" overwrite="true">
             <fileset dir="${basedir}/conf/">
                 <include name="qpid-jca-ds.xml"/>
@@ -161,25 +159,25 @@
 
     <target name="deploy-all" depends="deploy-ds, deploy-ear, deploy-web, deploy-ejb"/>
 
-	<target name="undeploy-ear">
+	<target name="undeploy-ear" description="Undeploys the ear file.">
 		<delete file="${jboss.deploy}/${ear.name}"/>
 	</target>
 
-	<target name="undeploy-web">
+	<target name="undeploy-web" description="Undeploys the war file.">
 		<delete file="${jboss.deploy}/${war.name}"/>
 	</target>
 		
-	<target name="undeploy-ejb">
+	<target name="undeploy-ejb" description="Undeploys the ejb jar file.">
 		<delete file="${jboss.deploy}/${ejb.name}"/>
 	</target>
     
-	<target name="undeploy-ds">
+	<target name="undeploy-ds" description="Undeploys the ds.xml file.">
 		<delete file="${jboss.deploy}/qpid-jca-ds.xml"/>
 	</target>
 
     <target name="undeploy-all" depends="undeploy-ds, undeploy-ear, undeploy-web, undeploy-ejb"/>
 
-    <target name="run-client" depends="compile">
+    <target name="run-client" depends="compile" description="Runs the RMI based thin client example.">
         <java classname="qpid.jca.example.client.QpidClient">
             <classpath>
                 <pathelement path="${build.classes.dir}"/>
@@ -192,4 +190,27 @@
         </java>
 
     </target>
+
+	<target name="clean" description="Deletes the build directory and all related files.">
+		<delete dir="${build.dir}"/>
+	</target>
+
+    <target name="help">
+        <echo>
+           Make sure your JBOSS_HOME environment is set correctly. By default, it is assumed to be set via your environment.  
+
+           ant compile
+                This will compile all the source code for the Qpid JCA example project to the ${build.classes.dir} directory.
+
+           ant deploy [component]
+             Deploys a particular component where component could be one of ejb, war, ear or ds.xml file.
+
+           ant undeploy [component]
+             Undeploys a particular component where component could be one of ejb, war, ear or ds.xml file.
+
+           ant run-client
+             Runs the RMI/thin client example.
+        </echo> 
+    </target>
+
 </project>

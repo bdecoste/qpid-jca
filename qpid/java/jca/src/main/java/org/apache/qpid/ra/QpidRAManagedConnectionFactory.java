@@ -22,7 +22,6 @@
 package org.apache.qpid.ra;
 
 import java.io.PrintWriter;
-import java.util.Iterator;
 import java.util.Set;
 
 import javax.jms.ConnectionMetaData;
@@ -180,8 +179,9 @@ public class QpidRAManagedConnectionFactory implements ManagedConnectionFactory,
     * @param subject       Caller's security information
     * @param cxRequestInfo Additional resource adapter specific connection request information
     * @return The managed connection
-    * @throws ResourceException Thrown if no managed connection cant be found
+    * @throws ResourceException Thrown if no managed connection can be found
     */
+   @SuppressWarnings("rawtypes")
    public ManagedConnection matchManagedConnections(final Set connectionSet,
                                                     final Subject subject,
                                                     final ConnectionRequestInfo cxRequestInfo) throws ResourceException
@@ -204,12 +204,8 @@ public class QpidRAManagedConnectionFactory implements ManagedConnectionFactory,
          _log.trace("Looking for connection matching credentials: " + credential);
       }
 
-      Iterator connections = connectionSet.iterator();
-
-      while (connections.hasNext())
+      for (final Object obj : connectionSet)
       {
-         Object obj = connections.next();
-
          if (obj instanceof QpidRAManagedConnection)
          {
             QpidRAManagedConnection mc = (QpidRAManagedConnection)obj;

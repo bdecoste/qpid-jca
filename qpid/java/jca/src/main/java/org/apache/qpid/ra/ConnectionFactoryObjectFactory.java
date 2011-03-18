@@ -34,12 +34,10 @@ import javax.naming.spi.ObjectFactory;
  * 
  * Given a reference - reconstructs a QpidRAConnectionFactory
  * 
- *
- * $Id: ConnectionFactoryObjectFactory.java 8611 2009-12-08 01:06:31Z timfox $
  */
 public class ConnectionFactoryObjectFactory implements ObjectFactory
 {
-   public Object getObjectInstance(final Object ref, final Name name, final Context ctx, final Hashtable props) throws Exception
+   public Object getObjectInstance(final Object ref, final Name name, final Context ctx, final Hashtable<?,?> props) throws Exception
    {
       Reference r = (Reference)ref;
 

@@ -72,7 +72,7 @@ public class QpidDestinationProxy implements Externalizable, Referenceable, Dest
         } catch (Exception e) 
         {
             _log.error("Failed to dereference Destination " + e.getMessage(), e);
-            throw new IOException("Failed to dereference Destination: " + e, e);
+            throw new IOException("Failed to dereference Destination: " + e.getMessage());
         }
     }
 
@@ -91,7 +91,7 @@ public class QpidDestinationProxy implements Externalizable, Referenceable, Dest
         catch (NamingException e) 
         {
             _log.error("Failed to dereference Destination " + e.getMessage(), e);
-            throw new IOException("Failed to dereference Destination: " + e, e);
+            throw new IOException("Failed to dereference Destination: " + e.getMessage());
         }
     }
 

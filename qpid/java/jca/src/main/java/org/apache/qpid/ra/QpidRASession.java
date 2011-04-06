@@ -89,6 +89,9 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
 
    /** The message producers */
    private final Set<MessageProducer> producers;
+   
+   /** The queue browsers */
+   private final Set<QueueBrowser> browsers;
 
    /** Are we started */
    private AtomicBoolean started = new AtomicBoolean(false) ;
@@ -110,6 +113,7 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
       sf = null;
       consumers = new HashSet<MessageConsumer>();
       producers = new HashSet<MessageProducer>();
+      browsers = new HashSet<QueueBrowser>();
    }
 
    /**
@@ -854,6 +858,8 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
       }
 
       QueueBrowser result = session.createBrowser(queue, messageSelector);
+      result = new QpidRAQueueBrowser(result, this);
+      addQueueBrowser(result) ;
 
       if (_log.isTraceEnabled())
       {
@@ -1484,6 +1490,23 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
                i.remove();
             }
          }
+         
+         synchronized (browsers)
+         {
+            for (Iterator<QueueBrowser> i = browsers.iterator(); i.hasNext();)
+            {
+               QpidRAQueueBrowser browser = (QpidRAQueueBrowser)i.next();
+               try
+               {
+                  browser.close();
+               }
+               catch (Throwable t)
+               {
+                  _log.trace("Error closing browser", t);
+               }
+               i.remove();
+            }
+         }
 
          mc.removeHandle(this);
          ConnectionEvent ev = new ConnectionEvent(mc, ConnectionEvent.CONNECTION_CLOSED);
@@ -1558,6 +1581,40 @@ public class QpidRASession implements Session, QueueSession, TopicSession, XASes
       synchronized (producers)
       {
          producers.remove(producer);
+      }
+   }
+
+   /**
+    * Add queue browser
+    * @param browser The queue browser
+    */
+   void addQueueBrowser(final QueueBrowser browser)
+   {
+      if (_log.isTraceEnabled())
+      {
+         _log.trace("addQueueBrowser(" + browser + ")");
+      }
+
+      synchronized (browsers)
+      {
+         browsers.add(browser);
+      }
+   }
+
+   /**
+    * Remove queue browser
+    * @param browser The queue browser
+    */
+   void removeQueueBrowser(final QueueBrowser browser)
+   {
+      if (_log.isTraceEnabled())
+      {
+         _log.trace("removeQueueBrowser(" + browser + ")");
+      }
+
+      synchronized (browsers)
+      {
+         browsers.remove(browser);
       }
    }
 

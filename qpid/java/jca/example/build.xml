@@ -176,6 +176,7 @@
 	</target>
 
     <target name="undeploy-all" depends="undeploy-ds, undeploy-ear, undeploy-web, undeploy-ejb"/>
+    
 
     <target name="run-client" depends="compile" description="Runs the RMI based thin client example.">
         <java classname="qpid.jca.example.client.QpidClient">

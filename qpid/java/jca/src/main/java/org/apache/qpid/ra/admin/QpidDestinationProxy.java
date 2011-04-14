@@ -26,31 +26,39 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.io.Serializable;
+import java.net.URISyntaxException;
+
 import javax.jms.Destination;
 import javax.naming.NamingException;
 import javax.naming.Reference;
 import javax.naming.Referenceable;
 import javax.naming.spi.ObjectFactory;
 
-import org.apache.qpid.client.AMQDestination;
-import org.apache.qpid.url.AMQBindingURL;
+import org.apache.qpid.client.AMQTopic;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * The QpidDestinationProxy provides for allowing an administrator/developer to create and bind QPID destinations into a JNDI tree. AdminObjects are used
- * as an generic integration point rather than relying on the EE server specific API's to create destinations (queues, topics). AdminObjects and associated
- * properties are defined in the ra.xml file for a particular JCA adapter. Please see the ra.xml file for the QPID JCA resource adapter as well as the README.txt for
- * the adapter for more details.
- *
+ * The QpidDestinationProxy provides for allowing an administrator/developer to
+ * create and bind QPID destinations into a JNDI tree. AdminObjects are used as
+ * an generic integration point rather than relying on the EE server specific
+ * API's to create destinations (queues, topics). AdminObjects and associated
+ * properties are defined in the ra.xml file for a particular JCA adapter.
+ * Please see the ra.xml file for the QPID JCA resource adapter as well as the
+ * README.txt for the adapter for more details.
+ * 
+ * 
  */
 public class QpidDestinationProxy implements Externalizable, Referenceable, Destination, Serializable
 {
     private static final Logger _log = LoggerFactory.getLogger(QpidDestinationProxy.class);
 
+    private static final String DEFAULT_QUEUE_TYPE = "QUEUE";
+    private static final String DEFAULT_TOPIC_TYPE = "TOPIC";
 
     private String destinationAddress;
+    private String destinationType;
     private Destination delegate;
 
     /**
@@ -95,16 +103,33 @@ public class QpidDestinationProxy implements Externalizable, Referenceable, Dest
         }
     }
 
+    @Override
     public Reference getReference() throws NamingException 
     {
-        try 
+
+        if (getDestinationType() != null) 
         {
-            // Pending fixing QPID-3131 we can't pass the AMQDestination directly
-            delegate = AMQDestination.createDestination(new AMQBindingURL(getDestinationAddress()));
-        }
-        catch (Exception e)
-        {
-            throw new NamingException(e.getMessage());
+            QpidBindingURL bindingURL = null;
+
+            try 
+            {
+                bindingURL = new QpidBindingURL(getDestinationAddress());
+            }
+            catch (URISyntaxException e) 
+            {
+                _log.error(String.format("Could not parse binding url: ", getDestinationAddress()), e);
+                throw new IllegalArgumentException(String.format("Could not parse binding url: ", getDestinationAddress()),
+                        e);
+            }
+
+            if (getDestinationType().equalsIgnoreCase(DEFAULT_QUEUE_TYPE)) 
+            {
+                delegate = new QpidQueue(bindingURL);
+            }
+            else if (getDestinationType().equalsIgnoreCase(DEFAULT_TOPIC_TYPE)) 
+            {
+                delegate = new QpidTopic(bindingURL);
+            }
         }
 
         return ((Referenceable) delegate).getReference();
@@ -127,4 +152,13 @@ public class QpidDestinationProxy implements Externalizable, Referenceable, Dest
         return this.destinationAddress;    
     }
     
+    public void setDestinationType(String destinationType) 
+    {
+        this.destinationType = destinationType;
+    }
+
+    public String getDestinationType() 
+    {
+        return this.destinationType;
+    }
 }

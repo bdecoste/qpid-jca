@@ -27,6 +27,7 @@
      <depends optional-attribute-name="RARName">jboss.jca:service=RARDeployment,name='@rar.name@'</depends>
      <attribute name="Type">javax.jms.Destination</attribute>
      <attribute name="Properties">
+        destinationType=TOPIC
         destinationAddress=amq.topic
      </attribute>
   </mbean>
@@ -37,6 +38,7 @@
      <depends optional-attribute-name="RARName">jboss.jca:service=RARDeployment,name='@rar.name@'</depends>
      <attribute name="Type">javax.jms.Destination</attribute>
      <attribute name="Properties">
+        destinationType=QUEUE
         destinationAddress=amq.direct
      </attribute>
   </mbean>

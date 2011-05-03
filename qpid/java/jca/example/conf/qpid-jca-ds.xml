@@ -43,6 +43,16 @@
      </attribute>
   </mbean>
 
+  <mbean code="org.jboss.resource.deployment.AdminObject"
+         name="qpid.jca:name=QpidConnectionFactory">
+     <attribute name="JNDIName">QpidConnectionFactory</attribute>
+     <depends optional-attribute-name="RARName">jboss.jca:service=RARDeployment,name='@rar.name@'</depends>
+     <attribute name="Type">javax.jms.ConnectionFactory</attribute>
+     <attribute name="Properties">
+        connectionURL=amqp://guest:guest@/test?brokerlist='tcp://10.0.1.27:5672'
+     </attribute>
+  </mbean>
+
   <tx-connection-factory>
     <jndi-name>QpidJMSXA</jndi-name>
     <xa-transaction/>
@@ -51,5 +61,13 @@
     <connection-definition>org.apache.qpid.ra.QpidRAConnectionFactory</connection-definition>
     <max-pool-size>20</max-pool-size>
   </tx-connection-factory>
+<!--
+   <mbean code="org.jboss.naming.LinkRefPairService"
+          name="jboss.jmx:alias=qpidjms/ConnectionFactory">
+      <attribute name="JndiName">QpidConnectionFactory</attribute>
+      <attribute name="RemoteJndiName">QpidConnectionFactory</attribute>
+      <attribute name="LocalJndiName">java:/QpidJMSXA</attribute>
+   </mbean>
+-->
 
 </connection-factories>

@@ -26,7 +26,8 @@
 	<property name="build.dir" location="${basedir}/build"/>
 	<property name="build.classes.dir" location="${build.dir}/classes"/>	
 	<property name="gen.dir" location="${build.dir}/gen"/>	
-    
+    <property name="qpid.lib.dir" location="../../build/lib"/>
+
     <property name="jboss.home" location="${env.JBOSS_HOME}"/>
     <property name="jboss.server" value="default"/>
     <property name="jboss.deploy" location="${jboss.home}/server/${jboss.server}/deploy"/>
@@ -43,7 +44,7 @@
     <property name="jndi.context" value="org.jnp.interfaces.NamingContextFactory"/>
     
     <!-- Broker specific properties. By default in the adapter we use localhost here you an override this with host specific info-->    
-    <property name="broker.url" value="amqp://guest:guest@/test?brokerlist='tcp://localhost:5672'"/>
+    <property name="broker.url" value="amqp://guest:guest@/test?brokerlist='tcp://10.0.1.27:5672'"/>
     
 	<path id="project.classpath">
 		<fileset dir="${jboss.client}">
@@ -59,6 +60,7 @@
 	</path>
     
     <echo message="JBOSS_HOME is currently set to ${jboss.home}"/>
+
 	<target name="init">
 		<mkdir dir="${build.classes.dir}"/>
 		<mkdir dir="${gen.dir}"/>
@@ -192,6 +194,26 @@
 
     </target>
 
+    <target name="run-standalone-client" depends="compile" description="Runs the standalone client example.">
+        <java classname="qpid.jca.example.client.QpidStandaloneClient">
+            <classpath>
+                <pathelement path="${build.classes.dir}"/>
+                <fileset dir="${jboss.client}">
+                    <include name="*.jar"/>
+                </fileset>
+                <fileset dir="${qpid.lib.dir}">
+                    <include name="qpid-client-0.10.jar"/>
+                    <include name="qpid-common-0.10.jar"/>
+                    <include name="qpid-ra-0.10.jar"/>
+                    <include name="mina-core-1.0.1.jar"/>
+                </fileset>
+            </classpath>
+            <sysproperty key="java.naming.factory.initial" value="${jndi.context}"/>
+            <sysproperty key="java.naming.provider.url" value="${jboss.host}"/>
+        </java>
+
+    </target>
+    
 	<target name="clean" description="Deletes the build directory and all related files.">
 		<delete dir="${build.dir}"/>
 	</target>

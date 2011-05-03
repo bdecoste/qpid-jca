@@ -249,5 +249,13 @@
                 <config-property-type> java.lang.String </config-property-type>
             </config-property>
         </adminobject>
+      <adminobject>
+            <adminobject-interface>javax.jms.ConnectionFactory</adminobject-interface>
+            <adminobject-class> org.apache.qpid.ra.admin.QpidConnectionFactoryProxy</adminobject-class>
+            <config-property>
+                <config-property-name> connectionURL</config-property-name>
+                <config-property-type> java.lang.String </config-property-type>
+            </config-property>
+        </adminobject>
    </resourceadapter>
 </connector>

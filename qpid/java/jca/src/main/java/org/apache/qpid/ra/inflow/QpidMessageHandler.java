@@ -107,7 +107,7 @@ public class QpidMessageHandler implements MessageListener
 
       // Create the endpoint, if we are transacted pass the session so it is enlisted, unless using Local TX
       MessageEndpointFactory endpointFactory = activation.getMessageEndpointFactory();
-      useLocalTx = !activation.isDeliveryTransacted() && activation.getActivationSpec().isUseLocalTx();
+      useLocalTx = activation.getActivationSpec().isUseLocalTx();
       transacted = activation.isDeliveryTransacted() || useLocalTx ;
       if (activation.isDeliveryTransacted() && !activation.getActivationSpec().isUseLocalTx())
       {

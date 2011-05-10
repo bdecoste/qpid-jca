@@ -80,7 +80,7 @@ public class QpidRALocalTransaction implements LocalTransaction
       mc.lock();
       try
       {
-         if (mc.getSession().getTransacted())
+         if (mc.getSession() != null && mc.getSession().getTransacted())
          {
             mc.getSession().commit();
          }
@@ -109,7 +109,7 @@ public class QpidRALocalTransaction implements LocalTransaction
       mc.lock();
       try
       {
-         if (mc.getSession().getTransacted())
+         if (mc.getSession() != null && mc.getSession().getTransacted())
          {
             mc.getSession().rollback();
          }

@@ -44,7 +44,7 @@
     <property name="jndi.context" value="org.jnp.interfaces.NamingContextFactory"/>
     
     <!-- Broker specific properties. By default in the adapter we use localhost here you an override this with host specific info-->    
-    <property name="broker.url" value="amqp://guest:guest@/test?brokerlist='tcp://10.0.1.27:5672'"/>
+    <property name="broker.url" value="amqp://guest:guest@/test?brokerlist='tcp://localhost:5672'"/>
     
 	<path id="project.classpath">
 		<fileset dir="${jboss.client}">
@@ -60,6 +60,7 @@
 	</path>
     
     <echo message="JBOSS_HOME is currently set to ${jboss.home}"/>
+    <echo message="Broker url is currently set to ${broker.url}"/>
 
 	<target name="init">
 		<mkdir dir="${build.classes.dir}"/>
@@ -190,6 +191,8 @@
             </classpath>
             <sysproperty key="java.naming.factory.initial" value="${jndi.context}"/>
             <sysproperty key="java.naming.provider.url" value="${jboss.host}"/>
+            <!-- change to true if running in a clustered environment. -->
+            <sysproperty key="use.local" value="false"/>
         </java>
 
     </target>

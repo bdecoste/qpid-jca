@@ -49,25 +49,29 @@
      <depends optional-attribute-name="RARName">jboss.jca:service=RARDeployment,name='@rar.name@'</depends>
      <attribute name="Type">javax.jms.ConnectionFactory</attribute>
      <attribute name="Properties">
-        connectionURL=amqp://guest:guest@/test?brokerlist='tcp://10.0.1.27:5672'
+        connectionURL=@broker.url@
      </attribute>
   </mbean>
-
+  
+  <!-- NonXA connection factory. Can be used when running adapter against clustered Brokers -->
   <tx-connection-factory>
-    <jndi-name>QpidJMSXA</jndi-name>
-    <xa-transaction/>
-    <rar-name>@rar.name@</rar-name>
+    <jndi-name>QpidJMS</jndi-name>
+     <rar-name>@rar.name@</rar-name>
+    <local-transaction/>
+    <config-property name="useLocalTx" type="java.lang.Boolean">true</config-property>
     <config-property name="connectionURL">@broker.url@</config-property>
+    <config-property name="SessionDefaultType" type="java.lang.String">javax.jms.Queue</config-property>
     <connection-definition>org.apache.qpid.ra.QpidRAConnectionFactory</connection-definition>
     <max-pool-size>20</max-pool-size>
   </tx-connection-factory>
-<!--
-   <mbean code="org.jboss.naming.LinkRefPairService"
-          name="jboss.jmx:alias=qpidjms/ConnectionFactory">
-      <attribute name="JndiName">QpidConnectionFactory</attribute>
-      <attribute name="RemoteJndiName">QpidConnectionFactory</attribute>
-      <attribute name="LocalJndiName">java:/QpidJMSXA</attribute>
-   </mbean>
--->
+
+  <tx-connection-factory>
+    <jndi-name>QpidJMSXA</jndi-name>
+     <rar-name>@rar.name@</rar-name>
+    <config-property name="connectionURL">@broker.url@</config-property>
+    <config-property name="SessionDefaultType" type="java.lang.String">javax.jms.Queue</config-property>
+    <connection-definition>org.apache.qpid.ra.QpidRAConnectionFactory</connection-definition>
+    <max-pool-size>20</max-pool-size>
+  </tx-connection-factory>
 
 </connection-factories>

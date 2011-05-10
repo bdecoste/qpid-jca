@@ -23,6 +23,6 @@ package qpid.jca.example.ejb;
 
 public interface QpidTest 
 {
-	public void testQpidAdapter(String content) throws Exception;
+	public void testQpidAdapter(String content, Boolean useLocalFactory) throws Exception;
 
 }

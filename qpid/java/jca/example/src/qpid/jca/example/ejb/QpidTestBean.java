@@ -59,7 +59,6 @@ public class QpidTestBean implements QpidTestRemote, QpidTestLocal
         try
         {
             connection = (useLocalFactory == null || !useLocalFactory) ? connectionFactory.createConnection() : localFactory.createConnection();
-
             session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
             MessageProducer messageProducer = session.createProducer(destination);
             TextMessage message = session.createTextMessage(content);

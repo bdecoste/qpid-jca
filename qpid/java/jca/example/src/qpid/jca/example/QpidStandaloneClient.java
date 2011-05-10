@@ -11,51 +11,46 @@ import javax.naming.InitialContext;
 
 import java.util.Properties;
 
-public class QpidStandaloneClient 
+public class QpidStandaloneClient
 {
-    
+
     private static final String DEFAULT_JNDI = "QpidConnectionFactory";
     private static final String DEFAULT_DEST_NAME = "queue/Hello";
-    private static final String DEFAULT_MESSAGE = "Hello, World!"; 
+    private static final String DEFAULT_MESSAGE = "Hello, World!";
 
     /**
      * @param args
      */
-    public static void main(String[] args) throws Exception 
+    public static void main(String[] args) throws Exception
     {
         Properties props = new Properties();
-        InitialContext context = null; 
+        InitialContext context = null;
         ConnectionFactory connectionFactory = null;
         Session session = null;
         Connection connection = null;
-        Destination destination = null; 
+        Destination destination = null;
         try
         {
             String cfName = (System.getProperty("qpid.cf.name") == null) ? DEFAULT_JNDI : System.getProperty("qpid.cf.name");
-            String destName = (System.getProperty("qpid.dest.name") == null) ? DEFAULT_DEST_NAME : System.getProperty("qpid.dest.name");  
-            String content = (System.getProperty("qpid.message") == null) ? DEFAULT_MESSAGE : System.getProperty("qpid.message");  
-            
+            String destName = (System.getProperty("qpid.dest.name") == null) ? DEFAULT_DEST_NAME : System.getProperty("qpid.dest.name");
+            String content = (System.getProperty("qpid.message") == null) ? DEFAULT_MESSAGE : System.getProperty("qpid.message");
+
             context = new InitialContext();
             connectionFactory = (ConnectionFactory)context.lookup(cfName);
-            
+
             System.out.println("Acquired QpidConnectionFactory from JNDI");
 
             connection = connectionFactory.createConnection();
-            
+
             System.out.println("Created connection from QpidConnectionFactory ");
 
-            
-            
             session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-            
+
             destination = (Destination)context.lookup(destName);
 
             MessageProducer messageProducer = session.createProducer(destination);
             TextMessage message = session.createTextMessage(content);
             messageProducer.send(message);
-            
-             
-            
         }
         finally
         {
@@ -63,7 +58,7 @@ public class QpidStandaloneClient
             {
                 try
                 {
-                    context.close();                    
+                    context.close();
                 }
                 catch(Exception ignore){}
             }
@@ -71,11 +66,11 @@ public class QpidStandaloneClient
             {
                 try
                 {
-                    session.close();                    
+                    session.close();
                 }
                 catch(Exception ignore){}
             }
-            
+
             if(connection != null)
             {
                 try
@@ -85,11 +80,6 @@ public class QpidStandaloneClient
                 catch(Exception ignore){}
             }
         }
-                
-            
     }
-
-
-
 }
 

@@ -60,38 +60,38 @@ public class QpidConnectionFactoryProxy implements Externalizable, Referenceable
      * This constructor should not only be used be de-serialisation code. Create
      * original object with the other constructor.
      */
-    public QpidConnectionFactoryProxy() 
+    public QpidConnectionFactoryProxy()
     {
     }
 
-    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException 
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException
     {
         Reference ref = (Reference) in.readObject();
 
-        try 
+        try
         {
             delegate = (ConnectionFactory) dereference(ref);
 
-        } catch (Exception e) 
+        } catch (Exception e)
         {
             _log.error("Failed to dereference ConnectionFactory " + e.getMessage(), e);
             throw new IOException("Failed to dereference ConnectionFactory: " + e.getMessage());
         }
     }
 
-    public void writeExternal(ObjectOutput out) throws IOException 
+    public void writeExternal(ObjectOutput out) throws IOException
     {
         if (delegate == null)
         {
             _log.error("Null Destination ");
             throw new IOException("Null ConnectionFactory!");
         }
-        
-        try 
+
+        try
         {
             out.writeObject(((Referenceable) delegate).getReference());
-        } 
-        catch (NamingException e) 
+        }
+        catch (NamingException e)
         {
             _log.error("Failed to dereference ConnectionFactory " + e.getMessage(), e);
             throw new IOException("Failed to dereference ConnectionFactory: " + e.getMessage());
@@ -99,7 +99,7 @@ public class QpidConnectionFactoryProxy implements Externalizable, Referenceable
     }
 
     @Override
-    public Reference getReference() throws NamingException 
+    public Reference getReference() throws NamingException
     {
         try
         {
@@ -110,21 +110,21 @@ public class QpidConnectionFactoryProxy implements Externalizable, Referenceable
             mcf.setResourceAdapter(ra);
             mcf.setConnectionURL(getConnectionURL());
             delegate = new QpidRAConnectionFactoryImpl(mcf, null);
-            */ 
+            */
             return ((Referenceable) delegate).getReference();
         }
         catch(Exception e)
         {
             throw new NamingException(e.getMessage());
         }
-    }       
-    private Object dereference(Reference ref) throws Exception 
+    }
+    private Object dereference(Reference ref) throws Exception
     {
         ObjectFactory objFactory = (ObjectFactory) Class.forName(
                 ref.getFactoryClassName()).newInstance();
         return objFactory.getObjectInstance(ref, null, null, null);
     }
-    
+
     public void setConnectionURL(final String connectionURL)
     {
         this.connectionURL = connectionURL;
@@ -141,7 +141,7 @@ public class QpidConnectionFactoryProxy implements Externalizable, Referenceable
     */
    public Connection createConnection() throws JMSException
    {
-       return delegate.createConnection();   
+       return delegate.createConnection();
    }
 
    /**

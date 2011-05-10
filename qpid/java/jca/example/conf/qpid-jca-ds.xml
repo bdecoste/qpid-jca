@@ -20,7 +20,7 @@
  -
  -->
 <connection-factories>
-    
+
   <mbean code="org.jboss.resource.deployment.AdminObject"
          name="qpid.jca:name=HelloTopic">
      <attribute name="JNDIName">topic/Hello</attribute>
@@ -31,7 +31,7 @@
         destinationAddress=amq.topic
      </attribute>
   </mbean>
-  
+
   <mbean code="org.jboss.resource.deployment.AdminObject"
          name="qpid.jca:name=HelloQueue">
      <attribute name="JNDIName">queue/Hello</attribute>
@@ -49,7 +49,7 @@
      <depends optional-attribute-name="RARName">jboss.jca:service=RARDeployment,name='@rar.name@'</depends>
      <attribute name="Type">javax.jms.ConnectionFactory</attribute>
      <attribute name="Properties">
-        connectionURL=amqp://guest:guest@/test?brokerlist='tcp://10.0.1.27:5672'
+        connectionURL=amqp://guest:guest@/test?brokerlist='tcp://localhost:5672'
      </attribute>
   </mbean>
 

@@ -42,10 +42,10 @@
 
     <property name="jboss.host" value="jnp://localhost:1099"/>
     <property name="jndi.context" value="org.jnp.interfaces.NamingContextFactory"/>
-    
+
     <!-- Broker specific properties. By default in the adapter we use localhost here you an override this with host specific info-->    
-    <property name="broker.url" value="amqp://guest:guest@/test?brokerlist='tcp://10.0.1.27:5672'"/>
-    
+    <property name="broker.url" value="amqp://guest:guest@/test?brokerlist='tcp://localhost:5672'"/>
+
 	<path id="project.classpath">
 		<fileset dir="${jboss.client}">
 		    <include name="jboss-javaee.jar"/> <!-- jboss 5 -->
@@ -58,14 +58,14 @@
 		    <include name="jboss-ejb-api_3.1_spec.jar"/> <!-- jboss 6 -->
 		</fileset>
 	</path>
-    
+
     <echo message="JBOSS_HOME is currently set to ${jboss.home}"/>
 
 	<target name="init">
 		<mkdir dir="${build.classes.dir}"/>
 		<mkdir dir="${gen.dir}"/>
 	</target>
-        
+
     <target name="compile" depends="init" description="Compiles the source for the Qpid JCA example">
        <copy todir="${gen.dir}">
            <fileset dir="${src.dir}">
@@ -81,14 +81,14 @@
                debug="true" optimize="false">
        </javac>
 	</target>
-	
-	
+
+
 	<target name="package-ejb" depends="compile" description="Packages the ejb jar file for deployment.">
 		<jar destfile="${build.dir}/${ejb.name}" basedir="${build.classes.dir}">
 			<include name="qpid/jca/example/ejb/**/*.class"/>
 		</jar>
 	</target>
-    
+
     <target name="package-web" depends="compile" description="Packages the war file for deployment.">
 		<war destfile="${build.dir}/${war.name}" webxml="${basedir}/conf/web.xml">
 			<classes dir="${build.classes.dir}">
@@ -140,8 +140,8 @@
 			</fileset>
 		</copy>
 	</target>
-	
-   	
+
+
 	<target name="deploy-ds" depends="init" description="Deploys the ds.xml file.">
         <copy todir="${gen.dir}" overwrite="true">
             <fileset dir="${basedir}/conf/">
@@ -168,17 +168,17 @@
 	<target name="undeploy-web" description="Undeploys the war file.">
 		<delete file="${jboss.deploy}/${war.name}"/>
 	</target>
-		
+
 	<target name="undeploy-ejb" description="Undeploys the ejb jar file.">
 		<delete file="${jboss.deploy}/${ejb.name}"/>
 	</target>
-    
+
 	<target name="undeploy-ds" description="Undeploys the ds.xml file.">
 		<delete file="${jboss.deploy}/qpid-jca-ds.xml"/>
 	</target>
 
     <target name="undeploy-all" depends="undeploy-ds, undeploy-ear, undeploy-web, undeploy-ejb"/>
-    
+
 
     <target name="run-client" depends="compile" description="Runs the RMI based thin client example.">
         <java classname="qpid.jca.example.client.QpidClient">
@@ -213,14 +213,14 @@
         </java>
 
     </target>
-    
+
 	<target name="clean" description="Deletes the build directory and all related files.">
 		<delete dir="${build.dir}"/>
 	</target>
 
     <target name="help">
         <echo>
-            
+
            ant compile
                 This will compile all the source code for the Qpid JCA example project to the ${build.classes.dir} directory.
 

@@ -50,6 +50,8 @@ public class ConnectionFactoryProperties
    private String path;
    
    private SSLConfiguration sslConfig;
+
+   private Boolean localTx = Boolean.FALSE;
    
    public String getClientID()
    {
@@ -276,4 +278,29 @@ public class ConnectionFactoryProperties
       hasBeenUpdated = true;
       sslConfig.setCertType(certType) ;
    }
+
+   public Boolean isUseLocalTx()
+   {
+      if (_log.isTraceEnabled())
+      {
+         _log.trace("isUseLocalTx()");
+      }
+       return localTx;     
+   }
+
+   public void setUseLocalTx(Boolean localTx)
+   {
+      if (_log.isTraceEnabled())
+      {
+         _log.trace("setUseLocalTx(" + localTx + ")");
+      }
+    
+      if(localTx != null)
+      {
+        hasBeenUpdated = true;
+        this.localTx = localTx;    
+      }          
+      
+   }
+
 }

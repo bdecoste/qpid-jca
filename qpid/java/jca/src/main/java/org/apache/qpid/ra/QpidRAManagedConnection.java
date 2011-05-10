@@ -36,7 +36,8 @@ import javax.jms.ExceptionListener;
 import javax.jms.JMSException;
 import javax.jms.ResourceAllocationException;
 import javax.jms.Session;
-import javax.jms.XAConnection;
+import javax.jms.QueueConnection;
+import javax.jms.TopicConnection;
 import javax.jms.XAQueueConnection;
 import javax.jms.XASession;
 import javax.jms.XATopicConnection;
@@ -98,6 +99,8 @@ public class QpidRAManagedConnection implements ManagedConnection, ExceptionList
    private XASession xaSession;
 
    private XAResource xaResource;
+    
+   private Session session;
 
    private final TransactionManager tm;
 
@@ -580,12 +583,24 @@ public class QpidRAManagedConnection implements ManagedConnection, ExceptionList
     */
    protected Session getSession() throws JMSException
    {
-      if (_log.isTraceEnabled())
+      if(xaResource != null && inManagedTx && !mcf.getUseLocalTx())
       {
-         _log.trace("getSession() -> XA session " + Util.asString(xaSession));
-      }
+          if (_log.isTraceEnabled())
+          {
+              _log.trace("getSession() -> XA session " + Util.asString(xaSession));
+          }
 
-      return xaSession;
+          return xaSession;
+      }
+      else
+      {
+          if (_log.isTraceEnabled())
+          {
+              _log.trace("getSession() -> session " + Util.asString(session));
+          }
+         
+          return session;
+      }
    }
 
    /**
@@ -737,51 +752,119 @@ public class QpidRAManagedConnection implements ManagedConnection, ExceptionList
 
       try
       {
+         boolean transacted = cri.isTransacted();
+         int acknowledgeMode =  Session.AUTO_ACKNOWLEDGE;
+         boolean localTx = mcf.getUseLocalTx();
+
          if (cri.getType() == QpidRAConnectionFactory.TOPIC_CONNECTION)
          {
             if (userName != null && password != null)
             {
-               connection = mcf.getCleanAMQConnectionFactory().createXATopicConnection(userName, password);
+               if(!localTx)
+               {
+                    connection = mcf.getCleanAMQConnectionFactory().createXATopicConnection(userName, password);
+               }
+               else
+               {
+                    connection = mcf.getCleanAMQConnectionFactory().createTopicConnection();         
+               }
             }
             else
             {
-               connection = mcf.getDefaultAMQConnectionFactory().createXATopicConnection();
+               if(!localTx)
+               {
+                   connection = mcf.getDefaultAMQConnectionFactory().createXATopicConnection();
+               }
+               else
+               {
+                   connection = mcf.getDefaultAMQConnectionFactory().createTopicConnection();
+               }
             }
-
-            connection.setExceptionListener(this);
-
-            xaSession = ((XATopicConnection)connection).createXATopicSession();
+            
+            if(!localTx)
+            {
+                xaSession = ((XATopicConnection)connection).createXATopicSession();
+                    
+            }
+            else
+            {
+                session =  ((TopicConnection)connection).createTopicSession(transacted, acknowledgeMode);
+            }
          }
          else if (cri.getType() == QpidRAConnectionFactory.QUEUE_CONNECTION)
          {
             if (userName != null && password != null)
             {
-               connection = mcf.getCleanAMQConnectionFactory().createXAQueueConnection(userName, password);
+               if(!localTx)
+               {
+                    connection = mcf.getCleanAMQConnectionFactory().createXAQueueConnection(userName, password);
+               }
+               else
+               {
+                    connection = mcf.getCleanAMQConnectionFactory().createQueueConnection();         
+               }
             }
             else
             {
-               connection = mcf.getDefaultAMQConnectionFactory().createXAQueueConnection();
+               if(!localTx)
+               {
+                   connection = mcf.getDefaultAMQConnectionFactory().createXAQueueConnection();
+               }
+               else
+               {
+                   connection = mcf.getDefaultAMQConnectionFactory().createQueueConnection();
+               }
             }
-
-            connection.setExceptionListener(this);
-
-            xaSession = ((XAQueueConnection)connection).createXAQueueSession();
+            
+            if(!localTx)
+            {
+                xaSession = ((XAQueueConnection)connection).createXAQueueSession();
+                    
+            }
+            else
+            {
+               session =  ((QueueConnection)connection).createQueueSession(transacted, acknowledgeMode);
+    
+            }
          }
          else
          {
             if (userName != null && password != null)
             {
-               connection = mcf.getCleanAMQConnectionFactory().createXAConnection(userName, password);
+               if(!localTx)
+               {
+                    connection = mcf.getCleanAMQConnectionFactory().createXAConnection(userName, password);
+               }
+               else
+               {
+                    connection = mcf.getCleanAMQConnectionFactory().createConnection();         
+               }
             }
             else
             {
-               connection = mcf.getDefaultAMQConnectionFactory().createXAConnection();
+               if(!localTx)
+               {
+                   connection = mcf.getDefaultAMQConnectionFactory().createXAConnection();
+               }
+               else
+               {
+                   connection = mcf.getDefaultAMQConnectionFactory().createConnection();
+               }
             }
-
-            connection.setExceptionListener(this);
-
-            xaSession = ((XAConnection)connection).createXASession();
+            
+            if(!localTx)
+            {
+                xaSession = ((XAQueueConnection)connection).createXASession();
+                    
+            }
+            else
+            {
+               session =  ((QueueConnection)connection).createSession(transacted, acknowledgeMode);
+    
+            }
          }
+        
+        connection.setExceptionListener(this);
       }
       catch (JMSException je)
       {

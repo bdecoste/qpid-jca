@@ -33,6 +33,7 @@ public class QpidClient
     
     private static final String DEFAULT_JNDI = "QpidTestBean/remote";
     private static final String DEFAULT_MESSAGE = "Hello, World!"; 
+    private static final Boolean USE_LOCAL_FACTORY = Boolean.FALSE;
 
     /**
      * @param args
@@ -48,9 +49,12 @@ public class QpidClient
         System.out.println("Found SLSB " + ejbName);
        
         String message = (System.getProperty("qpid.message") == null) ? DEFAULT_MESSAGE : System.getProperty("qpid.message");  
-
+        Boolean useLocalFactory = (System.getProperty("use.local") == null) ? USE_LOCAL_FACTORY : Boolean.valueOf(System.getProperty("use.local"));
+        
         System.out.println("Located SLSB. Sending message with content: " + message);
-        ejb.testQpidAdapter(message);
+        
+        ejb.testQpidAdapter(message, useLocalFactory);
+
         System.out.println("Message sent successfully");
     }   
 

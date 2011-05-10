@@ -40,7 +40,8 @@ import org.jboss.ejb3.annotation.ResourceAdapter;
 		   @ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge"),
 		   @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
 		   @ActivationConfigProperty(propertyName = "destination", propertyValue = "queue/Hello"),
-		   @ActivationConfigProperty(propertyName = "connectionURL", propertyValue = "@broker.url@")
+		   @ActivationConfigProperty(propertyName = "connectionURL", propertyValue = "@broker.url@"),
+		   @ActivationConfigProperty(propertyName = "useLocalTx", propertyValue = "false")
 })
 @ResourceAdapter("@rar.name@")
 public class QpidListener implements MessageListener 

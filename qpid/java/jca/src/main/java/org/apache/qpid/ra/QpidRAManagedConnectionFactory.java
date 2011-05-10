@@ -678,4 +678,24 @@ public class QpidRAManagedConnectionFactory implements ManagedConnectionFactory,
          return info;
       }
    }
+
+   public Boolean getUseLocalTx()
+   {
+      if (_log.isTraceEnabled())
+      {
+         _log.trace("getUseLocalTx()");
+      }
+
+      return mcfProperties.isUseLocalTx();
+   }
+
+   public void setUseLocalTx(final Boolean localTx)
+   {
+      if (_log.isTraceEnabled())
+      {
+         _log.trace("setUseLocalTx(" + localTx + ")");
+      }
+
+      mcfProperties.setUseLocalTx(localTx);
+   }
 }

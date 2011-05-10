@@ -139,7 +139,14 @@
           <config-property-value>0</config-property-value>
         </config-property>
 
-        <!--
+        <config-property>
+         <description>Use local transactions rather than XA</description>
+         <config-property-name>UseLocalTx</config-property-name>
+         <config-property-type>java.lang.Boolean</config-property-type>
+         <config-property-value>false</config-property-value>
+       </config-property>
+
+<!--
         <config-property>
           <description>Client ID for the connection</description>
           <config-property-name>ClientID</config-property-name>

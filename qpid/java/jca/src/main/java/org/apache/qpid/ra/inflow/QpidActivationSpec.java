@@ -82,9 +82,6 @@ public class QpidActivationSpec extends ConnectionFactoryProperties implements A
 
    private boolean useJNDI = true;
 
-   /* use local tx instead of XA*/
-   private Boolean localTx;
-
    // undefined by default, default is specified at the RA level in QpidRAProperties
    private Integer setupAttempts;
    
@@ -491,23 +488,6 @@ public class QpidActivationSpec extends ConnectionFactoryProperties implements A
       }
 
       this.prefetchHigh = prefetchHigh;
-   }
-
-   public Boolean isUseLocalTx()
-   {
-      if (localTx == null)
-      {
-         return ra.getUseLocalTx();
-      }
-      else
-      {
-         return localTx;
-      }
-   }
-
-   public void setUseLocalTx(final Boolean localTx)
-   {
-      this.localTx = localTx;
    }
 
    public int getSetupAttempts()

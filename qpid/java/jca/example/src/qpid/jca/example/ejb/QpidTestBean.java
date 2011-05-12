@@ -40,12 +40,12 @@ public class QpidTestBean implements QpidTestRemote, QpidTestLocal
 {
     private static final Logger log = Logger.getLogger(QpidTestBean.class.getName());
 
-    @Resource(mappedName="java:QpidJMSXA")	
+    @Resource(mappedName="java:QpidJMSXA")
     private ConnectionFactory connectionFactory;
 
-    @Resource(mappedName="java:QpidJMS")	
+    @Resource(mappedName="java:QpidJMS")
     private ConnectionFactory localFactory;
-    
+
     @Resource(mappedName="queue/Hello")
     private Destination destination;
 
@@ -53,21 +53,12 @@ public class QpidTestBean implements QpidTestRemote, QpidTestLocal
     {
         javax.jms.Connection connection = null;
         Session session = null;
-        
+
         log.info("Sending message to MDB with content " + content);
 
         try
         {
-            if(!useLocalFactory)
-            {
-                connection = connectionFactory.createConnection();
-            }
-            else
-            {
-                connection = localFactory.createConnection();
-                    
-            }
-
+            connection = (useLocalFactory == null || !useLocalFactory) ? connectionFactory.createConnection() : localFactory.createConnection();
             session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
             MessageProducer messageProducer = session.createProducer(destination);
             TextMessage message = session.createTextMessage(content);
@@ -84,11 +75,11 @@ public class QpidTestBean implements QpidTestRemote, QpidTestLocal
             {
             	try
             	{
-                	session.close();            		
+                   session.close();
             	}
             	catch(Exception ignore){}
             }
-            
+
             if(connection != null)
             {
             	try
@@ -99,5 +90,4 @@ public class QpidTestBean implements QpidTestRemote, QpidTestLocal
             }
         }
 	}
-    
 }
